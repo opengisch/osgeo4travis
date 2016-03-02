@@ -18,4 +18,4 @@ RUN apt-get install -y make
 RUN ln -s /usr/bin/clang-3.6 /usr/bin/clang
 RUN ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
 RUN /root/scripts/build-qt5.sh
-RUN tar -cvzf qt5.tgz /home/travis/qt5/
+RUN cd /home/travis/ && tar -cvzf qt5.tgz qt5/ && cd /
