@@ -9,8 +9,5 @@ pushd gdal-trunk/gdal
   --with-geos=${PREFIX}/bin/geos-config \
   --without-libtool
 make -j${CORES}
-#pushd swig/python
-#python3 setup.py install --prefix=/home/travis/deps
-#popd
 make install > /dev/null
 popd

@@ -19,20 +19,17 @@ RUN apt-get update
 RUN apt-get install -y python-software-properties
 RUN add-apt-repository ppa:george-edison55/precise-backports
 RUN apt-get update
-RUN apt-get install -y clang-3.6 wget python3-dev bison flex libsqlite3-dev libcairo-dev libfftw3-dev libglu1-mesa-dev libtiff4-dev libpng-dev pkg-config make bzip2 cmake cmake-data
+RUN apt-get install -y clang-3.6 wget python3-dev bison flex libsqlite3-dev libcairo-dev libfftw3-dev libglu1-mesa-dev libtiff4-dev libpng-dev pkg-config make bzip2 cmake cmake-data python-numpy python-wxtools
 RUN ln -s /usr/bin/clang-3.6 /usr/bin/clang
 RUN ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
 
-RUN wget http://download.qt.io/official_releases/qt/5.5/5.5.1/single/qt-everywhere-opensource-src-5.5.1.tar.gz
+ENV PREFIX /home/travis/osgeo4travis
+ENV PATH ${PREFIX}/bin:${PATH}
+
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
 COPY scripts/build-qt5.sh /root/scripts/
 RUN /root/scripts/build-qt5.sh
-RUN mkdir -p /home/travis/deps/src
-RUN cd /home/travis/ && tar -cvzf qt5.tgz qt5/ && cd /
-
-WORKDIR /usr/src
-
-ENV PREFIX /home/travis/deps
-ENV PATH /home/travis/qt5/bin:${PREFIX}/bin:${PATH}
 
 COPY scripts/build-geos.sh /root/scripts/
 RUN /root/scripts/build-geos.sh
@@ -48,8 +45,6 @@ COPY scripts/build-gdal.sh /root/scripts/
 RUN /root/scripts/build-gdal.sh
 COPY scripts/build-grass7.sh /root/scripts/
 RUN /root/scripts/build-grass7.sh
-COPY scripts/build-grass.sh /root/scripts/
-RUN /root/scripts/build-grass.sh
 RUN apt-get install -y python-sip-dev g++
 COPY scripts/build-sip.sh /root/scripts/
 RUN /root/scripts/build-sip.sh
