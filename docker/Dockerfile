@@ -57,3 +57,9 @@ COPY scripts/build-pyqt5.sh /root/scripts/
 RUN /root/scripts/build-pyqt5.sh
 COPY scripts/build-qscintilla.sh /root/scripts/
 RUN /root/scripts/build-qscintilla.sh
+COPY scripts/build-spatialindex.sh /root/scripts/
+RUN /root/scripts/build-spatialindex.sh
+COPY scripts/build-qwt.sh /root/scripts/
+RUN /root/scripts/build-qwt.sh
+COPY scripts/create-osgeo4travis.sh /root/scripts/
+RUN /root/scripts/create-osgeo4travis.sh
