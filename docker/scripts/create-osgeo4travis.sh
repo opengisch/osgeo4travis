@@ -1,4 +1,4 @@
 #!/bin/bash
 pushd /home/travis
-tar -Jcvf osgeo4travis.tar.xz osgeo4travis
+tar -cf - osgeo4travis/ | xz -9 -c - > osgeo4travis.tar.xz
 popd
