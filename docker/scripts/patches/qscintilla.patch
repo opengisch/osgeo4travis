@@ -1,0 +1,107 @@
+diff -r -u QScintilla-gpl-2.9.orig/Python/configure.py QScintilla-gpl-2.9/Python/configure.py
+--- QScintilla-gpl-2.9.orig/Python/configure.py	2015-04-20 10:38:24.000000000 -0400
++++ QScintilla-gpl-2.9/Python/configure.py	2015-07-19 11:18:09.111761115 -0400
+@@ -285,7 +285,7 @@
+         version of Qt.  target_configuration is the target configuration.
+         """
+ 
+-        qmake = {'CONFIG': 'qscintilla2'}
++        qmake = {'CONFIG': 'qscintilla2-qt5'}
+ 
+         if target_configuration.qsci_inc_dir is not None:
+             qmake['INCLUDEPATH'] = quote(target_configuration.qsci_inc_dir)
+@@ -311,7 +312,7 @@
+             lib_dir = target_configuration.qt_lib_dir
+ 
+         return os.path.join(lib_dir,
+-                'libqscintilla2.%s.dylib' % QSCI_API_MAJOR)
++                'libqscintilla2-qt5.%s.dylib' % QSCI_API_MAJOR)
+ 
+ 
+ ###############################################################################
+diff -r -u QScintilla-gpl-2.9.orig/Qt4Qt5/features/qscintilla2.prf QScintilla-gpl-2.9/Qt4Qt5/features/qscintilla2.prf
+--- QScintilla-gpl-2.9.orig/Qt4Qt5/features/qscintilla2.prf	2015-04-20 10:38:24.000000000 -0400
++++ QScintilla-gpl-2.9/Qt4Qt5/features/qscintilla2.prf	2015-07-18 16:06:16.514250553 -0400
+@@ -12,14 +12,14 @@
+ 
+ CONFIG(debug, debug|release) {
+     mac: {
+-        LIBS += -lqscintilla2_debug
++        LIBS += -lqscintilla2-qt5_debug
+     } else {
+         win32: {
+             LIBS += -lqscintilla2d
+         } else {
+-            LIBS += -lqscintilla2
++            LIBS += -lqscintilla2-qt5
+         }
+     }
+ } else {
+-    LIBS += -lqscintilla2
++    LIBS += -lqscintilla2-qt5
+ }
+diff -r -u QScintilla-gpl-2.9.orig/Qt4Qt5/qscintilla.pro QScintilla-gpl-2.9/Qt4Qt5/qscintilla.pro
+--- QScintilla-gpl-2.9.orig/Qt4Qt5/qscintilla.pro	2015-04-20 10:38:24.000000000 -0400
++++ QScintilla-gpl-2.9/Qt4Qt5/qscintilla.pro	2015-07-18 16:24:25.091639214 -0400
+@@ -23,7 +23,7 @@
+ !win32:VERSION = 12.0.1
+ 
+ TEMPLATE = lib
+-TARGET = qscintilla2
++TARGET = qscintilla2-qt5
+ CONFIG += qt warn_off release thread exceptions
+ INCLUDEPATH += . ../include ../lexlib ../src
+ 
+@@ -67,7 +67,7 @@
+ } else {
+     features.path = $$[QT_INSTALL_DATA]/mkspecs/features
+ }
+-features.files = $$PWD/features/qscintilla2.prf
++features.files = $$PWD/features/qscintilla2-qt5.prf
+ INSTALLS += features
+ 
+ HEADERS = \
+diff -r -u QScintilla-gpl-2.9.orig/designer-Qt4Qt5/designer.pro QScintilla-gpl-2.9/designer-Qt4Qt5/designer.pro
+--- QScintilla-gpl-2.9.orig/designer-Qt4Qt5/designer.pro	2015-03-26 14:10:15.000000000 -0400
++++ QScintilla-gpl-2.9/designer-Qt4Qt5/designer.pro	2015-07-18 16:10:43.280900974 -0400
+@@ -2,9 +2,9 @@
+ 
+ 
+ TEMPLATE = lib
+-TARGET = qscintillaplugin
++TARGET = qscintillaplugin-qt5
+ 
+-CONFIG += release plugin qscintilla2
++CONFIG += release plugin qscintilla2-qt5
+ 
+ greaterThan(QT_MAJOR_VERSION, 4) {
+     QT += designer
+@@ -16,7 +16,7 @@
+ }
+ 
+ macx {
+-    QMAKE_POST_LINK = install_name_tool -change libqscintilla2.12.dylib $$[QT_INSTALL_LIBS]/libqscintilla2.12.dylib $(TARGET)
++    QMAKE_POST_LINK = install_name_tool -change libqscintilla2-qt5.12.dylib $$[QT_INSTALL_LIBS]/libqscintilla2-qt5.12.dylib $(TARGET)
+ }
+ 
+ HEADERS = qscintillaplugin.h
+@@ -24,3 +24,6 @@
+ 
+ target.path = $$[QT_INSTALL_PLUGINS]/designer
+ INSTALLS += target
++  
++LIBS += -L../Qt4Qt5 -lqscintilla2-qt5
++INCLUDEPATH += ../Qt4Qt5
+diff -r -u QScintilla-gpl-2.9.orig/example-Qt4Qt5/application.pro QScintilla-gpl-2.9/example-Qt4Qt5/application.pro
+--- QScintilla-gpl-2.9.orig/example-Qt4Qt5/application.pro	2015-03-26 14:10:15.000000000 -0400
++++ QScintilla-gpl-2.9/example-Qt4Qt5/application.pro	2015-07-18 16:11:25.680905234 -0400
+@@ -1,7 +1,7 @@
+-CONFIG      += release qscintilla2
++CONFIG      += release qscintilla2-qt5
+ 
+ macx {
+-    QMAKE_POST_LINK = install_name_tool -change libqscintilla2.12.dylib $$[QT_INSTALL_LIBS]/libqscintilla2.12.dylib $(TARGET)
++    QMAKE_POST_LINK = install_name_tool -change libqscintilla2-qt5.12.dylib $$[QT_INSTALL_LIBS]/libqscintilla2-qt5.12.dylib $(TARGET)
+ }
+ 
+ HEADERS      = mainwindow.h
