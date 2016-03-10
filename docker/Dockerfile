@@ -51,10 +51,19 @@ RUN /root/scripts/build-sip.sh
 COPY scripts/build-pyqt5.sh /root/scripts/
 RUN /root/scripts/build-pyqt5.sh
 COPY scripts/build-qscintilla.sh /root/scripts/
+COPY scripts/patches/qscintilla.patch /root/scripts/patches/
+RUN apt-get install -y patch
 RUN /root/scripts/build-qscintilla.sh
 COPY scripts/build-spatialindex.sh /root/scripts/
 RUN /root/scripts/build-spatialindex.sh
 COPY scripts/build-qwt.sh /root/scripts/
 RUN /root/scripts/build-qwt.sh
+RUN wget https://github.com/qgis/QGIS/archive/master.tar.gz
+RUN tar -xvf master.tar.gz
+# RUN mkdir /usr/src/QGIS-master/build
+# WORKDIR /usr/src/QGIS-master/build
+# ENV PYTHONPATH ${PREFIX}/lib/python3/dist-packages/
+# RUN cmake -DCMAKE_PREFIX_PATH=/home/travis/osgeo4travis -DENABLE_QT5=ON -DWITH_QTWEBKIT=OFF -DPYTHON_LIBRARY=/usr/lib/libpython3.2mu.so ..
+# RUN make
 COPY scripts/create-osgeo4travis.sh /root/scripts/
 RUN /root/scripts/create-osgeo4travis.sh
