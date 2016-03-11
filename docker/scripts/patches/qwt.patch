@@ -1,0 +1,21 @@
+diff -Naur qwt-orig/qwt.prf qwt-6.1.2/qwt.prf
+--- qwt-orig/qwt.prf	2014-12-11 14:13:10.389186584 +0000
++++ qwt-6.1.2/qwt.prf	2016-03-11 07:34:27.422562004 +0000
+@@ -34,4 +34,4 @@
+ }   
+ 
+ # QMAKE_RPATHDIR *= $${QWT_INSTALL_LIBS}
+-qwtAddLibrary($${QWT_INSTALL_LIBS}, qwt)
++qwtAddLibrary($${QWT_INSTALL_LIBS}, qwt-qt5)
+diff -Naur qwt-orig/src/src.pro qwt-6.1.2/src/src.pro
+--- qwt-orig/src/src.pro	2014-12-11 14:13:13.461186493 +0000
++++ qwt-6.1.2/src/src.pro	2016-03-11 07:35:26.311638470 +0000
+@@ -17,7 +17,7 @@
+ QWT_OUT_ROOT = $${OUT_PWD}/..
+ 
+ TEMPLATE          = lib
+-TARGET            = $$qwtLibraryTarget(qwt)
++TARGET            = $$qwtLibraryTarget(qwt-qt5)
+ 
+ DESTDIR           = $${QWT_OUT_ROOT}/lib
+ 
