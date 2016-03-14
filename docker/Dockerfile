@@ -57,9 +57,12 @@ RUN /root/scripts/build-qscintilla.sh
 COPY scripts/build-spatialindex.sh /root/scripts/
 RUN /root/scripts/build-spatialindex.sh
 COPY scripts/build-qwt.sh /root/scripts/
+COPY scripts/patches/qwt.patch /root/scripts/patches/
 RUN /root/scripts/build-qwt.sh
-RUN wget https://github.com/qgis/QGIS/archive/master.tar.gz
-RUN tar -xvf master.tar.gz
+COPY scripts/build-ccache.sh /root/scripts/
+RUN /root/scripts/build-ccache.sh
+#RUN wget https://github.com/qgis/QGIS/archive/master.tar.gz
+#RUN tar -xvf master.tar.gz
 # RUN mkdir /usr/src/QGIS-master/build
 # WORKDIR /usr/src/QGIS-master/build
 # ENV PYTHONPATH ${PREFIX}/lib/python3/dist-packages/
