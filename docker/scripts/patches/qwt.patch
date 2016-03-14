@@ -1,15 +1,27 @@
-diff -Naur qwt-orig/qwt.prf qwt-6.1.2/qwt.prf
---- qwt-orig/qwt.prf	2014-12-11 14:13:10.389186584 +0000
-+++ qwt-6.1.2/qwt.prf	2016-03-11 07:34:27.422562004 +0000
-@@ -34,4 +34,4 @@
- }   
+diff -Naur orig/designer/designer.pro qwt-6.1.2/designer/designer.pro
+--- orig/designer/designer.pro	2016-03-14 12:45:12.215721714 +0000
++++ qwt-6.1.2/designer/designer.pro	2016-03-14 12:45:47.368367347 +0000
+@@ -42,7 +42,7 @@
  
- # QMAKE_RPATHDIR *= $${QWT_INSTALL_LIBS}
--qwtAddLibrary($${QWT_INSTALL_LIBS}, qwt)
-+qwtAddLibrary($${QWT_INSTALL_LIBS}, qwt-qt5)
-diff -Naur qwt-orig/src/src.pro qwt-6.1.2/src/src.pro
---- qwt-orig/src/src.pro	2014-12-11 14:13:13.461186493 +0000
-+++ qwt-6.1.2/src/src.pro	2016-03-11 07:35:26.311638470 +0000
+ 
+     TEMPLATE        = lib
+-    TARGET          = qwt_designer_plugin
++    TARGET          = qwt_designer_plugin-qt5
+ 
+     DESTDIR         = plugins/designer
+ 
+@@ -84,7 +84,7 @@
+         # into the plugin. Not supported on Windows !
+ 
+         QMAKE_RPATHDIR *= $${QWT_INSTALL_LIBS}
+-        qwtAddLibrary($${QWT_OUT_ROOT}/lib, qwt)
++        qwtAddLibrary($${QWT_OUT_ROOT}/lib, qwt-qt5)
+ 
+         contains(QWT_CONFIG, QwtDll) {
+ 
+diff -Naur orig/src/src.pro qwt-6.1.2/src/src.pro
+--- orig/src/src.pro	2016-03-14 12:45:12.199721421 +0000
++++ qwt-6.1.2/src/src.pro	2016-03-14 12:45:26.223979002 +0000
 @@ -17,7 +17,7 @@
  QWT_OUT_ROOT = $${OUT_PWD}/..
  
