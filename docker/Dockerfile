@@ -19,7 +19,7 @@ RUN apt-get update
 RUN apt-get install -y python-software-properties
 RUN add-apt-repository ppa:george-edison55/precise-backports
 RUN apt-get update
-RUN apt-get install -y clang-3.6 wget python3-dev bison flex libsqlite3-dev libcairo-dev libfftw3-dev libglu1-mesa-dev libtiff4-dev libpng-dev pkg-config make bzip2 cmake cmake-data python-numpy python-wxtools
+RUN apt-get install -y clang-3.6 wget bison flex libsqlite3-dev libcairo-dev libfftw3-dev libglu1-mesa-dev libtiff4-dev libpng-dev pkg-config make bzip2 cmake cmake-data g++ patch
 RUN ln -s /usr/bin/clang-3.6 /usr/bin/clang
 RUN ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
 
@@ -28,6 +28,12 @@ ENV PATH ${PREFIX}/bin:${PATH}
 
 RUN mkdir -p /usr/src
 WORKDIR /usr/src
+
+COPY scripts/install-python.sh /root/scripts/
+RUN /root/scripts/install-python.sh
+# RUN source /home/travis/virtualenv/bin/activate
+ENV PATH /home/travis/virtualenv/python3.3.6/bin:$PATH
+
 COPY scripts/build-qt5.sh /root/scripts/
 RUN /root/scripts/build-qt5.sh
 
@@ -45,14 +51,12 @@ COPY scripts/build-gdal.sh /root/scripts/
 RUN /root/scripts/build-gdal.sh
 COPY scripts/build-grass7.sh /root/scripts/
 RUN /root/scripts/build-grass7.sh
-RUN apt-get install -y python-sip-dev g++
 COPY scripts/build-sip.sh /root/scripts/
 RUN /root/scripts/build-sip.sh
 COPY scripts/build-pyqt5.sh /root/scripts/
 RUN /root/scripts/build-pyqt5.sh
 COPY scripts/build-qscintilla.sh /root/scripts/
 COPY scripts/patches/qscintilla.patch /root/scripts/patches/
-RUN apt-get install -y patch
 RUN /root/scripts/build-qscintilla.sh
 COPY scripts/build-spatialindex.sh /root/scripts/
 RUN /root/scripts/build-spatialindex.sh
