@@ -11,8 +11,8 @@ pushd grass-7.0.2 python-wx
   --with-gdal=${PREFIX}/bin/gdal-config \
   --with-geos=${PREFIX}/bin/geos-config \
   --with-freetype=no \
-  --with-proj-includes=/home/travis/deps/include/ \
-  --with-proj-libs=/home/travis/deps/lib/
+  --with-proj-includes=${PREFIX}/include/ \
+  --with-proj-libs=${PREFIX}/lib/
 make -j${CORES} > /dev/null
 make install > /dev/null
 popd
