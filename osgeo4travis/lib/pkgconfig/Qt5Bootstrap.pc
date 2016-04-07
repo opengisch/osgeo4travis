@@ -1,0 +1,13 @@
+prefix=/home/travis/osgeo4travis
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+
+Name: Qt5 Bootstrap
+Description: Qt Bootstrap module
+Version: 5.5.1
+Libs: -L${libdir} -lQt5Bootstrap 
+Libs.private: -lpthread -lz  
+Cflags: -I${includedir}/QtBootstrap -I${includedir}
+

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /home/travis/virtualenv/python3.3.6/bin/python3 -m PyQt5.uic.pyuic ${1+"$@"}
