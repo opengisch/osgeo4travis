@@ -1,0 +1,1 @@
+" ./configure  --prefix=/home/travis/osgeo4travis --with-cxx --with-sqlite --with-gdal=/home/travis/osgeo4travis/bin/gdal-config --with-geos=/home/travis/osgeo4travis/bin/geos-config --with-freetype=no --with-proj-includes=/home/travis/osgeo4travis/include/ --with-proj-libs=/home/travis/osgeo4travis/lib/"

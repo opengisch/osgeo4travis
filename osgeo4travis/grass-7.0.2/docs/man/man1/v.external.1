@@ -1,0 +1,174 @@
+.TH v.external 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBv.external\fR\fR  \- Creates a new pseudo\-vector map as a link to an OGR\-supported layer or a PostGIS feature table.
+.SH KEYWORDS
+vector, import, external, OGR, PostGIS
+.SH SYNOPSIS
+\fBv.external\fR
+.br
+\fBv.external \-\-help\fR
+.br
+\fBv.external\fR [\-\fBfltb\fR] \fBinput\fR=\fIstring\fR \fBlayer\fR=\fIname\fR  [\fBoutput\fR=\fIname\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-f\fR" 4m
+.br
+List supported formats and exit
+.IP "\fB\-l\fR" 4m
+.br
+List available layers in data source and exit
+.IP "\fB\-t\fR" 4m
+.br
+List available layers including feature type in data source and exit
+.br
+Format: layer name,type,projection check,geometry
+.IP "\fB\-b\fR" 4m
+.br
+Do not build topology
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIstring\fR \fB[required]\fR" 4m
+.br
+Name of input OGR or PostGIS data source
+.br
+Examples:
+.br
+ESRI Shapefile: directory containing a shapefile
+.br
+MapInfo File: directory containing a mapinfo file
+.br
+PostGIS database: connection string, eg. \(cqPG:dbname=db user=grass\(cq
+.IP "\fBlayer\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of OGR layer or PostGIS feature table to be linked
+.br
+Examples:
+.br
+ESRI Shapefile: shapefile name
+.br
+MapInfo File: mapinfo file name
+.br
+PostGIS database: table name
+.IP "\fBoutput\fR=\fIname\fR" 4m
+.br
+Name for output GRASS vector map (default: input layer)
+.SH DESCRIPTION
+\fIv.external\fR creates new vector map as a link to external OGR
+layer or PostGIS feature table. OGR (Simple Features Library) is part
+of the
+GDAL library, so you need to install
+GDAL to use \fIv.external\fR for external OGR layers. Note that a
+PostGIS feature table can be linked also using built\-in \fIGRASS\-PostGIS
+data driver\fR (requires GRASS to be built with PostgreSQL support).
+.SS Supported OGR vector formats
+To list supported OGR formats, type
+.br
+.nf
+\fC
+v.external \-f
+\fR
+.fi
+For details see
+OGR web site.
+.SH EXAMPLES
+.SS ESRI Shapefile
+Assuming that \(cqtest_shape.shp\(cq is located in directory
+\(cq/home/user/shape_data\(cq.
+.br
+.nf
+\fC
+v.external input=/home/user/shape_data layer=test_shape output=grass_map
+\fR
+.fi
+.SS MapInfo files
+.br
+.nf
+\fC
+v.external input=./ layer=mapinfo_test output=grass_map
+\fR
+.fi
+.SS SDTS files
+Note: you have to select the CATD file
+.br
+.nf
+\fC
+v.external input=CITXCATD.DDF output=cities
+\fR
+.fi
+.SS TIGER files
+.br
+.nf
+\fC
+v.external input=input/2000/56015/ layer=CompleteChain,PIP output=t56015_all
+\fR
+.fi
+.SS PostGIS layers
+PostGIS links are by default created by built\-in PostGIS support,
+ie. using \fIGRASS\-PostGIS data driver\fR. If the environment
+variable GRASS_VECTOR_OGR exists, or GRASS is compiled
+without PostgreSQL support then GRASS will use OGR\-PostgreSQL driver
+for creating a link.
+.br
+.nf
+\fC
+v.external input=\(dqPG:host=localhost user=postgres dbname=postgis\(dq layer=polymap
+\fR
+.fi
+.SH NOTES
+The simple feature data model used by OGR (or PostGIS) is very
+different from the topological format used by GRASS. Instead of true
+topology, so called \(cqpseudo topology\(cq is created for data linked by
+\fIv.external\fR. User should learn the difference between those
+two formats, because some modules working correctly with GRASS native
+data, can produce wrong results with input vector maps created
+by \fIv.external\fR.
+.PP
+See \fIv.db.connect\fR for an example of
+maintaining attributes in external DBMS in also writable mode.
+.SH REFERENCES
+OGR vector library C API documentation
+.SH SEE ALSO
+\fI
+v.external.out,
+v.clean,
+v.db.connect,
+v.in.db,
+v.in.ogr,
+v.out.ogr
+\fR
+.PP
+OGR Library
+.br
+PostGIS
+.PP
+See
+also GRASS user wiki page for more examples.
+.SH AUTHORS
+Radim Blazek, ITC\-Irst, Trento, Italy
+.br
+PostGIS support by Martin Landa, Czech Technical University in Prague, Czech Republic
+.PP
+\fILast changed: $Date: 2014\-11\-26 18:33:23 +0100 (Wed, 26 Nov 2014) $\fR
+.PP
+Main index |
+Vector index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

@@ -1,0 +1,113 @@
+.TH db.login 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBdb.login\fR\fR  \- Sets user/password for DB driver/database.
+.SH KEYWORDS
+database, connection settings
+.SH SYNOPSIS
+\fBdb.login\fR
+.br
+\fBdb.login \-\-help\fR
+.br
+\fBdb.login\fR [\-\fBp\fR] \fBdriver\fR=\fIname\fR \fBdatabase\fR=\fIname\fR  [\fBuser\fR=\fIstring\fR]   [\fBpassword\fR=\fIstring\fR]   [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-p\fR" 4m
+.br
+Print connection settings and exit
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBdriver\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of database driver
+.br
+Options: \fIogr, sqlite, dbf\fR
+.br
+Default: \fIsqlite\fR
+.IP "\fBdatabase\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of database
+.br
+Default: \fI$GISDBASE/$LOCATION_NAME/$MAPSET/sqlite/sqlite.db\fR
+.IP "\fBuser\fR=\fIstring\fR" 4m
+.br
+Username to set for DB connection
+.IP "\fBpassword\fR=\fIstring\fR" 4m
+.br
+Password to set for DB connection
+.SH DESCRIPTION
+\fIdb.login\fR sets login parameters such an user name and
+optionally also a password for the connection to
+the selected \fBdatabase\fR through the DB \fBdriver\fR.
+.SH NOTE
+This command is only related to SQL database
+backends like PostgreSQL,
+MySQL or ODBC.
+.PP
+Note that the passwords are stored in a hidden, \fIunencrypted\fR
+file in the user account, specifically
+.RS 4n
+.IP \(bu 4n
+in the \(cqhome\(cq directory, i.e. $HOME/.grass7/dblogin (Unix\-like systems)
+.IP \(bu 4n
+%APPDATA%/GRASS7/dblogin (MS\-Windows)
+.RE
+Only the file owner can access this file.
+.SH EXAMPLES
+Only username specified (assuming locally accessible PostgreSQL DB
+without password):
+.br
+.nf
+\fC
+db.login driver=pg database=mydb
+\fR
+.fi
+.PP
+Username and password specified (note that the command lines
+history will store the password in this way):
+.br
+.nf
+\fC
+db.login user=bacava password=secret
+\fR
+.fi
+.PP
+Username and empty password specified (note that the command
+lines history will store the password in this way):
+.br
+.nf
+\fC
+db.login driver=pg database=mydb user=bacava password=\(dq\(dq
+\fR
+.fi
+.SH SEE ALSO
+\fI
+db.connect,
+db.test,
+db.tables
+\fR
+.PP
+SQL support in GRASS GIS
+.SH AUTHOR
+Radim Blazek
+.PP
+\fILast changed: $Date: 2015\-10\-01 23:15:07 +0200 (Thu, 01 Oct 2015) $\fR
+.PP
+Main index |
+Database index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

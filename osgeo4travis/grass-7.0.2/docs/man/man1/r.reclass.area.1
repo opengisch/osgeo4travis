@@ -1,0 +1,105 @@
+.TH r.reclass.area 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBr.reclass.area\fR\fR  \- Reclasses a raster map greater or less than user specified area size (in hectares).
+.SH KEYWORDS
+raster, statistics, aggregation
+.SH SYNOPSIS
+\fBr.reclass.area\fR
+.br
+\fBr.reclass.area \-\-help\fR
+.br
+\fBr.reclass.area\fR [\-\fBcd\fR] \fBinput\fR=\fIname\fR \fBoutput\fR=\fIname\fR \fBvalue\fR=\fIfloat\fR \fBmode\fR=\fIstring\fR  [\fBmethod\fR=\fIstring\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-c\fR" 4m
+.br
+Input map is clumped
+.IP "\fB\-d\fR" 4m
+.br
+Clumps including diagonal neighbors
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input raster map
+.IP "\fBoutput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output raster map
+.IP "\fBvalue\fR=\fIfloat\fR \fB[required]\fR" 4m
+.br
+Value option that sets the area size limit (in hectares)
+.IP "\fBmode\fR=\fIstring\fR \fB[required]\fR" 4m
+.br
+Lesser or greater than specified value
+.br
+Options: \fIlesser, greater\fR
+.IP "\fBmethod\fR=\fIstring\fR" 4m
+.br
+Method used for reclassification
+.br
+Options: \fIreclass, rmarea\fR
+.br
+Default: \fIreclass\fR
+.SH DESCRIPTION
+\fIr.reclass.area\fR reclasses a raster map greater or
+less than a user specified area size (in hectares).
+.PP
+If the \fI\-c\fR flag is used, \fIr.reclass.area\fR will skip the creation
+of a clumped raster and assume that the input raster is already clumped.
+.SH EXAMPLES
+In this example, the ZIP code map in the North Carolina sample dataset location
+is filtered for large areas (removing smaller areas from the map):
+.br
+.nf
+\fC
+g.region raster=zipcodes \-p
+r.report zipcodes unit=h
+# extract only areas > 2000 ha, NULL otherwise:
+r.reclass.area input=zipcodes output=zipcodes_larger2000ha greater=2000
+\fR
+.fi
+In this example, the ZIP code map in the North Carolina sample dataset location
+is filtered for smaller  areas which are substituted with the value of the respective
+adjacent area with largest shared boundary:
+.br
+.nf
+\fC
+# reclass removing area minor of 1000 ha
+r.reclass.area input=zipcodes output=zipcodes_rmarea1000 lesser=1000 method=rmarea
+\fR
+.fi
+.SH SEE ALSO
+\fI
+r.reclass,
+r.clump,
+r.stats
+\fR
+.SH AUTHORS
+NRCS,
+.br
+Markus Neteler
+.PP
+\fILast changed: $Date: 2014\-12\-19 22:55:37 +0100 (Fri, 19 Dec 2014) $\fR
+.PP
+Main index |
+Raster index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

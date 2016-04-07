@@ -1,0 +1,145 @@
+.TH v.surf.idw 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBv.surf.idw\fR\fR  \- Provides surface interpolation from vector point data by Inverse Distance Squared Weighting.
+.SH KEYWORDS
+vector, surface, interpolation, IDW
+.SH SYNOPSIS
+\fBv.surf.idw\fR
+.br
+\fBv.surf.idw \-\-help\fR
+.br
+\fBv.surf.idw\fR [\-\fBn\fR] \fBinput\fR=\fIname\fR  [\fBlayer\fR=\fIstring\fR]   [\fBcolumn\fR=\fIname\fR]  \fBoutput\fR=\fIname\fR  [\fBnpoints\fR=\fIcount\fR]   [\fBpower\fR=\fIfloat\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-n\fR" 4m
+.br
+Don\(cqt index points by raster cell
+.br
+Slower but uses less memory and includes points from outside region in the interpolation
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input vector map
+.br
+Or data source for direct OGR access
+.IP "\fBlayer\fR=\fIstring\fR" 4m
+.br
+Layer number or name
+.br
+Vector features can have category values in different layers. This number determines which layer to use. When used with direct OGR access this is the layer name.
+.br
+Default: \fI1\fR
+.IP "\fBcolumn\fR=\fIname\fR" 4m
+.br
+Name of attribute column with values to interpolate
+.br
+If not given and input is 2D vector map then category values are used. If input is 3D vector map then z\-coordinates are used.
+.IP "\fBoutput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output raster map
+.IP "\fBnpoints\fR=\fIcount\fR" 4m
+.br
+Number of interpolation points
+.br
+Default: \fI12\fR
+.IP "\fBpower\fR=\fIfloat\fR" 4m
+.br
+Power parameter
+.br
+Greater values assign greater influence to closer points
+.br
+Default: \fI2.0\fR
+.SH DESCRIPTION
+.PP
+\fIv.surf.idw\fR fills a raster matrix with interpolated values
+generated from a set of irregularly spaced vector data points using
+numerical approximation (weighted averaging) techniques. The
+interpolated value of a cell is determined by values of nearby data
+points and the distance of the cell from those input points.  In
+comparison with other methods, numerical approximation allows
+representation of more complex surfaces (particularly those with
+anomalous features), restricts the spatial influence of any errors,
+and generates the interpolated surface from the data points.
+.PP
+Values to interpolate are read from \fBcolumn\fR option. If this
+option is not given than the program uses \fIcategories\fR as values
+to interpolate or \fIz\-coordinates\fR if the input vector map is 3D.
+.SH NOTES
+.PP
+The amount of memory used by this program is related to the number
+of vector points in the current region.  If the vector point map is
+very dense (i.e., contains many data points), the program may
+not be able to get all the memory it needs from the
+system.  The time required to execute is related to the
+resolution of the current region, after an initial delay
+determined by the time taken to read the input vector points map.
+.PP
+Note that vector features without category in given \fBlayer\fR are
+\fIskipped\fR.
+.PP
+If the user has a mask set, then interpolation is only done
+for those cells that fall within the mask. However, all
+vector points in the current region are used even
+if they fall outside the mask. Vector points outside the current
+region are not used in the interpolation. A larger region may
+be set and a mask used to limit interpolation to a smaller area
+if it is desired to use vector points from outside the region in the
+interpolation. The \fB\-n\fR flag may also be used to
+achieve a similar result.
+.PP
+If more than \fBnpoints\fR fall into one target raster cell,
+the mean of all the site values will determine the cell value (unless
+the \fB\-n\fR flag is specified, in which case only the \fBnpoints\fR
+closest to the centre of the cell will be interpolated).
+.PP
+The \fBpower\fR parameter defines an exponential distance weight.
+Greater values assign greater influence to values closer to the
+point to be interpolated. The interpolation function peaks sharply over
+the given data points for 0 < \fIp\fR < 1 and more smoothly for
+larger values. The default value for the power parameter is 2.
+.PP
+By setting \fBnpoints\fR=1, the module can be used to calculate
+raster Voronoi diagrams (Thiessen polygons).
+.SH SEE ALSO
+\fI
+g.region,
+r.surf.contour,
+r.surf.idw,
+r.surf.gauss,
+r.surf.fractal,
+r.surf.random,
+v.surf.rst
+\fR
+.SH AUTHORS
+Michael Shapiro,
+U.S. Army Construction Engineering
+Research Laboratory
+.br
+Improved algorithm (indexes points according to cell and ignores
+points outside current region) by Paul Kelly
+.PP
+\fILast changed: $Date: 2014\-12\-27 23:51:00 +0100 (Sat, 27 Dec 2014) $\fR
+.PP
+Main index |
+Vector index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

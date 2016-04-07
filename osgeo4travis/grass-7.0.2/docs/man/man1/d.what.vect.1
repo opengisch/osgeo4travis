@@ -1,0 +1,57 @@
+.TH d.what.vect 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBd.what.vect\fR\fR  \- Allows the user to interactively query vector map layers at user\-selected locations.
+.SH KEYWORDS
+display, vector
+.SH SYNOPSIS
+\fBd.what.vect\fR
+.br
+\fBd.what.vect \-\-help\fR
+.br
+\fBd.what.vect\fR \fBmap\fR=\fIname\fR[,\fIname\fR,...]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBmap\fR=\fIname[,\fIname\fR,...]\fR \fB[required]\fR" 4m
+.br
+Name of input vector map(s)
+.br
+Or data source(s) for direct OGR access
+.SH DESCRIPTION
+\fId.what.vect\fR d.what.vect outputs the category value(s)
+associated with user\-specified location(s) in user\-specified vector map layer(s).
+The active monitor can be selected with \fId.mon\fR.
+.SH SEE ALSO
+\fI
+d.what.rast,
+d.redraw,
+d.erase,
+d.rast,
+d.vect,
+d.mon
+\fR
+.SH AUTHOR
+Anna Petrasova, NCSU OSGeoREL
+.PP
+\fILast changed: $Date: 2015\-01\-01 23:24:49 +0100 (Thu, 01 Jan 2015) $\fR
+.PP
+Main index |
+Display index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

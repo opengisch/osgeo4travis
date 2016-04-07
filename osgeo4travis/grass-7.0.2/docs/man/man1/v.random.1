@@ -1,0 +1,205 @@
+.TH v.random 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBv.random\fR\fR  \- Generates random 2D/3D vector points.
+.SH KEYWORDS
+vector, sampling, statistics, random, point pattern
+.SH SYNOPSIS
+\fBv.random\fR
+.br
+\fBv.random \-\-help\fR
+.br
+\fBv.random\fR [\-\fBzab\fR] \fBoutput\fR=\fIname\fR \fBnpoints\fR=\fIinteger\fR  [\fBrestrict\fR=\fIname\fR]   [\fBlayer\fR=\fIstring\fR]   [\fBcats\fR=\fIrange\fR]   [\fBwhere\fR=\fIsql_query\fR]   [\fBzmin\fR=\fIfloat\fR]   [\fBzmax\fR=\fIfloat\fR]   [\fBseed\fR=\fIinteger\fR]   [\fBcolumn\fR=\fIname\fR]   [\fBcolumn_type\fR=\fIstring\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-z\fR" 4m
+.br
+Create 3D output
+.IP "\fB\-a\fR" 4m
+.br
+Generate n points for each individual area
+.IP "\fB\-b\fR" 4m
+.br
+Do not build topology
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBoutput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output vector map
+.IP "\fBnpoints\fR=\fIinteger\fR \fB[required]\fR" 4m
+.br
+Number of points to be created
+.IP "\fBrestrict\fR=\fIname\fR" 4m
+.br
+Name of input vector map
+.br
+Restrict points to areas in input vector
+.IP "\fBlayer\fR=\fIstring\fR" 4m
+.br
+Layer number or name (\(cq\-1\(cq for all layers)
+.br
+A single vector map can be connected to multiple database tables. This number determines which table to use. When used with direct OGR access this is the layer name.
+.br
+Default: \fI\-1\fR
+.IP "\fBcats\fR=\fIrange\fR" 4m
+.br
+Category values
+.br
+Example: 1,3,7\-9,13
+.IP "\fBwhere\fR=\fIsql_query\fR" 4m
+.br
+WHERE conditions of SQL statement without \(cqwhere\(cq keyword
+.br
+Example: income < 1000 and inhab >= 10000
+.IP "\fBzmin\fR=\fIfloat\fR" 4m
+.br
+Minimum z height (needs \-z flag or column name)
+.br
+Default: \fI0.0\fR
+.IP "\fBzmax\fR=\fIfloat\fR" 4m
+.br
+Maximum z height (needs \-z flag or column name)
+.br
+Default: \fI0.0\fR
+.IP "\fBseed\fR=\fIinteger\fR" 4m
+.br
+The seed to initialize the random generator. If not set the process ID is used
+.IP "\fBcolumn\fR=\fIname\fR" 4m
+.br
+Name of column for z values
+.br
+Writes z values to column
+.IP "\fBcolumn_type\fR=\fIstring\fR" 4m
+.br
+Type of column for z values
+.br
+Options: \fIinteger, double precision\fR
+.br
+Default: \fIdouble precision\fR
+.SH DESCRIPTION
+\fIv.random\fR randomly generates vector points within the
+current region using the selected random number generator.
+.PP
+\fIv.random\fR can generate also 3D vector points or
+write random value to attribute table. Point height range or
+attribute value range is controlled by specifying zmin and zmax values.
+Both z values are included in range (\fIzmin <= z <= zmax\fR).
+Generated random attribute value type can be controlled by column
+data type. Use \fBINTEGER\fR column type for integers and
+\fBDOUBLE PRECISION\fR for floating point numbers. Integer values are
+calculated by rounding random floating point number.
+.PP
+To produce repeatable results a random seed can be set using the
+option \fIseed\fR.
+.SS Restriction to vector areas
+.PP
+If an \fIinput\fR vector map with areas is specified, the location of
+random points is restricted to the selected areas. By default, the
+requested number of points are distributed across all areas.
+.PP
+If the \fI\-a\fR flag is given, the requested number of points is
+generated for each individual area. For example, if 20 points should be
+generated and the input map has 100 individual areas, 2000 points will
+be generated in total.
+.SH EXAMPLES
+All examples use the North Carolina sample dataset.
+.PP
+Generate 20 random points with binary attribute (only 0 or 1):
+.br
+.nf
+\fC
+v.random output=binary_random npoints=20 zmin=0 zmax=1 column=\(cqbinary INTEGER\(cq
+\fR
+.fi
+Generate 20 random 3D points using a specific random seed:
+.br
+.nf
+\fC
+v.random seed=52 output=height_random npoints=40 zmin=110 zmax=170 \-z
+\fR
+.fi
+.PP
+.br
+Random points with different X, Y, and Z coordinates
+Get 20 random samples from raster map:
+.br
+.nf
+\fC
+g.region \-p raster=elevation
+v.random output=random_samples npoints=20
+v.db.addtable map=random_samples layer=1 columns=\(cqcat INTEGER, sample DOUBLE PRECISION\(cq
+v.what.rast vector=random_samples raster=elevation@PERMANENT layer=1 column=sample
+\fR
+.fi
+Generate 20 random points and sample attribute data from geology (vector) map:
+.br
+.nf
+\fC
+g.region \-p vector=geology
+v.random output=random_samples npoints=20
+v.db.addtable map=random_samples layer=1 columns=\(cqcat integer, geology varchar(100)\(cq
+v.what.vect vector=random_samples layer=1 column=geology \(rs
+  qvector=geology@PERMANENT qlayer=1 qcolumn=label
+\fR
+.fi
+Generate 20 random points in forested areas
+.br
+.nf
+\fC
+g.region \-p raster=landclass96
+r.to.vect \-v input=landclass96 output=landclass96 type=area
+v.random input=landclass96 output=random_samples npoints=20 \(rs
+  where=\(dqlabel = \(cqforest\(cq\(dq
+\fR
+.fi
+Generate 20 random points in each forest patch
+.br
+.nf
+\fC
+g.region \-p raster=landclass96
+r.to.vect \-v input=landclass96 output=landclass96 type=area
+v.random input=landclass96 output=random_samples npoints=20 \(rs
+  where=\(dqlabel = \(cqforest\(cq\(dq \-a
+\fR
+.fi
+.SH SEE ALSO
+\fI
+g.region,
+r.random,
+v.perturb,
+v.sample,
+v.what.rast,
+v.what.vect
+\fR
+.SH AUTHOR
+James Darrell McCauley
+<darrell@mccauley\-usa.com>,
+.br
+when he was at:
+Agricultural
+Engineering
+Purdue University
+.PP
+\fILast changed: $Date: 2014\-12\-20 06:05:23 +0100 (Sat, 20 Dec 2014) $\fR
+.PP
+Main index |
+Vector index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

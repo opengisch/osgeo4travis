@@ -1,0 +1,172 @@
+.TH r3.timestamp 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBr3.timestamp\fR\fR  \- Print/add/remove a timestamp for a 3D raster map
+.SH KEYWORDS
+raster3d, timestamp, time, voxel
+.SH SYNOPSIS
+\fBr3.timestamp\fR
+.br
+\fBr3.timestamp \-\-help\fR
+.br
+\fBr3.timestamp\fR \fBmap\fR=\fIname\fR  [\fBdate\fR=\fItimestamp\fR]   [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBmap\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of 3D raster map
+.IP "\fBdate\fR=\fItimestamp\fR" 4m
+.br
+Datetime, datetime1/datetime2, or none
+.SH DESCRIPTION
+This command has 2 modes of operation. If no date argument
+is supplied, then the current timestamp for the 3D raster map
+is printed. If a date argument is specified, then the
+timestamp for the 3D raster map is set to the specified
+date(s). See EXAMPLES below.
+.SH EXAMPLES
+\fBr3.timestamp map=soils\fR
+.br
+Prints the timestamp for the \(dqsoils\(dq 3D raster map. If
+there is no timestamp for soils, nothing is printed. If
+there is a timestamp, one or two lines are printed,
+depending on if the timestamp for the map consists of a
+single date or two dates (ie start and end dates).
+.PP
+\fBr3.timestamp map=soils date=\(cq15 sep 1987\(cq\fR
+.br
+Sets the timestamp for \(dqsoils\(dq to the single date
+.br
+\(dq15 sep 1987\(dq
+.PP
+\fBr3.timestamp map=soils date=\(cq15 sep 1987/20 feb 1988\(cq\fR
+.br
+Sets the timestamp for \(dqsoils\(dq to have the start date
+.br
+\(dq15 sep 1987\(dq and the end date \(dq20 feb 1988\(dq
+.PP
+\fBr3.timestamp map=soils date=\(cq18 feb 2005 10:30:00/20 jul 2007 20:30:00\(cq\fR
+.br
+Sets the timestamp for \(dqsoils\(dq to have the start date
+.br
+\(dq18 aug 2005 10:30:00\(dq and the end date \(dq20 jul 2007 20:30:00\(dq
+.PP
+\fBr3.timestamp map=soils date=none\fR
+.br
+Removes the timestamp for the \(dqsoils\(dq 3D raster map
+.SH TIMESTAMP FORMAT
+The timestamp values must use the format as described in the
+GRASS datetime library.  The source tree for this library
+should have a description of the format. For convience, the
+formats as of Feb, 1996 are reproduced here:
+.PP
+There are two types of datetime values: absolute and
+relative. Absolute values specify exact dates and/or times.
+Relative values specify a span of time. Some examples will
+help clarify:
+.PP
+\fBAbsolute\fR
+.PP
+The general format for absolute values is
+.PP
+day month year [bc] hour:minute:seconds timezone
+.br
+day is 1\-31
+.br
+month is jan,feb,...,dec
+.br
+year is 4 digit year
+.br
+[bc] if present, indicates dates is BC
+.br
+hour is 0\-23 (24 hour clock)
+.br
+minute is 0\-59
+.br
+second is 0\-59.9999 (fractions of second allowed)
+.br
+timezone is +hhmm or \-hhmm (eg, \-0600)
+.br
+.br
+parts can be missing
+.br
+1994 [bc]
+.br
+Jan 1994 [bc]
+.br
+15 jan 1000 [bc]
+.br
+15 jan 1994 [bc] 10 [+0000]
+.br
+15 jan 1994 [bc] 10:00 [+0100]
+.br
+15 jan 1994 [bc] 10:00:23.34 [\-0500]
+.br
+.br
+\fB Relative\fR
+There are two types of relative datetime values, year\-
+month and day\-second.	 The formats are:
+.PP
+[\-] # years # months
+.br
+[\-] # days # hours # minutes # seconds
+.PP
+The words years, months, days, hours, minutes, seconds
+are literal words, and the # are the numeric values.
+.br
+Examples:
+.PP
+2 years
+.br
+5 months
+.br
+2 years 5 months
+.br
+100 days
+.br
+15 hours 25 minutes 35.34 seconds
+.br
+100 days 25 minutes
+.br
+1000 hours 35.34 seconds
+.PP
+The following are \fIillegal\fR because it mixes year\-month
+and day\-second (because the number of days in a month
+or in a year vary):
+.PP
+3 months 15 days
+.br
+3 years 10 days
+.SH KNOWN ISSUES
+Spaces in the timestamp value are required.
+.SH AUTHOR
+Michael Pelizzari
+.br
+Lockheed Martin Space Systems
+.br
+based on r.timestamp by Michael Shapiro,
+.br
+U.S. Army Construction Engineering Research Laboratory
+.PP
+\fILast changed: $Date: 2015\-05\-11 02:16:13 +0200 (Mon, 11 May 2015) $\fR
+.PP
+Main index |
+3D raster index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

@@ -1,0 +1,266 @@
+.TH v.krige 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBv.krige\fR\fR  \- Performs ordinary or block kriging for vector maps.
+.SH KEYWORDS
+vector, interpolation, raster, kriging
+.SH SYNOPSIS
+\fBv.krige\fR
+.br
+\fBv.krige \-\-help\fR
+.br
+\fBv.krige\fR \fBinput\fR=\fIname\fR \fBcolumn\fR=\fIname\fR  [\fBoutput\fR=\fIname\fR]   [\fBpackage\fR=\fIstring\fR]   [\fBmodel\fR=\fIstring\fR[,\fIstring\fR,...]]   [\fBblock\fR=\fIinteger\fR]   [\fBrange\fR=\fIinteger\fR]   [\fBnugget\fR=\fIinteger\fR]   [\fBsill\fR=\fIinteger\fR]   [\fBoutput_var\fR=\fIname\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input vector map
+.br
+Name of point vector map containing sample data
+.IP "\fBcolumn\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of attribute column with numerical value to be interpolated
+.IP "\fBoutput\fR=\fIname\fR" 4m
+.br
+Name for output raster map
+.br
+If omitted, will be <input name>_kriging
+.IP "\fBpackage\fR=\fIstring\fR" 4m
+.br
+R package to use
+.br
+Options: \fIgstat\fR
+.br
+Default: \fIgstat\fR
+.IP "\fBmodel\fR=\fIstring[,\fIstring\fR,...]\fR" 4m
+.br
+Variogram model(s)
+.br
+Leave empty to test all models (requires automap)
+.br
+Options: \fINug, Exp, Sph, Gau, Exc, Mat, Ste, Cir, Lin, Bes, Pen, Per, Hol, Log, Pow, Spl, Leg, Err, Int\fR
+.IP "\fBblock\fR=\fIinteger\fR" 4m
+.br
+Block size (square block)
+.br
+Block size. Used by block kriging.
+.IP "\fBrange\fR=\fIinteger\fR" 4m
+.br
+Range value
+.br
+Automatically fixed if not set
+.IP "\fBnugget\fR=\fIinteger\fR" 4m
+.br
+Nugget value
+.br
+Automatically fixed if not set
+.IP "\fBsill\fR=\fIinteger\fR" 4m
+.br
+Sill value
+.br
+Automatically fixed if not set
+.IP "\fBoutput_var\fR=\fIname\fR" 4m
+.br
+Name for output variance raster map
+.br
+If omitted, will be <input name>_kriging.var
+.SH DESCRIPTION
+\fIv.krige\fR allows performing Kriging operations in GRASS GIS
+environment, using R software functions in background.
+.SH NOTES
+\fIv.krige\fR is just a front\-end to R. The options and parameters
+are the same offered by packages \fIautomap\fR and \fIgstat\fR.
+.PP
+Kriging, like other interpolation methods, is fully dependent on input
+data features. Exploratory analysis of data is encouraged to find out
+outliers, trends, anisotropies, uneven distributions and consequently
+choose the kriging algorithm that will give the most acceptable
+result. Good knowledge of the dataset is more valuable than hundreds
+of parameters or powerful hardware. See Isaaks and Srivastava\(cqs book,
+exhaustive and clear even if a bit outdated.
+.SS Dependencies
+.IP "\fBR software >= 2.x\fR" 4m
+.br
+.IP "\fBrpy2\fR" 4m
+.br
+Python binding to R. Note! rpy version 1 is not supported.
+.IP "\fBR packages automap, gstat, rgrass7 and rgeos. \fR" 4m
+.br
+automap is optional (provides automatic variogram fit).
+Install the packages via R command line (or your preferred GUI):
+.br
+.nf
+\fC
+  install.packages(\(dqrgeos\(dq, dep=T)
+  install.packages(\(dqgstat\(dq, dep=T)
+  install.packages(\(dqrgrass7\(dq, dep=T)
+  install.packages(\(dqautomap\(dq, dep=T)
+\fR
+.fi
+.SS Notes for Debian GNU/Linux
+Install the dependiencies. \fBAttention! python\-rpy IS NOT
+SUITABLE.\fR:
+.br
+.nf
+\fC
+  aptitude install R python\-rpy2
+\fR
+.fi
+To install R packages, use either R\(cqs functions listed above (as root or as user),
+either the Debian packages [5], add to repositories\(cq list
+for 32bit or 64bit (pick up the suitable line):
+.br
+.nf
+\fC
+  deb http://debian.cran.r\-project.org/cran2deb/debian\-i386 testing/
+  deb http://debian.cran.r\-project.org/cran2deb/debian\-amd64 testing/
+\fR
+.fi
+and get the packages via aptitude:
+.br
+.nf
+\fC
+  aptitude install r\-cran\-gstat r\-cran\-rgrass7
+\fR
+.fi
+.SS Notes for Windows
+Compile GRASS GIS following this
+guide.
+You could also use Linux in a virtual machine. Or install Linux in a
+separate partition of the HD. This is not as painful as it appears,
+there are lots of guides over the Internet to help you.
+.SS Computation time issues
+Please note that although high number of input data points and/or high
+region resolution contribute to a better output, both will also slow down
+the kriging calculation.
+.SH EXAMPLES
+Kriging example based on elevation map (Spearfish data set).
+.PP
+\fBPart 1: random sampling\fR of 2000 vector points from known
+elevation map. Each point will receive the elevation value from the
+elevation raster, as if it came from a point survey.
+.br
+.nf
+\fC
+# reduce resolution for this example
+g.region raster=elevation \-p res=100
+v.random output=rand2k_elev npoints=2000
+v.db.addtable map=rand2k_elev columns=\(dqelevation double precision\(dq
+v.what.rast map=rand2k_elev raster=elevation column=elevation
+\fR
+.fi
+\fBPart 2: remove points lacking elevation attributes\fR. Points
+sampled at the border of the elevation map didn\(cqt receive any
+value. v.krige has no preferred action to cope with no data values, so
+the user must check for them and decide what to do (remove points,
+fill with the value of the nearest point, fill with the global/local
+mean...). In the following line of code, points with no data are
+removed from the map.
+.br
+.nf
+\fC
+v.extract input=rand2k_elev output=rand2k_elev_filt where=\(dqelevation not NULL\(dq
+\fR
+.fi
+Check the result of previous line (\(dqnumber of NULL attributes\(dq must be
+0):
+.br
+.nf
+\fC
+v.univar map=rand2k_elev_filt type=point column=elevation
+\fR
+.fi
+\fBPart 3: reconstruct DEM through kriging\fR. The simplest way to run
+\fIv.krige\fR from CLI is using automatic variogram fit (note:
+requires R\(cqs automap package). Output map name is optional, the
+modules creates it automatically appending \(dq_kriging\(dq to the input
+map name and also checks for overwrite. If output_var is specified,
+the variance map is also created. Automatic variogram fit is provided
+by R package automap. The variogram models tested by the fitting
+functions are: exponential, spherical, Gaussian, Matern, M.Stein\(cqs
+parametrisation. A wider range of models is available from gstat
+package and can be tested on the GUI via the variogram plotting. If a
+model is specified in the CLI, also sill, nugget and range values are
+to be provided, otherwise an error is raised (see second example of
+\fIv.krige\fR command).
+.br
+.nf
+\fC
+# automatic variogram fit
+v.krige input=rand2k_elev_filt column=elevation \(rs
+        output=rand2k_elev_kriging output_var=rand2k_elev_kriging_var
+# define variogram model, create variance map as well
+v.krige input=rand2k_elev_filt column=elevation \(rs
+        output=rand2k_elev_filt_kriging output_var=rand2k_elev_filt_kriging_var \(rs
+        model=Mat sill=2500 nugget=0 range=1000
+\fR
+.fi
+Or run wxGUI, to interactively fit the variogram and explore options:
+.br
+.nf
+\fC
+v.krige
+\fR
+.fi
+\fBCalculate prediction error\fR:
+.br
+.nf
+\fC
+r.mapcalc \(dqrand2k_elev_kriging_pe = sqrt(rand2k_elev_kriging_var)\(dq
+r.univar map=elevation
+r.univar map=rand2k_elev_kriging
+r.univar map=rand2k_elev_kriging_pe
+\fR
+.fi
+The results show high errors, as the kriging techniques (ordinary and
+block kriging) are unable to handle a dataset with a trend, like the
+one used in this example: elevation is higher in the southwest corner
+and lower on northeast corner. Universal kriging can give far better
+results in these cases as it can handle the trend. It is available in
+R package gstat and will be part in a future v.krige release.
+.SH SEE ALSO
+R package gstat,
+maintained by Edzer J. Pebesma and others
+.br
+R
+package rgrass7,
+maintained by Roger Bivand
+.br
+The Short
+Introduction to Geostatistical and Spatial Data Analysis with GRASS GIS
+and R statistical data language at the GRASS Wiki (includes
+installation tips). It contains a subsection about \fBrgrass7\fR.
+.br
+.br
+v.krige\(cqs wiki page
+.SH REFERENCES
+Isaaks and Srivastava, 1989: \(dqAn Introduction to Applied Geostatistics\(dq
+(ISBN 0\-19\-505013\-4)
+.SH AUTHOR
+Anne Ghisla, Google Summer of Code 2009
+.PP
+\fILast changed: $Date: 2015\-10\-01 12:26:43 +0200 (Thu, 01 Oct 2015) $\fR
+.PP
+Main index |
+Vector index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GRASS GIS manual: r3.timestamp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="grassdocs.css" type="text/css">
+</head>
+<body bgcolor="white">
+<div id="container">
+
+<a href="index.html"><img src="grass_logo.png" alt="GRASS logo"></a>
+<hr class="header">
+
+<h2>NAME</h2>
+<em><b>r3.timestamp</b></em>  - Print/add/remove a timestamp for a 3D raster map
+<h2>KEYWORDS</h2>
+<a href="raster3d.html">raster3d</a>, <a href="topic_timestamp.html">timestamp</a>, <a href="keywords.html#time">time</a>, <a href="keywords.html#voxel">voxel</a>
+<h2>SYNOPSIS</h2>
+<div id="name"><b>r3.timestamp</b><br></div>
+<b>r3.timestamp --help</b><br>
+<div id="synopsis"><b>r3.timestamp</b> <b>map</b>=<em>name</em>  [<b>date</b>=<em>timestamp</em>]   [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+</div>
+
+<div id="flags">
+<h3>Flags:</h3>
+<dl>
+<dt><b>--help</b></dt>
+<dd>Print usage summary</dd>
+<dt><b>--verbose</b></dt>
+<dd>Verbose module output</dd>
+<dt><b>--quiet</b></dt>
+<dd>Quiet module output</dd>
+<dt><b>--ui</b></dt>
+<dd>Force launching GUI dialog</dd>
+</dl>
+</div>
+
+<div id="parameters">
+<h3>Parameters:</h3>
+<dl>
+<dt><b>map</b>=<em>name</em>&nbsp;<b>[required]</b></dt>
+<dd>Name of 3D raster map</dd>
+
+<dt><b>date</b>=<em>timestamp</em></dt>
+<dd>Datetime, datetime1/datetime2, or none</dd>
+
+</dl>
+</div>
+<div class="toc">
+<h4 class="toc">Table of contents</h4>
+<ul class="toc">
+    <li class="toc"><a href="#description" class="toc">DESCRIPTION</a></li>
+    <li class="toc"><a href="#examples" class="toc">EXAMPLES</a></li>
+    <li class="toc"><a href="#timestamp-format" class="toc">TIMESTAMP FORMAT</a></li>
+    <li class="toc"><a href="#known-issues" class="toc">KNOWN ISSUES</a></li>
+    <li class="toc"><a href="#author" class="toc">AUTHOR</a></li>
+</ul>
+</div>
+<h2><a name="description">DESCRIPTION</a></h2>
+
+This command has 2 modes of operation. If no date argument
+is supplied, then the current timestamp for the 3D raster map
+is printed. If a date argument is specified, then the
+timestamp for the 3D raster map is set to the specified
+date(s). See EXAMPLES below.
+
+<h2><a name="examples">EXAMPLES</a></h2>
+
+<b>r3.timestamp map=soils</b><br>
+	  Prints the timestamp for the "soils" 3D raster map. If
+	  there is no timestamp for soils, nothing is printed. If
+	  there is a timestamp, one or two lines are printed,
+	  depending on if the timestamp for the map consists of a
+	  single date or two dates (ie start and end dates).
+<p><b>r3.timestamp map=soils date='15 sep 1987'</b><br>
+	  Sets the timestamp for "soils" to the single date<br>
+	  "15 sep 1987"
+<p><b>r3.timestamp map=soils date='15 sep 1987/20 feb 1988'</b><br>
+	  Sets the timestamp for "soils" to have the start date<br>
+	  "15 sep 1987" and the end date "20 feb 1988"
+<p><b>r3.timestamp map=soils date='18 feb 2005 10:30:00/20 jul 2007 20:30:00'</b><br>
+	  Sets the timestamp for "soils" to have the start date<br>
+	  "18 aug 2005 10:30:00" and the end date "20 jul 2007 20:30:00"
+<p>
+<b>r3.timestamp map=soils date=none</b><br>
+	  Removes the timestamp for the "soils" 3D raster map
+
+<h2><a name="timestamp-format">TIMESTAMP FORMAT</a></h2>
+     The timestamp values must use the format as described in the
+     GRASS datetime library.  The source tree for this library
+     should have a description of the format. For convience, the
+     formats as of Feb, 1996 are reproduced here:
+<p>     There are two types of datetime values: absolute and
+     relative. Absolute values specify exact dates and/or times.
+     Relative values specify a span of time. Some examples will
+     help clarify:
+<p><b>Absolute</b><p>	  The general format for absolute values is
+<p><tt>
+	     day month year [bc] hour:minute:seconds timezone
+<br>
+	     day is 1-31<br>
+	     month is jan,feb,...,dec<br>
+	     year is 4 digit year<br>
+	     [bc] if present, indicates dates is BC<br>
+	     hour is 0-23 (24 hour clock)<br>
+	     minute is 0-59<br>
+	     second is 0-59.9999 (fractions of second allowed)<br>
+	     timezone is +hhmm or -hhmm (eg, -0600)<br>
+<br>
+	  parts can be missing
+<br>
+	     1994 [bc]<br>
+	     Jan 1994 [bc]<br>
+	     15 jan 1000 [bc]<br>
+	     15 jan 1994 [bc] 10 [+0000]<br>
+	     15 jan 1994 [bc] 10:00 [+0100]<br>
+	     15 jan 1994 [bc] 10:00:23.34 [-0500]<br>
+<br>
+</tt>
+    <b> Relative</b>
+	  There are two types of relative datetime values, year-
+	  month and day-second.	 The formats are:
+<p><tt>
+	     [-] # years # months<br>
+	     [-] # days # hours # minutes # seconds
+</tt><p>	  The words years, months, days, hours, minutes, seconds
+	  are literal words, and the # are the numeric values.<br>
+	  Examples:<p><tt>
+	     2 years<br>
+	     5 months<br>
+	     2 years 5 months<br>
+	     100 days<br>
+	     15 hours 25 minutes 35.34 seconds<br>
+	     100 days 25 minutes<br>
+	     1000 hours 35.34 seconds
+</tt><p>	  The following are <i>illegal</i> because it mixes year-month
+	  and day-second (because the number of days in a month
+	  or in a year vary):<p><tt>
+	     3 months 15 days<br>
+	     3 years 10 days
+</tt>
+
+<h2><a name="known-issues">KNOWN ISSUES</a></h2>
+Spaces in the timestamp value are required.
+
+<h2><a name="author">AUTHOR</a></h2>
+Michael Pelizzari<br>
+Lockheed Martin Space Systems<br>
+based on r.timestamp by Michael Shapiro, <br>
+U.S. Army Construction Engineering Research Laboratory
+
+<p><i>Last changed: $Date: 2015-05-11 02:16:13 +0200 (Mon, 11 May 2015) $</i><hr class="header">
+<p>
+<a href="index.html">Main index</a> |
+<a href="raster3d.html">3D raster index</a> |
+<a href="topics.html">Topics index</a> |
+<a href="keywords.html">Keywords index</a> |
+<a href="full_index.html">Full index</a>
+</p>
+<p>
+&copy; 2003-2015
+<a href="http://grass.osgeo.org">GRASS Development Team</a>,
+GRASS GIS 7.0.2 Reference Manual
+</p>
+
+</div>
+</body>
+</html>

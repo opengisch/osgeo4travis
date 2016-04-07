@@ -1,0 +1,85 @@
+.TH i.albedo 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBi.albedo\fR\fR  \- Computes broad band albedo from surface reflectance.
+.SH KEYWORDS
+imagery, albedo, reflectance
+.SH SYNOPSIS
+\fBi.albedo\fR
+.br
+\fBi.albedo \-\-help\fR
+.br
+\fBi.albedo\fR [\-\fBmnlacd\fR] \fBinput\fR=\fIname\fR[,\fIname\fR,...] \fBoutput\fR=\fIname\fR  [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-m\fR" 4m
+.br
+MODIS (7 input bands:1,2,3,4,5,6,7)
+.IP "\fB\-n\fR" 4m
+.br
+NOAA AVHRR (2 input bands:1,2)
+.IP "\fB\-l\fR" 4m
+.br
+Landsat 5+7 (6 input bands:1,2,3,4,5,7)
+.IP "\fB\-a\fR" 4m
+.br
+ASTER (6 input bands:1,3,5,6,8,9)
+.IP "\fB\-c\fR" 4m
+.br
+Aggressive mode (Landsat)
+.br
+Albedo dry run to calculate some water to beach/sand/desert stretching, a kind of simple atmospheric correction
+.IP "\fB\-d\fR" 4m
+.br
+Soft mode (MODIS)
+.br
+Albedo dry run to calculate some water to beach/sand/desert stretching, a kind of simple atmospheric correction
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname[,\fIname\fR,...]\fR \fB[required]\fR" 4m
+.br
+Name of input raster map
+.IP "\fBoutput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output raster map
+.SH DESCRIPTION
+\fIi.albedo\fR calculates the albedo, that is the Shortwave surface
+reflectance in the range of 0.3\-3 micro\-meters.  It takes as input
+individual bands of surface reflectance originating from MODIS, AVHRR, Landsat
+or Aster satellite sensors and calculates the albedo for those.  This is
+a precursor to \fIr.sun\fR and any energy\-balance processing.
+.SH NOTES
+It assumes MODIS product surface reflectance in [0;10000].
+.SH TODO
+Maybe change input requirement of MODIS to [0.0\-1.0]?
+.SH SEE ALSO
+\fI
+r.sun,
+i.vi
+\fR
+.SH AUTHOR
+Yann Chemin, International Rice Research Institute, The Philippines
+.PP
+\fILast changed: $Date: 2014\-12\-09 18:31:29 +0100 (Tue, 09 Dec 2014) $\fR
+.PP
+Main index |
+Imagery index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

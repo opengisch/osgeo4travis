@@ -1,0 +1,156 @@
+.TH r.fill.dir 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBr.fill.dir\fR\fR  \- Filters and generates a depressionless elevation map and a flow direction map from a given elevation raster map.
+.SH KEYWORDS
+raster, hydrology
+.SH SYNOPSIS
+\fBr.fill.dir\fR
+.br
+\fBr.fill.dir \-\-help\fR
+.br
+\fBr.fill.dir\fR [\-\fBf\fR] \fBinput\fR=\fIname\fR \fBoutput\fR=\fIname\fR \fBdirection\fR=\fIname\fR  [\fBareas\fR=\fIname\fR]   [\fBformat\fR=\fIstring\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-f\fR" 4m
+.br
+Find unresolved areas only
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input elevation raster map
+.IP "\fBoutput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output depressionless elevation raster map
+.IP "\fBdirection\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output flow direction map for depressionless elevation raster map
+.IP "\fBareas\fR=\fIname\fR" 4m
+.br
+Name for output raster map of problem areas
+.IP "\fBformat\fR=\fIstring\fR" 4m
+.br
+Aspect direction format
+.br
+Options: \fIagnps, answers, grass\fR
+.br
+Default: \fIgrass\fR
+.SH DESCRIPTION
+\fIr.fill.dir\fR filters and generates a depressionless
+elevation map and a flow direction map from a given raster elevation map.
+.SH NOTES
+The \fBformat\fR parameter is the type of format at which the user wishes to create
+the flow direction map. The \fIagnps\fR format gives category values from
+1\-8, with 1 facing north and increasing values in the clockwise direction.
+The \fIanswers\fR format gives category values from 0\-360 degrees, with 0
+(360) facing east and values increasing in the counter clockwise direction
+at 45 degree increments. The \fIgrass\fR format gives the same category
+values as the \fIr.slope.aspect\fR
+program.
+.PP
+The method adopted to filter the elevation map and rectify it is
+based on the paper titled \(dqSoftware Tools to Extract Structure from Digital
+Elevation Data for Geographic Information System Analysis\(dq by S.K. Jenson
+and J.O. Domingue (1988).
+.PP
+The procedure takes an elevation layer as input and initially fills all the
+depressions with one pass across the layer. Next, the flow direction
+algorithm tries to find a unique direction for each cell. If the watershed
+program detects areas with pothholes, it delineates this area from the rest
+of the area and once again the depressions are filled using the neighborhood
+technique used by the flow direction routine. The final output will be a
+depressionless elevation layer and a unique flow direction layer.
+.PP
+This (D8) flow algorithm performs as follows: At each raster cell the code
+determines the slope to each of the 8 surrounding cells and assigns the flow
+direction to the highest slope out of the cell.  If there is more than one
+equal, non\-zero slope then the code picks one direction based on preferences
+that are hard\-coded into the program.  If the highest slope is flat and in
+more than one direction then the code first tries to select an alternative
+based on flow directions in the adjacent cells. \fIr.fill.dir\fR iteratates that process,
+effectively propagating flow directions from areas where the directions are
+known into the area where the flow direction can\(cqt otherwise be resolved.
+.PP
+The flow direction map can be encoded in either ANSWERS (Beasley et.al,
+1982) or AGNPS (Young et.al, 1985) form, so that it can be readily used as
+input to these hydrologic models. The resulting depressionless elevation
+layer can further be manipulated for deriving slopes and other attributes
+required by the hydrologic models.
+.PP
+In case of local problems, those unfilled areas can be stored optionally.
+Each unfilled area in this maps is numbered. The \fB\-f\fR flag
+instructs the program to fill single\-cell pits but otherwise to just find
+the undrained areas and exit. With the \fB\-f\fR flag set the program
+writes an elevation map with just single\-cell pits filled, a direction map
+with unresolved problems and a map of the undrained areas that were found
+but not filled. This option was included because filling DEMs was often not
+the best way to solve a drainage problem. These options let the user get a
+partially\-fixed elevation map, identify the remaining problems and fix the
+problems appropriately.
+.PP
+\fIr.fill.dir\fR is sensitive to the current window setting. Thus
+the program can be used to generate a flow direction map for any
+sub\-area within the full map layer. Also, \fIr.fill.dir\fR is
+sensitive to any \fImask\fR in effect.
+.PP
+In some cases it may be necessary to run \fIr.fill.dir\fR repeatedly (using output
+from one run as input to the next run) before all of problem areas are
+filled.
+.SH EXAMPLE
+.br
+.nf
+\fC
+r.fill.dir input=ansi.elev output=ansi.fill.elev direction=ansi.asp
+\fR
+.fi
+Will create a depressionless (sinkless) elevation
+map \fIansi.fill.elev\fR and a flow direction map \fIansi.asp\fR for the
+type \(dqgrass\(dq.
+.SH REFERENCES
+.RS 4n
+.IP \(bu 4n
+Beasley, D.B. and L.F. Huggins. 1982. ANSWERS (areal nonpoint source watershed environmental response simulation): User\(cqs manual. U.S. EPA\-905/9\-82\-001, Chicago, IL, 54 p.
+.IP \(bu 4n
+Jenson, S.K., and J.O. Domingue. 1988. Extracting topographic structure from
+digital elevation model data for geographic information system analysis. Photogram. Engr. and Remote Sens. 54: 1593\-1600.
+.IP \(bu 4n
+Young, R.A., C.A. Onstad, D.D. Bosch and W.P. Anderson. 1985. Agricultural nonpoint surface pollution models (AGNPS) I and II model documentation. St. Paul: Minn. Pollution control Agency and Washington D.C., USDA\-Agricultural Research
+Service.
+.RE
+.SH SEE ALSO
+\fI
+r.fillnulls,
+r.slope.aspect
+\fR
+.SH AUTHORS
+Fortran version:
+Raghavan Srinivasan, Agricultural Engineering Department, Purdue
+University
+.br
+Rewrite to C with enhancements:
+Roger S. Miller
+.PP
+\fILast changed: $Date: 2014\-11\-28 17:25:40 +0100 (Fri, 28 Nov 2014) $\fR
+.PP
+Main index |
+Raster index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

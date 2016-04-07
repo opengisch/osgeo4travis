@@ -1,0 +1,205 @@
+.TH v.net.visibility 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBv.net.visibility\fR\fR  \- Performs visibility graph construction.
+.SH KEYWORDS
+vector, network, shortest path, visibility
+.SH SYNOPSIS
+\fBv.net.visibility\fR
+.br
+\fBv.net.visibility \-\-help\fR
+.br
+\fBv.net.visibility\fR \fBinput\fR=\fIname\fR \fBoutput\fR=\fIname\fR  [\fBcoordinates\fR=\fIeast,north\fR]   [\fBvisibility\fR=\fIname\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input vector map
+.br
+Or data source for direct OGR access
+.IP "\fBoutput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output vector map
+.IP "\fBcoordinates\fR=\fIeast,north\fR" 4m
+.br
+Coordinates
+.IP "\fBvisibility\fR=\fIname\fR" 4m
+.br
+Name of input vector map containing visable points
+.br
+Add points after computing the visibility graph
+.SH DESCRIPTION
+\fIv.net.visibility\fR computes the visibility graph of a vector
+map containing lines, areas (boundaries) and points. The visibility
+graph is the graph where the nodes are the end point of the lines,
+boundaries or simply points. There is an edge between two nodes if they
+are \(cqvisible\(cq to each other. Two nodes are visibible if there are no segments
+in between of them, i.e. the edge does not intersect any line or boundary
+in the vector map. This is useful to compute the shortest path in a
+vector map from any two points. To do this, first you need to compute
+the visibility graph and from that to compute the shortest path using
+\fIv.net.path\fR
+or \fId.path\fR.
+.PP
+\fBIMPORTANT: the algorithm doesn\(cqt work well with intersecting lines
+(that includes overlapping)\fR
+.SH NOTES
+If you compute a shortest path after computing the visibility graph
+you will notice that this path might go through a vertex of a line. If
+this is not what you wanted you might need to process the map
+in \fIv.buffer\fR, initially whith a
+small value. Example:
+.br
+.nf
+\fC
+v.buffer input=map output=bufferedmap buffer=1 type=point,line,area,boundary
+\fR
+.fi
+.PP
+The first argument is the input map. It supports lines, boundaries
+(so, areas) and points. For the algorithm  was written to work with lines
+and boundaries not intersecting each other (that includes overlapping).
+.br
+The resulting map containing the visibility graph is given in the output map.
+.PP
+If you need to add additional points to compute a shortest path
+between them afterwards you can use the \fBcoordinates\fR parameter, e.g.:
+.br
+.nf
+\fC
+coordinates=25556200,6686400,25556400,6686600
+\fR
+.fi
+where 25556200,6686400 are the coordinate of the first point and
+25556400,6686600 are the coordinates of the second point. Of course
+you can give as many points as you need. They will be added to the
+visibility graph and edges from them will be computed. You can
+always add those points after computing the visibility graph. Simply
+use the \fBvisibility\fR parameter. The input will be the original
+vector map, the vis will be the computed visibility graph and the
+output the new visibility graph which will be the vis + the new
+points given with coordinate (edges will be computed as well).
+.br
+.nf
+\fC
+v.net.visibility input=map visibility=vis_map output=new_vis_map \(rs
+      coordinates=25556200,6686400,25556400,6686600
+\fR
+.fi
+.SH EXAMPLES
+.SS Example 1
+A simple example (North Carolina sample data) showing how to use the module:
+.br
+.nf
+\fC
+v.extract input=zipcodes_wake output=areas_7_11_25 cats=7,11,25
+g.region vector=zipcodes_wake
+d.mon wx0
+d.vect areas_7_11_25
+v.net.visibility input=areas_7_11_25 output=graph
+d.vect graph
+d.vect areas_7_11_25 color=red type=boundary
+\fR
+.fi
+.SS Example 2
+An example on how to use \fIv.buffer\fR
+along with the module:
+.br
+.nf
+\fC
+v.buffer input=lines output=buffered_lines buffer=1
+v.net.visibility input=buffered_lines output=graph
+d.vect graph
+d.vect lines col=red
+\fR
+.fi
+.SS Example 3
+An example on how to use the coordinate parameter. This will compute the
+visibility graph of the vector map lines with the point 2555678,6686343:
+.br
+.nf
+\fC
+v.net.visibility input=lines output=graph coordinates=2555678,6686343
+d.vect graph
+d.vect lines col=red
+\fR
+.fi
+.SS Example 4
+An example (North Carolina sample data) on how to use the coordinate
+parameter with the vis parameter.
+Here the vector map graph is computed then a new visibility graph is computed
+from it with the point 669547.97,208348.20 extra:
+.br
+.nf
+\fC
+v.extract input=zipcodes_wake output=areas_7_11_25 cats=7,11,25
+g.region vector=zipcodes_wake
+d.mon wx0
+d.vect areas_7_11_25
+v.net.visibility input=zipcodes_wake output=graph
+v.net.visibility input=zipcodes_wake visibility=graph output=new_graph \(rs
+      coordinates=669547.97,208348.20
+d.erase
+d.vect areas_7_11_25
+echo \(dqsymbol basic/star 20 669547.97 208348.20 black red\(dq | d.graph \-m
+d.vect new_graph
+d.vect areas_7_11_25 color=red type=boundary
+\fR
+.fi
+.SS Example 5
+An example for connections of points (Spearfish):
+.br
+.nf
+\fC
+v.net.visibility input=archsites output=graph
+g.region vector=archsites
+d.mon wx0
+d.vect graph
+d.vect archsites col=red
+\fR
+.fi
+.SH KNOWN ISSUES
+In some cases when 3 points or nodes are collinear, some wrong edges
+are added. This happens only really rarly and shouldn\(cqt be a big
+problem. When two points have the exact same x coordinate and are
+visible, some wrong edges are added.
+.SH SEE ALSO
+\fI
+d.path,
+v.net,
+v.net.alloc,
+v.net.iso,
+v.net.salesman,
+v.net.steiner,
+v.to.db
+\fR
+.SH AUTHOR
+Maximilian Maldacker
+.br
+Mentor: Wolf Bergenheim
+.PP
+\fILast changed: $Date: 2015\-05\-11 02:16:13 +0200 (Mon, 11 May 2015) $\fR
+.PP
+Main index |
+Vector index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

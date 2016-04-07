@@ -1,0 +1,108 @@
+.TH v.import 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBv.import\fR\fR  \- Imports vector data into a GRASS vector map using OGR library and reprojects on the fly.
+.SH KEYWORDS
+vector, import, projection
+.SH SYNOPSIS
+\fBv.import\fR
+.br
+\fBv.import \-\-help\fR
+.br
+\fBv.import\fR [\-\fBfl\fR] \fBinput\fR=\fIname\fR  [\fBlayer\fR=\fIstring\fR[,\fIstring\fR,...]]   [\fBoutput\fR=\fIname\fR]   [\fBextent\fR=\fIstring\fR]   [\fBencoding\fR=\fIstring\fR]   [\fBsnap\fR=\fIfloat\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-f\fR" 4m
+.br
+List supported OGR formats and exit
+.IP "\fB\-l\fR" 4m
+.br
+List available OGR layers in data source and exit
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of OGR datasource to be imported
+.IP "\fBlayer\fR=\fIstring[,\fIstring\fR,...]\fR" 4m
+.br
+OGR layer name. If not given, all available layers are imported
+.IP "\fBoutput\fR=\fIname\fR" 4m
+.br
+Name for output vector map (default: input)
+.IP "\fBextent\fR=\fIstring\fR" 4m
+.br
+Output vector map extent
+.br
+Options: \fIinput, region\fR
+.br
+Default: \fIinput\fR
+.br
+\fBinput\fR: extent of input map
+.br
+\fBregion\fR: extent of current region
+.IP "\fBencoding\fR=\fIstring\fR" 4m
+.br
+Encoding value for attribute data
+.IP "\fBsnap\fR=\fIfloat\fR" 4m
+.br
+Snapping threshold for boundaries (map units)
+.br
+\(cq\-1\(cq for no snap
+.br
+Default: \fI1e\-13\fR
+.SH DESCRIPTION
+\fIv.import\fR imports selected layers from a OGR vector datasource
+into the current location and mapset. If the projection of the input
+does not match the projection of the location, the input is reprojected
+into the current location. If the projection of the input does match
+the projection of the location, the input is imported directly with
+v.in.ogr.
+.SH NOTES
+.SS Topology cleaning
+When importing polygons, non\-topological polygons are converted to
+topological areas. By default, a very small snapping threshold is applied
+(1e\-13 map units) to avoid topological errors caused by numerical inaccuracy
+of the input data format. If the original polygons contain errors (unexpected
+overlapping areas or small gaps between polygons), the import might
+need to be repeated using a larger \fIsnap\fR value.
+.SH EXAMPLE
+.br
+.nf
+\fC
+# import SHAPE file at full extent and reproject to current location projection
+v.import input=research_area.shp output=research_area extent=input
+\fR
+.fi
+.SH SEE ALSO
+\fI
+v.in.ogr,
+v.proj
+\fR
+.SH AUTHORS
+Markus Metz
+.br
+Improvements: Martin Landa, Anna Petrasova
+.PP
+\fILast changed: $Date: 2015\-01\-20 20:52:27 +0100 (Tue, 20 Jan 2015) $\fR
+.PP
+Main index |
+Vector index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual
