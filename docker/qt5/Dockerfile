@@ -47,6 +47,8 @@ COPY scripts/build-spatialite.sh /root/scripts/
 RUN /root/scripts/build-spatialite.sh
 COPY scripts/build-qca.sh /root/scripts/
 RUN /root/scripts/build-qca.sh
+COPY scripts/build-lighttpd.sh /root/scripts/
+RUN /root/scripts/build-lighttpd.sh
 COPY scripts/build-spawn-fcgi.sh /root/scripts/
 RUN /root/scripts/build-spawn-fcgi.sh
 COPY scripts/build-gdal.sh /root/scripts/
