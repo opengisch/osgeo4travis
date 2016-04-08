@@ -45,8 +45,10 @@ COPY scripts/build-qca.sh /root/scripts/
 RUN /root/scripts/build-qca.sh
 COPY scripts/build-ccache.sh /root/scripts/
 RUN /root/scripts/build-ccache.sh
-COPY scripts/patches/fcgi.patch /root/scripts/patches/
-COPY scripts/build-fcgi.sh /root/scripts/
+COPY scripts/build-lighttpd.sh /root/scripts/
+RUN /root/scripts/build-lighttpd.sh
+COPY scripts/build-spawn-fcgi.sh /root/scripts/
+RUN /root/scripts/build-spawn-fcgi.sh
 #RUN wget https://github.com/qgis/QGIS/archive/master.tar.gz
 #RUN tar -xvf master.tar.gz
 # RUN mkdir /usr/src/QGIS-master/build
