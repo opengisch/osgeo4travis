@@ -1,0 +1,157 @@
+.TH t.rast.accdetect 1 "" "GRASS 7.0.2" "Grass User's Manual"
+.SH NAME
+\fI\fBt.rast.accdetect\fR\fR  \- Detects accumulation patterns in temporally accumulated space time raster datasets created by t.rast.accumulate.
+.SH KEYWORDS
+temporal, accumulation, raster, time
+.SH SYNOPSIS
+\fBt.rast.accdetect\fR
+.br
+\fBt.rast.accdetect \-\-help\fR
+.br
+\fBt.rast.accdetect\fR [\-\fBnr\fR] \fBinput\fR=\fIname\fR  [\fBminimum\fR=\fIname\fR]   [\fBmaximum\fR=\fIname\fR]  \fBoccurrence\fR=\fIname\fR  [\fBindicator\fR=\fIname\fR]  \fBstart\fR=\fIstring\fR  [\fBstop\fR=\fIstring\fR]  \fBcycle\fR=\fIstring\fR  [\fBoffset\fR=\fIstring\fR]  \fBbasename\fR=\fIstring\fR  [\fBrange\fR=\fImin,max\fR]   [\fBstaend\fR=\fIstart,intermediate,end\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-n\fR" 4m
+.br
+Register empty maps in the output space time raster dataset, otherwise they will be deleted
+.IP "\fB\-r\fR" 4m
+.br
+Reverse time direction in cyclic accumulation
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of the input space time raster dataset
+.IP "\fBminimum\fR=\fIname\fR" 4m
+.br
+Input space time raster dataset that specifies the minimum values to detect the accumulation pattern
+.IP "\fBmaximum\fR=\fIname\fR" 4m
+.br
+Input space time raster dataset that specifies the maximum values to detect the accumulation pattern
+.IP "\fBoccurrence\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+The output space time raster dataset that stores the occurrence of the the accumulation pattern using the provided data range
+.IP "\fBindicator\fR=\fIname\fR" 4m
+.br
+The output space time raster dataset that stores the indication of the start, intermediate and end of the specified data range
+.IP "\fBstart\fR=\fIstring\fR \fB[required]\fR" 4m
+.br
+The temporal starting point to begin the accumulation, eg \(cq2001\-01\-01\(cq
+.IP "\fBstop\fR=\fIstring\fR" 4m
+.br
+The temporal date to stop the accumulation, eg \(cq2009\-01\-01\(cq
+.IP "\fBcycle\fR=\fIstring\fR \fB[required]\fR" 4m
+.br
+The temporal cycle to restart the accumulation, eg \(cq12 months\(cq
+.IP "\fBoffset\fR=\fIstring\fR" 4m
+.br
+The temporal offset to the begin of the next cycle, eg \(cq6 months\(cq
+.IP "\fBbasename\fR=\fIstring\fR \fB[required]\fR" 4m
+.br
+Basename of the new generated output maps
+.br
+A numerical suffix separated by an underscore will be attached to create a unique identifier
+.IP "\fBrange\fR=\fImin,max\fR" 4m
+.br
+The minimum and maximum value of the occurrence of accumulated values, these values will be used if the min/max space time raster datasets are not specified
+.IP "\fBstaend\fR=\fIstart,intermediate,end\fR" 4m
+.br
+The user defined values that indicate start, intermediate and end status in the indicator output space time raster dataset
+.br
+Default: \fI1,2,3\fR
+.SH DESCRIPTION
+\fBt.rast.accdetect\fR is designed to detect accumulation pattern in
+temporally accumulated space time raster datasets created by
+t.rast.accumulate.
+This module expects a space time raster dataset as input that is the result
+of a t.rast.accumulate run.
+.PP
+The \fBstart\fR time and the \fBend\fR time of the pattern detection
+process must be set, eg. \fBstart=\(dq2000\-03\-01\(dq end=\(dq2011\-01\-01\(dq\fR.
+The \fBstart\fR and \fBend\fR time do not need to be the same as for
+the accumulation run that produced the input space time raster dataset.
+In addition a \fBcycle\fR, eg. \(dq8 months\(dq, can be specified, that
+defines after which time interval the accumulation pattern detection
+process restarts. The \fBoffset\fR option specifies the time between
+two cycles that should be skipped, eg. \(dq4 months\(dq. Please make sure
+that the \fBcycle\fR and \fBoffset\fR options are same as in the
+accumulation process that produces the input space time raster dataset,
+otherwise the accumulation pattern detection will produce wrong
+results.
+.PP
+The \fBminimum\fR and \fBmaximum\fR values of the pattern detection
+process can be set, either by using space time raster datasets or
+by using fixed values for all raster cells and time steps.
+.PP
+Using space time raster datasets allow specifying minimum and maximum
+values for each raster cell and each time step. For example, we want to
+detect the germination (minimum value) and harvesting (maximum value)
+dates for different crops in Germany using the growing\-degree\-day (GDD)
+method for several years. Different crops may grow in different raster
+cells and change with time because of crop rotation. Hence we need to
+specify different GDD germination/harvesting (minimum/maximum) values
+for different raster cells and different years.
+.PP
+The raster maps that specifies the minimum and maximum values of the
+actual granule will be detected using the following temporal relations:
+equals, during, overlaps, overlapped and contains. First all maps with
+equal time stamps to the current granule of the input STRDS will be
+detected, the first minimum map and the first maximum map that were
+found are used as range definitions. If no equal maps are found then
+maps with a temporal during relation are detected, then maps that
+temporally overlap the actual granules, until maps are detected that
+have a temporal contain relation. If no maps are found or
+minimum/maximum STRDS are not set, then the \fBrange\fR option is
+used, eg. \fBrange=480,730\fR.
+.PP
+The \fBbase\fR name of of the generated maps must always be set.
+.PP
+This module produces two output space time raster datasets. The
+\fBoccurrence\fR output STRDS stores the time in days from the begin
+of a cycle for each raster cell and time step that has a value within
+the minimum and maximum definition. These values can be used to compute
+the duration of the recognized accumulation pattern. The
+\fBindicator\fR output STRDS uses three values, that can be set using
+the \fBstaend\fR option, to mark raster cells with integer values that
+indicate the start, the intermediate state and the end of a
+accumulation pattern. As default specifies the value 1 the start, the
+value 2 the intermediate state and the value 3 the end of the
+accumulation pattern in a cycle.
+.SH EXAMPLE
+Please have a look at the t.rast.accumulate example.
+.SH SEE ALSO
+\fI
+t.rast.accumulate,
+t.rast.aggregate,
+t.rast.mapcalc,
+t.info,
+r.series.accumulate,
+g.region
+\fR
+.SH AUTHOR
+Sören Gebbert, Thünen Institute of Climate\-Smart Agriculture
+.PP
+\fILast changed: $Date: 2015\-07\-11 16:04:13 +0200 (Sat, 11 Jul 2015) $\fR
+.PP
+Main index |
+Temporal index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2015
+GRASS Development Team,
+GRASS GIS 7.0.2 Reference Manual

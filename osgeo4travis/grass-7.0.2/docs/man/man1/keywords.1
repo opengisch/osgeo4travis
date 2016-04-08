@@ -8,19 +8,19 @@ v.drape, v.extrude, v.hull, v.surf.rst, v.to.3d, v.to.points
 i.landsat.acca
 .IP "\fBaccumulation\fR" 4m
 .br
-r.series.accumulate, r.terraflow
+r.series.accumulate, r.terraflow, t.rast.accdetect, t.rast.accumulate
 .IP "\fBactual evapotranspiration\fR" 4m
 .br
 i.eb.eta
 .IP "\fBaggregation\fR" 4m
 .br
-r.in.xyz, r.neighbors, r.reclass.area, r.series, r3.neighbors, v.neighbors
+r.in.xyz, r.neighbors, r.reclass.area, r.series, r3.neighbors, t.rast.aggregate.ds, t.rast.aggregate, t.rast.neighbors, v.neighbors
 .IP "\fBalbedo\fR" 4m
 .br
 i.albedo
 .IP "\fBalgebra\fR" 4m
 .br
-r.mapcalc, r.mfilter, r.mode, r.neighbors, r.quantile, r.texture, r3.mapcalc, r3.neighbors, v.neighbors
+r.mapcalc, r.mfilter, r.mode, r.neighbors, r.quantile, r.texture, r3.mapcalc, r3.neighbors, t.rast.mapcalc, t.rast3d.mapcalc, v.neighbors
 .IP "\fBanimation\fR" 4m
 .br
 g.gui.animation, r.out.mpeg
@@ -47,7 +47,7 @@ i.atcorr, i.landsat.toar
 v.info
 .IP "\fBattribute table\fR" 4m
 .br
-db.columns, db.connect, db.copy, db.createdb, db.databases, db.describe, db.dropcolumn, db.dropdb, db.droptable, db.execute, db.in.ogr, db.out.ogr, db.select, db.tables, db.test, db.univar, g.gui.dbmgr, t.connect, v.class, v.db.addcolumn, v.db.addtable, v.db.connect, v.db.dropcolumn, v.db.droprow, v.db.droptable, v.db.join, v.db.reconnect.all, v.db.renamecolumn, v.db.select, v.db.univar, v.db.update, v.distance, v.to.db, v.univar, v.vect.stats, v.what.rast, v.what.rast3, v.what.vect
+db.columns, db.connect, db.copy, db.createdb, db.databases, db.describe, db.dropcolumn, db.dropdb, db.droptable, db.execute, db.in.ogr, db.out.ogr, db.select, db.tables, db.test, db.univar, g.gui.dbmgr, t.connect, t.vect.db.select, v.class, v.db.addcolumn, v.db.addtable, v.db.connect, v.db.dropcolumn, v.db.droprow, v.db.droptable, v.db.join, v.db.reconnect.all, v.db.renamecolumn, v.db.select, v.db.univar, v.db.update, v.distance, v.to.db, v.univar, v.vect.stats, v.what.rast, v.what.rast3, v.what.strds, v.what.vect
 .IP "\fBattributes\fR" 4m
 .br
 v.reclass
@@ -113,7 +113,7 @@ i.landsat.acca
 r.clump, r.volume
 .IP "\fBcolor table\fR" 4m
 .br
-d.colortable, r.colors, r.colors.out, r.colors.stddev, r.what.color, r3.colors, r3.colors.out, v.colors, v.colors.out
+d.colortable, r.colors, r.colors.out, r.colors.stddev, r.what.color, r3.colors, r3.colors.out, t.rast.colors, v.colors, v.colors.out
 .IP "\fBcolor transformation\fR" 4m
 .br
 d.his, i.his.rgb, i.rgb.his, r.his
@@ -140,7 +140,7 @@ v.net.connectivity
 r.contour
 .IP "\fBconversion\fR" 4m
 .br
-r.in.ascii, r.in.xyz, r.out.xyz, r.to.rast3, r.to.rast3elev, r.to.vect, r3.in.ascii, r3.out.ascii, r3.to.rast, v.to.rast, v.to.rast3
+r.in.ascii, r.in.xyz, r.out.xyz, r.to.rast3, r.to.rast3elev, r.to.vect, r3.in.ascii, r3.out.ascii, r3.to.rast, t.rast.to.rast3, v.to.rast, v.to.rast3
 .IP "\fBcopying\fR" 4m
 .br
 r.pack, r.unpack, v.pack, v.unpack
@@ -156,6 +156,9 @@ r.cost, r.walk, v.net.alloc
 .IP "\fBcost surface\fR" 4m
 .br
 r.cost, r.drain, r.walk
+.IP "\fBcreate\fR" 4m
+.br
+t.create
 .IP "\fBcreate location\fR" 4m
 .br
 g.proj
@@ -218,19 +221,19 @@ i.eb.evapfr, i.eb.hsebal01
 i.evapo.mh, i.evapo.pm, i.evapo.pt, i.evapo.time
 .IP "\fBexport\fR" 4m
 .br
-d.out.file, d.to.rast, db.out.ogr, r.colors.out, r.external.out, r.out.ascii, r.out.bin, r.out.gdal, r.out.gridatb, r.out.mat, r.out.mpeg, r.out.png, r.out.pov, r.out.ppm, r.out.ppm3, r.out.vrml, r.out.vtk, r.out.xyz, r.pack, r3.colors.out, r3.out.ascii, r3.out.bin, r3.out.v5d, r3.out.vtk, v.colors.out, v.external.out, v.out.ascii, v.out.dxf, v.out.ogr, v.out.pov, v.out.svg, v.out.vtk, v.pack
+d.out.file, d.to.rast, db.out.ogr, r.colors.out, r.external.out, r.out.ascii, r.out.bin, r.out.gdal, r.out.gridatb, r.out.mat, r.out.mpeg, r.out.png, r.out.pov, r.out.ppm, r.out.ppm3, r.out.vrml, r.out.vtk, r.out.xyz, r.pack, r3.colors.out, r3.out.ascii, r3.out.bin, r3.out.v5d, r3.out.vtk, t.rast.export, t.rast.out.vtk, t.vect.export, v.colors.out, v.external.out, v.out.ascii, v.out.dxf, v.out.ogr, v.out.pov, v.out.svg, v.out.vtk, v.pack
 .IP "\fBextensions\fR" 4m
 .br
 g.extension.all, g.extension
 .IP "\fBextent\fR" 4m
 .br
-r.info, r3.info, v.info
+r.info, r3.info, t.info, v.info
 .IP "\fBexternal\fR" 4m
 .br
 r.external, r.external.out, v.external, v.external.out
 .IP "\fBextract\fR" 4m
 .br
-v.extract
+t.rast.extract, t.rast3d.extract, t.vect.extract, v.extract
 .IP "\fBFast Fourier Transform\fR" 4m
 .br
 i.fft, i.ifft
@@ -326,13 +329,13 @@ d.his, i.his.rgb, i.pansharpen, i.rgb.his, r.his
 i.modis.qc
 .IP "\fBimport\fR" 4m
 .br
-db.in.ogr, i.in.spotvgt, r.external, r.import, r.in.ascii, r.in.aster, r.in.bin, r.in.gdal, r.in.gridatb, r.in.mat, r.in.png, r.in.poly, r.in.srtm, r.in.wms, r.in.xyz, r.unpack, r3.in.ascii, r3.in.bin, r3.in.v5d, r3.in.xyz, v.external, v.import, v.in.ascii, v.in.db, v.in.dxf, v.in.e00, v.in.geonames, v.in.lines, v.in.mapgen, v.in.ogr, v.in.wfs, v.unpack
+db.in.ogr, i.in.spotvgt, r.external, r.import, r.in.ascii, r.in.aster, r.in.bin, r.in.gdal, r.in.gridatb, r.in.mat, r.in.png, r.in.poly, r.in.srtm, r.in.wms, r.in.xyz, r.unpack, r3.in.ascii, r3.in.bin, r3.in.v5d, r3.in.xyz, t.rast.import, t.vect.import, v.external, v.import, v.in.ascii, v.in.db, v.in.dxf, v.in.e00, v.in.geonames, v.in.lines, v.in.mapgen, v.in.ogr, v.in.wfs, v.unpack
 .IP "\fBinstallation\fR" 4m
 .br
 g.extension.all, g.extension
 .IP "\fBinterpolation\fR" 4m
 .br
-r.fillnulls, r.resamp.bspline, r.resamp.interp, r.series.interp, r.surf.contour, r.surf.idw, v.krige, v.surf.bspline, v.surf.idw, v.surf.rst, v.vol.rst
+r.fillnulls, r.resamp.bspline, r.resamp.interp, r.series.interp, r.surf.contour, r.surf.idw, t.rast.gapfill, v.krige, v.surf.bspline, v.surf.idw, v.surf.rst, v.vol.rst
 .IP "\fBintersection\fR" 4m
 .br
 v.overlay
@@ -386,7 +389,7 @@ r.viewshed
 v.lrs.create, v.lrs.label, v.lrs.segment, v.lrs.where
 .IP "\fBlist\fR" 4m
 .br
-g.list
+g.list, t.list, t.rast.list, t.rast3d.list, t.vect.list
 .IP "\fBlongitude\fR" 4m
 .br
 r.latlong
@@ -398,7 +401,7 @@ g.manual
 d.rast.arrow, d.rast.num
 .IP "\fBmap management\fR" 4m
 .br
-g.access, g.copy, g.dirseps, g.filename, g.findetc, g.findfile, g.list, g.remove, g.rename, i.group, i.target, r.compress
+g.access, g.copy, g.dirseps, g.filename, g.findetc, g.findfile, g.list, g.remove, g.rename, i.group, i.target, r.compress, t.create, t.list, t.rast.list, t.rast3d.list, t.register, t.remove, t.rename, t.unregister, t.vect.list
 .IP "\fBmask\fR" 4m
 .br
 r.mask, r3.mask
@@ -410,10 +413,10 @@ i.gensig, i.maxlik
 m.measure
 .IP "\fBmerge\fR" 4m
 .br
-r.patch
+r.patch, t.merge
 .IP "\fBmetadata\fR" 4m
 .br
-r.describe, r.info, r.region, r.support, r.timestamp, r3.info, r3.support, v.info, v.support, v.timestamp
+r.describe, r.info, r.region, r.support, r.timestamp, r3.info, r3.support, t.info, t.select, t.support, v.info, v.support, v.timestamp
 .IP "\fBmiscellaneous\fR" 4m
 .br
 m.cogo, m.measure, m.nviz.script, m.proj, m.transform
@@ -500,7 +503,7 @@ v.kcv, v.mkgrid, v.normal, v.perturb, v.qcount, v.random
 v.in.db, v.kcv, v.normal
 .IP "\fBposition\fR" 4m
 .br
-d.where, r.what, v.what, v.what.rast, v.what.rast3, v.what.vect
+d.where, r.what, v.what, v.what.rast, v.what.rast3, v.what.strds, v.what.vect
 .IP "\fBPostGIS\fR" 4m
 .br
 v.external, v.external.out
@@ -521,7 +524,7 @@ g.proj, m.proj, r.import, r.latlong, r.proj, v.import, v.proj
 r.quant
 .IP "\fBquerying\fR" 4m
 .br
-d.where, i.spectral, r.what.color, r.what, v.what, v.what.rast, v.what.rast3, v.what.vect
+d.where, i.spectral, r.what.color, r.what, v.what, v.what.rast, v.what.rast3, v.what.strds, v.what.vect
 .IP "\fBradiance\fR" 4m
 .br
 i.aster.toar, i.landsat.toar
@@ -555,6 +558,9 @@ i.rectify, v.rectify
 .IP "\fBreflectance\fR" 4m
 .br
 i.albedo, i.aster.toar, i.landsat.toar, i.modis.qc
+.IP "\fBregister\fR" 4m
+.br
+t.register
 .IP "\fBregression\fR" 4m
 .br
 r.regression.line, r.regression.multi
@@ -563,10 +569,10 @@ r.regression.line, r.regression.multi
 d.shade, r.relief, r.shade
 .IP "\fBremove\fR" 4m
 .br
-g.remove
+g.remove, t.remove
 .IP "\fBrename\fR" 4m
 .br
-g.rename
+g.rename, t.rename
 .IP "\fBresample\fR" 4m
 .br
 r.resamp.bspline, r.resamp.filter, r.resamp.interp, r.resamp.rst, r.resamp.stats, r.resample
@@ -587,7 +593,7 @@ v.vol.rst
 v.net.salesman
 .IP "\fBsampling\fR" 4m
 .br
-d.where, r.random.cells, r.random, v.drape, v.extrude, v.random, v.sample, v.what.rast, v.what.rast3, v.what.vect
+d.where, r.random.cells, r.random, t.sample, t.vect.observe.strds, t.vect.what.strds, v.drape, v.extrude, v.random, v.sample, v.what.rast, v.what.rast3, v.what.strds, v.what.vect
 .IP "\fBsatellite\fR" 4m
 .br
 i.colors.enhance
@@ -611,10 +617,10 @@ v.segment, v.split
 i.segment, i.smap
 .IP "\fBselect\fR" 4m
 .br
-v.extract
+t.vect.db.select, v.extract
 .IP "\fBseries\fR" 4m
 .br
-r.series.accumulate, r.series, r.series.interp
+r.series.accumulate, r.series, r.series.interp, t.rast.series
 .IP "\fBsettings\fR" 4m
 .br
 d.colorlist, d.font, d.fontlist, g.gisenv, g.mapset, g.mapsets, g.region
@@ -624,6 +630,9 @@ r.sun, r.sunmask
 .IP "\fBsharpen\fR" 4m
 .br
 i.pansharpen
+.IP "\fBshift\fR" 4m
+.br
+t.shift
 .IP "\fBshortest path\fR" 4m
 .br
 d.geodesic, d.path, v.net.allpairs, v.net.distance, v.net.path, v.net.timetable, v.net.visibility
@@ -650,7 +659,7 @@ i.gensigset, i.smap
 v.generalize
 .IP "\fBsnapping\fR" 4m
 .br
-v.clean
+t.snap, v.clean
 .IP "\fBsoil\fR" 4m
 .br
 r.sim.sediment, r.sim.water, r.uslek, r.usler
@@ -680,7 +689,7 @@ r.ros, r.spread
 db.copy, db.createdb, db.databases, db.dropdb, db.execute, db.select, v.db.select
 .IP "\fBstatistics\fR" 4m
 .br
-d.correlate, d.histogram, db.univar, i.cca, i.oif, r.clump, r.coin, r.covar, r.cross, r.kappa, r.mfilter, r.mode, r.neighbors, r.quant, r.quantile, r.reclass.area, r.regression.line, r.regression.multi, r.report, r.statistics, r.stats, r.stats.quantile, r.stats.zonal, r.support.stats, r.surf.area, r.texture, r.univar, r3.neighbors, r3.stats, r3.univar, v.class, v.db.univar, v.kcv, v.neighbors, v.normal, v.outlier, v.perturb, v.qcount, v.random, v.rast.stats, v.report, v.univar
+d.correlate, d.histogram, db.univar, i.cca, i.oif, r.clump, r.coin, r.covar, r.cross, r.kappa, r.mfilter, r.mode, r.neighbors, r.quant, r.quantile, r.reclass.area, r.regression.line, r.regression.multi, r.report, r.statistics, r.stats, r.stats.quantile, r.stats.zonal, r.support.stats, r.surf.area, r.texture, r.univar, r3.neighbors, r3.stats, r3.univar, t.rast.univar, t.rast3d.univar, t.vect.univar, v.class, v.db.univar, v.kcv, v.neighbors, v.normal, v.outlier, v.perturb, v.qcount, v.random, v.rast.stats, v.report, v.univar
 .IP "\fBsteiner tree\fR" 4m
 .br
 v.net.steiner
@@ -719,7 +728,7 @@ r.texture
 r.tile, r.tileset, r3.retile
 .IP "\fBtime\fR" 4m
 .br
-r.timestamp, r3.timestamp, v.timestamp
+r.timestamp, r3.timestamp, t.create, t.info, t.list, t.merge, t.rast.accdetect, t.rast.accumulate, t.rast.aggregate.ds, t.rast.aggregate, t.rast.colors, t.rast.export, t.rast.extract, t.rast.gapfill, t.rast.import, t.rast.list, t.rast.mapcalc, t.rast.neighbors, t.rast.out.vtk, t.rast.series, t.rast.to.rast3, t.rast.univar, t.rast3d.extract, t.rast3d.list, t.rast3d.mapcalc, t.rast3d.univar, t.register, t.remove, t.rename, t.sample, t.select, t.shift, t.snap, t.support, t.topology, t.unregister, t.vect.db.select, t.vect.export, t.vect.extract, t.vect.import, t.vect.list, t.vect.observe.strds, t.vect.univar, t.vect.what.strds, v.timestamp, v.what.strds
 .IP "\fBtimestamp\fR" 4m
 .br
 r.timestamp, r3.timestamp, v.timestamp
@@ -728,7 +737,7 @@ r.timestamp, r3.timestamp, v.timestamp
 i.topo.corr
 .IP "\fBtopology\fR" 4m
 .br
-v.build.all, v.build, v.build.polylines, v.clean, v.info
+t.topology, v.build.all, v.build, v.build.polylines, v.clean, v.info
 .IP "\fBtransect\fR" 4m
 .br
 r.transect
@@ -744,6 +753,9 @@ v.overlay
 .IP "\fBunivariate statistics\fR" 4m
 .br
 r.univar, r3.univar, v.rast.stats, v.univar, v.vect.stats
+.IP "\fBunregister\fR" 4m
+.br
+t.unregister
 .IP "\fBuser interface\fR" 4m
 .br
 g.gui
@@ -779,13 +791,13 @@ d.shade, m.nviz.image, m.nviz.script, r.shade
 r.volume
 .IP "\fBvoxel\fR" 4m
 .br
-r.to.rast3, r.to.rast3elev, r3.cross.rast, r3.gwflow, r3.in.ascii, r3.in.bin, r3.in.v5d, r3.in.xyz, r3.info, r3.mask, r3.mkdspf, r3.neighbors, r3.null, r3.out.ascii, r3.out.bin, r3.out.v5d, r3.out.vtk, r3.retile, r3.stats, r3.support, r3.timestamp, r3.to.rast, v.to.rast3, v.vol.rst
+r.to.rast3, r.to.rast3elev, r3.cross.rast, r3.gwflow, r3.in.ascii, r3.in.bin, r3.in.v5d, r3.in.xyz, r3.info, r3.mask, r3.mkdspf, r3.neighbors, r3.null, r3.out.ascii, r3.out.bin, r3.out.v5d, r3.out.vtk, r3.retile, r3.stats, r3.support, r3.timestamp, r3.to.rast, t.rast.to.rast3, t.rast3d.extract, t.rast3d.list, t.rast3d.mapcalc, t.rast3d.univar, v.to.rast3, v.vol.rst
 .IP "\fBVRML\fR" 4m
 .br
 r.out.vrml
 .IP "\fBVTK\fR" 4m
 .br
-r.out.vtk, r3.out.vtk, v.out.vtk
+r.out.vtk, r3.out.vtk, t.rast.out.vtk, v.out.vtk
 .IP "\fBwatershed\fR" 4m
 .br
 r.basins.fill, r.water.outlet, r.watershed

@@ -34,8 +34,8 @@
     </module-item>
     <module-item name="t.rast.univar">
         <module>t.rast.univar</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Calculates univariate statistics from the non-null cells for each registered raster map of a space time raster dataset.</description>
+        <keywords>temporal,statistics,raster,time</keywords>
     </module-item>
     <module-item name="d.rast.leg">
         <module>d.rast.leg</module>
@@ -194,8 +194,8 @@
     </module-item>
     <module-item name="t.vect.db.select">
         <module>t.vect.db.select</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Prints attributes of vector maps registered in a space time vector dataset.</description>
+        <keywords>temporal,attribute table,vector,database,select,time</keywords>
     </module-item>
     <module-item name="v.in.e00">
         <module>v.in.e00</module>
@@ -224,8 +224,8 @@
     </module-item>
     <module-item name="v.what.strds">
         <module>v.what.strds</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Uploads space time raster dataset values at positions of vector points to the table.</description>
+        <keywords>vector,temporal,sampling,position,querying,attribute table,time</keywords>
     </module-item>
     <module-item name="d.vect">
         <module>d.vect</module>
@@ -274,8 +274,8 @@
     </module-item>
     <module-item name="t.create">
         <module>t.create</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Creates a space time dataset.</description>
+        <keywords>temporal,map management,create,time</keywords>
     </module-item>
     <module-item name="r.composite">
         <module>r.composite</module>
@@ -314,8 +314,8 @@
     </module-item>
     <module-item name="t.support">
         <module>t.support</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Modifies the metadata of a space time dataset.</description>
+        <keywords>temporal,metadata,time</keywords>
     </module-item>
     <module-item name="r3.in.bin">
         <module>r3.in.bin</module>
@@ -349,8 +349,8 @@
     </module-item>
     <module-item name="t.remove">
         <module>t.remove</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Removes space time datasets from temporal database.</description>
+        <keywords>temporal,map management,remove,time</keywords>
     </module-item>
     <module-item name="v.patch">
         <module>v.patch</module>
@@ -389,8 +389,8 @@
     </module-item>
     <module-item name="t.vect.extract">
         <module>t.vect.extract</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Extracts a subset of a space time vector dataset.</description>
+        <keywords>temporal,extract,vector,time</keywords>
     </module-item>
     <module-item name="v.to.db">
         <module>v.to.db</module>
@@ -434,8 +434,8 @@
     </module-item>
     <module-item name="t.select">
         <module>t.select</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Select maps from space time datasets by topological relationships to other space time datasets using temporal algebra.</description>
+        <keywords>temporal,metadata,time</keywords>
     </module-item>
     <module-item name="r.in.gdal">
         <module>r.in.gdal</module>
@@ -444,8 +444,8 @@
     </module-item>
     <module-item name="t.unregister">
         <module>t.unregister</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Unregisters raster, vector and raster3d maps from the temporal database or a specific space time dataset.</description>
+        <keywords>temporal,map management,unregister,time</keywords>
     </module-item>
     <module-item name="d.rast">
         <module>d.rast</module>
@@ -484,8 +484,8 @@
     </module-item>
     <module-item name="t.rast.import">
         <module>t.rast.import</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Imports space time raster dataset.</description>
+        <keywords>temporal,import,raster,time</keywords>
     </module-item>
     <module-item name="g.findfile">
         <module>g.findfile</module>
@@ -699,8 +699,8 @@
     </module-item>
     <module-item name="t.rast.export">
         <module>t.rast.export</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Exports space time raster dataset.</description>
+        <keywords>temporal,export,raster,time</keywords>
     </module-item>
     <module-item name="v.net.bridge">
         <module>v.net.bridge</module>
@@ -719,8 +719,8 @@
     </module-item>
     <module-item name="t.rast3d.mapcalc">
         <module>t.rast3d.mapcalc</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Performs r3.mapcalc expressions on maps of sampled space time 3D raster datasets.</description>
+        <keywords>temporal,algebra,raster3d,voxel,time</keywords>
     </module-item>
     <module-item name="g.remove">
         <module>g.remove</module>
@@ -759,8 +759,8 @@
     </module-item>
     <module-item name="t.merge">
         <module>t.merge</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Merges several space time datasets into a single space time dataset.</description>
+        <keywords>temporal,merge,time</keywords>
     </module-item>
     <module-item name="r.external.out">
         <module>r.external.out</module>
@@ -1009,8 +1009,8 @@
     </module-item>
     <module-item name="t.sample">
         <module>t.sample</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Samples the input space time dataset(s) with a sample space time dataset and print the result to stdout.</description>
+        <keywords>temporal,sampling,time</keywords>
     </module-item>
     <module-item name="r.null">
         <module>r.null</module>
@@ -1019,8 +1019,8 @@
     </module-item>
     <module-item name="t.topology">
         <module>t.topology</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Lists temporal topology of a space time dataset.</description>
+        <keywords>temporal,topology,time</keywords>
     </module-item>
     <module-item name="r.stream.extract">
         <module>r.stream.extract</module>
@@ -1089,8 +1089,8 @@
     </module-item>
     <module-item name="t.vect.observe.strds">
         <module>t.vect.observe.strds</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Observes specific locations in a space time raster dataset over a period of time using vector points.</description>
+        <keywords>temporal,sampling,vector,time</keywords>
     </module-item>
     <module-item name="d.fontlist">
         <module>d.fontlist</module>
@@ -1114,13 +1114,13 @@
     </module-item>
     <module-item name="t.register">
         <module>t.register</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Registers raster, vector and raster3d maps in a space time datasets.</description>
+        <keywords>temporal,map management,register,time</keywords>
     </module-item>
     <module-item name="t.list">
         <module>t.list</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Lists space time datasets and maps registered in the temporal database.</description>
+        <keywords>temporal,map management,list,time</keywords>
     </module-item>
     <module-item name="db.login">
         <module>db.login</module>
@@ -1214,8 +1214,8 @@
     </module-item>
     <module-item name="t.rast.list">
         <module>t.rast.list</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Lists registered maps of a space time raster dataset.</description>
+        <keywords>temporal,map management,raster,list,time</keywords>
     </module-item>
     <module-item name="r.volume">
         <module>r.volume</module>
@@ -1259,8 +1259,8 @@
     </module-item>
     <module-item name="t.rast.extract">
         <module>t.rast.extract</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Extracts a subset of a space time raster datasets.</description>
+        <keywords>temporal,extract,raster,time</keywords>
     </module-item>
     <module-item name="r.colors">
         <module>r.colors</module>
@@ -1304,8 +1304,8 @@
     </module-item>
     <module-item name="t.vect.what.strds">
         <module>t.vect.what.strds</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Stores raster map values at spatial and temporal positions of vector points as vector attributes.</description>
+        <keywords>temporal,sampling,vector,time</keywords>
     </module-item>
     <module-item name="d.linegraph">
         <module>d.linegraph</module>
@@ -1374,8 +1374,8 @@
     </module-item>
     <module-item name="t.info">
         <module>t.info</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Lists information about space time datasets and maps.</description>
+        <keywords>temporal,metadata,extent,time</keywords>
     </module-item>
     <module-item name="v.build.all">
         <module>v.build.all</module>
@@ -1384,8 +1384,8 @@
     </module-item>
     <module-item name="t.rast.out.vtk">
         <module>t.rast.out.vtk</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Exports space time raster dataset as VTK time series.</description>
+        <keywords>temporal,export,raster,VTK,time</keywords>
     </module-item>
     <module-item name="d.rast.edit">
         <module>d.rast.edit</module>
@@ -1604,8 +1604,8 @@
     </module-item>
     <module-item name="t.rast.accdetect">
         <module>t.rast.accdetect</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Detects accumulation patterns in temporally accumulated space time raster datasets created by t.rast.accumulate.</description>
+        <keywords>temporal,accumulation,raster,time</keywords>
     </module-item>
     <module-item name="v.what">
         <module>v.what</module>
@@ -1614,8 +1614,8 @@
     </module-item>
     <module-item name="t.shift">
         <module>t.shift</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Shifts temporally the maps of a space time dataset.</description>
+        <keywords>temporal,shift,time</keywords>
     </module-item>
     <module-item name="r.gwflow">
         <module>r.gwflow</module>
@@ -1699,8 +1699,8 @@
     </module-item>
     <module-item name="t.rast3d.univar">
         <module>t.rast3d.univar</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Calculates univariate statistics from the non-null cells for each registered 3D raster map of a space time 3D raster dataset.</description>
+        <keywords>temporal,statistics,raster3d,voxel,time</keywords>
     </module-item>
     <module-item name="v.lidar.edgedetection">
         <module>v.lidar.edgedetection</module>
@@ -1719,8 +1719,8 @@
     </module-item>
     <module-item name="t.rast.to.rast3">
         <module>t.rast.to.rast3</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Converts a space time raster dataset into a 3D raster map.</description>
+        <keywords>temporal,conversion,raster,raster3d,voxel,time</keywords>
     </module-item>
     <module-item name="v.db.update">
         <module>v.db.update</module>
@@ -1744,8 +1744,8 @@
     </module-item>
     <module-item name="t.rast3d.list">
         <module>t.rast3d.list</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Lists registered maps of a space time raster3d dataset.</description>
+        <keywords>temporal,map management,list,raster3d,voxel,time</keywords>
     </module-item>
     <module-item name="r.cross">
         <module>r.cross</module>
@@ -1754,8 +1754,8 @@
     </module-item>
     <module-item name="t.rename">
         <module>t.rename</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Renames a space time dataset</description>
+        <keywords>temporal,map management,rename,time</keywords>
     </module-item>
     <module-item name="i.segment">
         <module>i.segment</module>
@@ -1864,8 +1864,8 @@
     </module-item>
     <module-item name="t.rast.neighbors">
         <module>t.rast.neighbors</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Performs a neighborhood analysis for each map in a space time raster dataset.</description>
+        <keywords>temporal,aggregation,raster,time</keywords>
     </module-item>
     <module-item name="r.tileset">
         <module>r.tileset</module>
@@ -1884,8 +1884,8 @@
     </module-item>
     <module-item name="t.rast.series">
         <module>t.rast.series</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Performs different aggregation algorithms from r.series on all or a subset of raster maps in a space time raster dataset.</description>
+        <keywords>temporal,series,raster,time</keywords>
     </module-item>
     <module-item name="i.biomass">
         <module>i.biomass</module>
@@ -1949,8 +1949,8 @@
     </module-item>
     <module-item name="t.rast.accumulate">
         <module>t.rast.accumulate</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Computes cyclic accumulations of a space time raster dataset.</description>
+        <keywords>temporal,accumulation,raster,time</keywords>
     </module-item>
     <module-item name="r.series.interp">
         <module>r.series.interp</module>
@@ -1974,8 +1974,8 @@
     </module-item>
     <module-item name="t.vect.univar">
         <module>t.vect.univar</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Calculates univariate statistics of attributes for each registered vector map of a space time vector dataset</description>
+        <keywords>temporal,statistics,vector,time</keywords>
     </module-item>
     <module-item name="r3.colors">
         <module>r3.colors</module>
@@ -2019,13 +2019,13 @@
     </module-item>
     <module-item name="t.rast.aggregate">
         <module>t.rast.aggregate</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Aggregates temporally the maps of a space time raster dataset by a user defined granularity.</description>
+        <keywords>temporal,aggregation,raster,time</keywords>
     </module-item>
     <module-item name="t.vect.import">
         <module>t.vect.import</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Imports a space time vector dataset from a GRASS GIS specific archive file.</description>
+        <keywords>temporal,import,vector,time</keywords>
     </module-item>
     <module-item name="v.net.connectivity">
         <module>v.net.connectivity</module>
@@ -2104,8 +2104,8 @@
     </module-item>
     <module-item name="t.snap">
         <module>t.snap</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Snaps temporally the maps of a space time dataset.</description>
+        <keywords>temporal,snapping,time</keywords>
     </module-item>
     <module-item name="d.text">
         <module>d.text</module>
@@ -2124,8 +2124,8 @@
     </module-item>
     <module-item name="t.rast.aggregate.ds">
         <module>t.rast.aggregate.ds</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Aggregates data of an existing space time raster dataset using the time intervals of a second space time dataset.</description>
+        <keywords>temporal,aggregation,raster,time</keywords>
     </module-item>
     <module-item name="r.rgb">
         <module>r.rgb</module>
@@ -2134,8 +2134,8 @@
     </module-item>
     <module-item name="t.rast.gapfill">
         <module>t.rast.gapfill</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Replaces gaps in a space time raster dataset with interpolated raster maps.</description>
+        <keywords>temporal,interpolation,raster,time</keywords>
     </module-item>
     <module-item name="i.topo.corr">
         <module>i.topo.corr</module>
@@ -2179,8 +2179,8 @@
     </module-item>
     <module-item name="t.vect.export">
         <module>t.vect.export</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Exports a space time vector dataset as GRASS GIS specific archive file.</description>
+        <keywords>temporal,export,vector,time</keywords>
     </module-item>
     <module-item name="v.surf.idw">
         <module>v.surf.idw</module>
@@ -2199,8 +2199,8 @@
     </module-item>
     <module-item name="t.rast3d.extract">
         <module>t.rast3d.extract</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Extracts a subset of a space time 3D raster dataset.</description>
+        <keywords>temporal,extract,raster3d,voxel,time</keywords>
     </module-item>
     <module-item name="v.net.timetable">
         <module>v.net.timetable</module>
@@ -2284,8 +2284,8 @@
     </module-item>
     <module-item name="t.vect.list">
         <module>t.vect.list</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Lists registered maps of a space time vector dataset.</description>
+        <keywords>temporal,map management,vector,list,time</keywords>
     </module-item>
     <module-item name="v.net.visibility">
         <module>v.net.visibility</module>
@@ -2324,13 +2324,13 @@
     </module-item>
     <module-item name="t.rast.colors">
         <module>t.rast.colors</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Creates/modifies the color table associated with each raster map of the space time raster dataset.</description>
+        <keywords>temporal,color table,raster,time</keywords>
     </module-item>
     <module-item name="t.rast.mapcalc">
         <module>t.rast.mapcalc</module>
-        <description></description>
-        <keywords></keywords>
+        <description>Performs spatio-temporal mapcalc expressions on temporally sampled maps of space time raster datasets.</description>
+        <keywords>temporal,algebra,raster,time</keywords>
     </module-item>
     <module-item name="r.resamp.filter">
         <module>r.resamp.filter</module>

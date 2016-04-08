@@ -3017,59 +3017,59 @@
             <menuitem>
               <label>Create</label>
               <command>t.create</command>
-              <help />
-              <keywords />
+              <help>Creates a space time dataset.</help>
+              <keywords>temporal,map management,create,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Rename</label>
               <command>t.rename</command>
-              <help />
-              <keywords />
+              <help>Renames a space time dataset</help>
+              <keywords>temporal,map management,rename,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Remove</label>
               <command>t.remove</command>
-              <help />
-              <keywords />
+              <help>Removes space time datasets from temporal database.</help>
+              <keywords>temporal,map management,remove,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Update metadata</label>
               <command>t.support</command>
-              <help />
-              <keywords />
+              <help>Modifies the metadata of a space time dataset.</help>
+              <keywords>temporal,metadata,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <separator />
             <menuitem>
               <label>Merge</label>
               <command>t.merge</command>
-              <help />
-              <keywords />
+              <help>Merges several space time datasets into a single space time dataset.</help>
+              <keywords>temporal,merge,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Temporally shift</label>
               <command>t.shift</command>
-              <help />
-              <keywords />
+              <help>Shifts temporally the maps of a space time dataset.</help>
+              <keywords>temporal,shift,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Snap maps of dataset</label>
               <command>t.snap</command>
-              <help />
-              <keywords />
+              <help>Snaps temporally the maps of a space time dataset.</help>
+              <keywords>temporal,snapping,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <separator />
             <menuitem>
               <label>List</label>
               <command>t.list</command>
-              <help />
-              <keywords />
+              <help>Lists space time datasets and maps registered in the temporal database.</help>
+              <keywords>temporal,map management,list,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
@@ -3080,37 +3080,37 @@
             <menuitem>
               <label>Register maps in datasets</label>
               <command>t.register</command>
-              <help />
-              <keywords />
+              <help>Registers raster, vector and raster3d maps in a space time datasets.</help>
+              <keywords>temporal,map management,register,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Unregister maps from datasets</label>
               <command>t.unregister</command>
-              <help />
-              <keywords />
+              <help>Unregisters raster, vector and raster3d maps from the temporal database or a specific space time dataset.</help>
+              <keywords>temporal,map management,unregister,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <separator />
             <menuitem>
               <label>List raster dataset maps</label>
               <command>t.rast.list</command>
-              <help />
-              <keywords />
+              <help>Lists registered maps of a space time raster dataset.</help>
+              <keywords>temporal,map management,raster,list,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>List vector dataset maps</label>
               <command>t.vect.list</command>
-              <help />
-              <keywords />
+              <help>Lists registered maps of a space time vector dataset.</help>
+              <keywords>temporal,map management,vector,list,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>List raster3D dataset maps</label>
               <command>t.rast3d.list</command>
-              <help />
-              <keywords />
+              <help>Lists registered maps of a space time raster3d dataset.</help>
+              <keywords>temporal,map management,list,raster3d,voxel,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
@@ -3122,15 +3122,15 @@
             <menuitem>
               <label>Import raster dataset</label>
               <command>t.rast.import</command>
-              <help />
-              <keywords />
+              <help>Imports space time raster dataset.</help>
+              <keywords>temporal,import,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Import vector dataset</label>
               <command>t.vect.import</command>
-              <help />
-              <keywords />
+              <help>Imports a space time vector dataset from a GRASS GIS specific archive file.</help>
+              <keywords>temporal,import,vector,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
@@ -3141,23 +3141,23 @@
             <menuitem>
               <label>Export raster dataset</label>
               <command>t.rast.export</command>
-              <help />
-              <keywords />
+              <help>Exports space time raster dataset.</help>
+              <keywords>temporal,export,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Export raster dataset as VTK time series</label>
               <command>t.rast.out.vtk</command>
-              <help />
-              <keywords />
+              <help>Exports space time raster dataset as VTK time series.</help>
+              <keywords>temporal,export,raster,VTK,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <separator />
             <menuitem>
               <label>Export vector dataset</label>
               <command>t.vect.export</command>
-              <help />
-              <keywords />
+              <help>Exports a space time vector dataset as GRASS GIS specific archive file.</help>
+              <keywords>temporal,export,vector,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
@@ -3165,8 +3165,8 @@
         <menuitem>
           <label>Convert raster dataset to 3D raster</label>
           <command>t.rast.to.rast3</command>
-          <help />
-          <keywords />
+          <help>Converts a space time raster dataset into a 3D raster map.</help>
+          <keywords>temporal,conversion,raster,raster3d,voxel,time</keywords>
           <handler>OnMenuCmd</handler>
         </menuitem>
         <separator />
@@ -3176,22 +3176,22 @@
             <menuitem>
               <label>Extract subset of raster dataset</label>
               <command>t.rast.extract</command>
-              <help />
-              <keywords />
+              <help>Extracts a subset of a space time raster datasets.</help>
+              <keywords>temporal,extract,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Extract subset of vector dataset</label>
               <command>t.vect.extract</command>
-              <help />
-              <keywords />
+              <help>Extracts a subset of a space time vector dataset.</help>
+              <keywords>temporal,extract,vector,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Extract subset of raster3D dataset</label>
               <command>t.rast3d.extract</command>
-              <help />
-              <keywords />
+              <help>Extracts a subset of a space time 3D raster dataset.</help>
+              <keywords>temporal,extract,raster3d,voxel,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
@@ -3199,39 +3199,39 @@
         <menuitem>
           <label>Query vector dataset attribute data</label>
           <command>t.vect.db.select</command>
-          <help />
-          <keywords />
+          <help>Prints attributes of vector maps registered in a space time vector dataset.</help>
+          <keywords>temporal,attribute table,vector,database,select,time</keywords>
           <handler>OnMenuCmd</handler>
         </menuitem>
         <separator />
         <menuitem>
           <label>Raster dataset color table</label>
           <command>t.rast.colors</command>
-          <help />
-          <keywords />
+          <help>Creates/modifies the color table associated with each raster map of the space time raster dataset.</help>
+          <keywords>temporal,color table,raster,time</keywords>
           <handler>OnMenuCmd</handler>
         </menuitem>
         <separator />
         <menuitem>
           <label>Raster calculations</label>
           <command>t.rast.mapcalc</command>
-          <help />
-          <keywords />
+          <help>Performs spatio-temporal mapcalc expressions on temporally sampled maps of space time raster datasets.</help>
+          <keywords>temporal,algebra,raster,time</keywords>
           <handler>OnMenuCmd</handler>
         </menuitem>
         <menuitem>
           <label>Raster3D calculations</label>
           <command>t.rast3d.mapcalc</command>
-          <help />
-          <keywords />
+          <help>Performs r3.mapcalc expressions on maps of sampled space time 3D raster datasets.</help>
+          <keywords>temporal,algebra,raster3d,voxel,time</keywords>
           <handler>OnMenuCmd</handler>
         </menuitem>
         <separator />
         <menuitem>
           <label>Interpolate gaps in raster datasets</label>
           <command>t.rast.gapfill</command>
-          <help />
-          <keywords />
+          <help>Replaces gaps in a space time raster dataset with interpolated raster maps.</help>
+          <keywords>temporal,interpolation,raster,time</keywords>
           <handler>OnMenuCmd</handler>
         </menuitem>
         <menu>
@@ -3240,30 +3240,30 @@
             <menuitem>
               <label>Neighborhood analysis in raster dataset</label>
               <command>t.rast.neighbors</command>
-              <help />
-              <keywords />
+              <help>Performs a neighborhood analysis for each map in a space time raster dataset.</help>
+              <keywords>temporal,aggregation,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Aggregation in raster datasets</label>
               <command>t.rast.series</command>
-              <help />
-              <keywords />
+              <help>Performs different aggregation algorithms from r.series on all or a subset of raster maps in a space time raster dataset.</help>
+              <keywords>temporal,series,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <separator />
             <menuitem>
               <label>Temporal aggregation</label>
               <command>t.rast.aggregate</command>
-              <help />
-              <keywords />
+              <help>Aggregates temporally the maps of a space time raster dataset by a user defined granularity.</help>
+              <keywords>temporal,aggregation,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Temporal aggregation by dataset</label>
               <command>t.rast.aggregate.ds</command>
-              <help />
-              <keywords />
+              <help>Aggregates data of an existing space time raster dataset using the time intervals of a second space time dataset.</help>
+              <keywords>temporal,aggregation,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
@@ -3274,22 +3274,22 @@
             <menuitem>
               <label>Temporal sampling</label>
               <command>t.sample</command>
-              <help />
-              <keywords />
+              <help>Samples the input space time dataset(s) with a sample space time dataset and print the result to stdout.</help>
+              <keywords>temporal,sampling,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Query raster dataset by vector points dataset</label>
               <command>t.vect.what.strds</command>
-              <help />
-              <keywords />
+              <help>Stores raster map values at spatial and temporal positions of vector points as vector attributes.</help>
+              <keywords>temporal,sampling,vector,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Observe specific locations in raster dataset</label>
               <command>t.vect.observe.strds</command>
-              <help />
-              <keywords />
+              <help>Observes specific locations in a space time raster dataset over a period of time using vector points.</help>
+              <keywords>temporal,sampling,vector,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
@@ -3300,38 +3300,38 @@
             <menuitem>
               <label>Space time datasets metadata</label>
               <command>t.info</command>
-              <help />
-              <keywords />
+              <help>Lists information about space time datasets and maps.</help>
+              <keywords>temporal,metadata,extent,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <separator />
             <menuitem>
               <label>Univariate raster dataset statistics</label>
               <command>t.rast.univar</command>
-              <help />
-              <keywords />
+              <help>Calculates univariate statistics from the non-null cells for each registered raster map of a space time raster dataset.</help>
+              <keywords>temporal,statistics,raster,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Univariate vector dataset statistics</label>
               <command>t.vect.univar</command>
-              <help />
-              <keywords />
+              <help>Calculates univariate statistics of attributes for each registered vector map of a space time vector dataset</help>
+              <keywords>temporal,statistics,vector,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <menuitem>
               <label>Univariate raster3D dataset statistics</label>
               <command>t.rast3d.univar</command>
-              <help />
-              <keywords />
+              <help>Calculates univariate statistics from the non-null cells for each registered 3D raster map of a space time 3D raster dataset.</help>
+              <keywords>temporal,statistics,raster3d,voxel,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
             <separator />
             <menuitem>
               <label>Report temporal topology</label>
               <command>t.topology</command>
-              <help />
-              <keywords />
+              <help>Lists temporal topology of a space time dataset.</help>
+              <keywords>temporal,topology,time</keywords>
               <handler>OnMenuCmd</handler>
             </menuitem>
           </items>
