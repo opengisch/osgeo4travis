@@ -203,19 +203,6 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtconnectivity/mkspecs/modules-inst/qt_lib_nfc.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtconnectivity/mkspecs/modules-inst/qt_lib_nfc_private.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtconnectivity/mkspecs/modules/qt_lib_nfc.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors_private.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_lib_sensors.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_counterplugin.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_counterplugin.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_plugin.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_plugin.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_shakeplugin.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_shakeplugin.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_generic.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_generic.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_linuxsys.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_linuxsys.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qt3d/mkspecs/modules-inst/qt_lib_3dcollision.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qt3d/mkspecs/modules-inst/qt_lib_3dcollision_private.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qt3d/mkspecs/modules/qt_lib_3dcollision.pri \
@@ -242,6 +229,19 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtwebsockets/mkspecs/modules-inst/qt_lib_websockets.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtwebsockets/mkspecs/modules-inst/qt_lib_websockets_private.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtwebsockets/mkspecs/modules/qt_lib_websockets.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors_private.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_lib_sensors.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_counterplugin.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_counterplugin.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_plugin.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_plugin.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_shakeplugin.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_shakeplugin.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_generic.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_generic.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_linuxsys.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_linuxsys.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules-inst/qt_lib_qml.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules-inst/qt_lib_qml_private.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_lib_qml.pri \
@@ -270,21 +270,9 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_tool_qmlprofiler.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_tool_qmlscene.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_tool_qmltestrunner.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg_private.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_lib_svg.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvg.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvg.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvgicon.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvgicon.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtserialport/mkspecs/modules-inst/qt_lib_serialport.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtserialport/mkspecs/modules-inst/qt_lib_serialport_private.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtserialport/mkspecs/modules/qt_lib_serialport.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns_private.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_lib_xmlpatterns.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatterns.pri \
-		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatternsvalidator.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules-inst/qt_plugin_qdds.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules/qt_plugin_qdds.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules-inst/qt_plugin_qicns.pri \
@@ -301,6 +289,18 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules/qt_plugin_qwbmp.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules-inst/qt_plugin_qwebp.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules/qt_plugin_qwebp.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg_private.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_lib_svg.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvg.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvg.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvgicon.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvgicon.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns_private.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_lib_xmlpatterns.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatterns.pri \
+		/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatternsvalidator.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtx11extras/mkspecs/modules-inst/qt_lib_x11extras.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtx11extras/mkspecs/modules-inst/qt_lib_x11extras_private.pri \
 		/usr/src/qt-everywhere-opensource-src-5.5.1/qtx11extras/mkspecs/modules/qt_lib_x11extras.pri \
@@ -518,19 +518,6 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtconnectivity/mkspecs/modules-inst/qt_lib_nfc.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtconnectivity/mkspecs/modules-inst/qt_lib_nfc_private.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtconnectivity/mkspecs/modules/qt_lib_nfc.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors_private.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_lib_sensors.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_counterplugin.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_counterplugin.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_plugin.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_plugin.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_shakeplugin.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_shakeplugin.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_generic.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_generic.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_linuxsys.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_linuxsys.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qt3d/mkspecs/modules-inst/qt_lib_3dcollision.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qt3d/mkspecs/modules-inst/qt_lib_3dcollision_private.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qt3d/mkspecs/modules/qt_lib_3dcollision.pri:
@@ -557,6 +544,19 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtwebsockets/mkspecs/modules-inst/qt_lib_websockets.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtwebsockets/mkspecs/modules-inst/qt_lib_websockets_private.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtwebsockets/mkspecs/modules/qt_lib_websockets.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_lib_sensors_private.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_lib_sensors.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_counterplugin.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_counterplugin.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_plugin.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_plugin.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensorgestures_shakeplugin.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensorgestures_shakeplugin.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_generic.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_generic.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules-inst/qt_plugin_qtsensors_linuxsys.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsensors/mkspecs/modules/qt_plugin_qtsensors_linuxsys.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules-inst/qt_lib_qml.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules-inst/qt_lib_qml_private.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_lib_qml.pri:
@@ -585,21 +585,9 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_tool_qmlprofiler.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_tool_qmlscene.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtdeclarative/mkspecs/modules/qt_tool_qmltestrunner.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg_private.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_lib_svg.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvg.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvg.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvgicon.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvgicon.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtserialport/mkspecs/modules-inst/qt_lib_serialport.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtserialport/mkspecs/modules-inst/qt_lib_serialport_private.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtserialport/mkspecs/modules/qt_lib_serialport.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns_private.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_lib_xmlpatterns.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatterns.pri:
-/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatternsvalidator.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules-inst/qt_plugin_qdds.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules/qt_plugin_qdds.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules-inst/qt_plugin_qicns.pri:
@@ -616,6 +604,18 @@ Makefile: filedialog.pro ../../../../../../../.qmake.conf ../../../../../../../.
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules/qt_plugin_qwbmp.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules-inst/qt_plugin_qwebp.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtimageformats/mkspecs/modules/qt_plugin_qwebp.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_lib_svg_private.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_lib_svg.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvg.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvg.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules-inst/qt_plugin_qsvgicon.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtsvg/mkspecs/modules/qt_plugin_qsvgicon.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules-inst/qt_lib_xmlpatterns_private.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_lib_xmlpatterns.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatterns.pri:
+/usr/src/qt-everywhere-opensource-src-5.5.1/qtxmlpatterns/mkspecs/modules/qt_tool_xmlpatternsvalidator.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtx11extras/mkspecs/modules-inst/qt_lib_x11extras.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtx11extras/mkspecs/modules-inst/qt_lib_x11extras_private.pri:
 /usr/src/qt-everywhere-opensource-src-5.5.1/qtx11extras/mkspecs/modules/qt_lib_x11extras.pri:
