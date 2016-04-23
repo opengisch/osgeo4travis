@@ -8,7 +8,7 @@ host_build {
     QMAKE_DEFAULT_LIBDIRS = /lib /usr/lib
     QMAKE_DEFAULT_INCDIRS = /usr/include/c++/4.9 /usr/include/x86_64-linux-gnu/c++/4.9 /usr/include/c++/4.9/backward /usr/local/include /usr/lib/llvm-3.6/lib/clang/3.6.2/include /usr/include/x86_64-linux-gnu /usr/include
 }
-QT_CONFIG +=  minimal-config small-config medium-config large-config full-config fontconfig evdev xlib xrender xcb-plugin xcb-qt xcb-sm xkbcommon-qt accessibility-atspi-bridge linuxfb c++11 accessibility opengl shared qpa reduce_exports reduce_relocations clock-gettime clock-monotonic posix_fallocate mremap getaddrinfo ipv6ifname getifaddrs inotify eventfd system-jpeg system-png png system-freetype harfbuzz system-zlib nis iconv glib dbus openssl xcb rpath concurrent audio-backend release
+QT_CONFIG +=  minimal-config small-config medium-config large-config full-config fontconfig evdev xlib xrender xcb-plugin xcb-qt xcb-sm xkbcommon-qt accessibility-atspi-bridge linuxfb c++11 accessibility opengl shared qpa reduce_exports reduce_relocations clock-gettime clock-monotonic posix_fallocate mremap getaddrinfo ipv6ifname getifaddrs inotify eventfd system-jpeg system-png png system-freetype harfbuzz system-zlib nis iconv glib dbus openssl xcb rpath icu concurrent audio-backend release
 
 #versioning
 QT_VERSION = 5.5.1

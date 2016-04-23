@@ -8,6 +8,7 @@
 %Include QtSerialPort/QtSerialPortmod.sip
 %Include QtMultimedia/QtMultimediamod.sip
 %Include QtQml/QtQmlmod.sip
+%Include QtWebKit/QtWebKitmod.sip
 %Include QtWidgets/QtWidgetsmod.sip
 %Include QtXml/QtXmlmod.sip
 %Include QtXmlPatterns/QtXmlPatternsmod.sip
@@ -20,6 +21,7 @@
 %Include QtSql/QtSqlmod.sip
 %Include QtSvg/QtSvgmod.sip
 %Include QtTest/QtTestmod.sip
+%Include QtWebKitWidgets/QtWebKitWidgetsmod.sip
 %Include QtBluetooth/QtBluetoothmod.sip
 %Include QtPositioning/QtPositioningmod.sip
 %Include QtX11Extras/QtX11Extrasmod.sip
