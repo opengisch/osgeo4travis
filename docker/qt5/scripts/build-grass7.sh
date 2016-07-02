@@ -1,10 +1,12 @@
 #!/bin/bash
 # Build grass 7
-wget https://grass.osgeo.org/grass70/source/grass-7.0.2.tar.gz
-tar xvf grass-7.0.2.tar.gz
+GRASS_VERSION=7.0.4
+
+wget https://grass.osgeo.org/grass70/source/grass-${GRASS_VERSION}.tar.gz
+tar xvf grass-${GRASS_VERSION}.tar.gz
 
 export LD_LIBRARY_PATH=${PREFIX}/lib
-pushd grass-7.0.2 python-wx
+pushd grass-${GRASS_VERSION}
 ./configure --prefix=${PREFIX} \
   --with-cxx \
   --with-sqlite \
