@@ -1,0 +1,17 @@
+diff -Naur orig/gdal/configure gdal-trunk/gdal/configure
+--- orig/gdal/configure	2016-07-02 09:39:32.048213787 +0000
++++ gdal-trunk/gdal/configure	2016-07-02 09:39:47.572514600 +0000
+@@ -27160,9 +27160,10 @@
+ done
+ 
+     if test "$ac_cv_header_sqlite3_h" = "yes"; then
+-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for spatialite.h in /usr/include or /usr/local/include" >&5
+-$as_echo_n "checking for spatialite.h in /usr/include or /usr/local/include... " >&6; }
+-        if test -f "/usr/include/spatialite.h" -o -f "/usr/local/include/spatialite.h"; then
++        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for spatialite.h" >&5
++$as_echo_n "checking for spatialite.h... " >&6; }
++        ac_fn_c_check_header_mongrel "$LINENO" "spatialite.h" "ac_cv_header_spatialite_h" "$ac_includes_default"
++        if test "x$ac_cv_header_spatialite_h" = xyes; then
+             { $as_echo "$as_me:${as_lineno-$LINENO}: result: found" >&5
+ $as_echo "found" >&6; }
+             { $as_echo "$as_me:${as_lineno-$LINENO}: checking for spatialite_init in -lspatialite" >&5

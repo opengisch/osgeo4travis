@@ -5,6 +5,9 @@ GRASS_VERSION=7.0.4
 wget https://grass.osgeo.org/grass70/source/grass-${GRASS_VERSION}.tar.gz
 tar xvf grass-${GRASS_VERSION}.tar.gz
 
+# Build with python2
+export PATH=/usr/bin:$PATH
+
 export LD_LIBRARY_PATH=${PREFIX}/lib
 pushd grass-${GRASS_VERSION}
 ./configure --prefix=${PREFIX} \
