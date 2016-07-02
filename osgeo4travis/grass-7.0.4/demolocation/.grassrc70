@@ -1,0 +1,4 @@
+GISDBASE: /home/travis/osgeo4travis/grass-7.0.4
+LOCATION_NAME: demolocation
+MAPSET: PERMANENT
+GUI: text

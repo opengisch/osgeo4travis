@@ -1,0 +1,267 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GRASS GIS manual: r.texture</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="grassdocs.css" type="text/css">
+</head>
+<body bgcolor="white">
+<div id="container">
+
+<a href="index.html"><img src="grass_logo.png" alt="GRASS logo"></a>
+<hr class="header">
+
+<h2>NAME</h2>
+<em><b>r.texture</b></em>  - Generate images with textural features from a raster map.
+<h2>KEYWORDS</h2>
+<a href="raster.html">raster</a>, <a href="topic_algebra.html">algebra</a>, <a href="keywords.html#statistics">statistics</a>, <a href="keywords.html#texture">texture</a>
+<h2>SYNOPSIS</h2>
+<div id="name"><b>r.texture</b><br></div>
+<b>r.texture --help</b><br>
+<div id="synopsis"><b>r.texture</b> [-<b>sa</b>] <b>input</b>=<em>name</em> <b>output</b>=<em>basename</em>  [<b>size</b>=<em>value</em>]   [<b>distance</b>=<em>value</em>]   [<b>method</b>=<em>string</em>[,<i>string</i>,...]]   [--<b>overwrite</b>]  [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+</div>
+
+<div id="flags">
+<h3>Flags:</h3>
+<dl>
+<dt><b>-s</b></dt>
+<dd>Separate output for each angle (0, 45, 90, 135)</dd>
+
+<dt><b>-a</b></dt>
+<dd>Calculate all textural measurements</dd>
+
+<dt><b>--overwrite</b></dt>
+<dd>Allow output files to overwrite existing files</dd>
+<dt><b>--help</b></dt>
+<dd>Print usage summary</dd>
+<dt><b>--verbose</b></dt>
+<dd>Verbose module output</dd>
+<dt><b>--quiet</b></dt>
+<dd>Quiet module output</dd>
+<dt><b>--ui</b></dt>
+<dd>Force launching GUI dialog</dd>
+</dl>
+</div>
+
+<div id="parameters">
+<h3>Parameters:</h3>
+<dl>
+<dt><b>input</b>=<em>name</em>&nbsp;<b>[required]</b></dt>
+<dd>Name of input raster map</dd>
+
+<dt><b>output</b>=<em>basename</em>&nbsp;<b>[required]</b></dt>
+<dd>Name for output basename raster map(s)</dd>
+
+<dt><b>size</b>=<em>value</em></dt>
+<dd>The size of moving window (odd and &gt;= 3)</dd>
+<dd>Default: <em>3</em></dd>
+
+<dt><b>distance</b>=<em>value</em></dt>
+<dd>The distance between two samples (&gt;= 1)</dd>
+<dd>Default: <em>1</em></dd>
+
+<dt><b>method</b>=<em>string[,<i>string</i>,...]</em></dt>
+<dd>Textural measurement method</dd>
+<dd>Options: <em>asm, contrast, corr, var, idm, sa, se, sv, entr, dv, de, moc1, moc2</em></dd>
+
+</dl>
+</div>
+<div class="toc">
+<h4 class="toc">Table of contents</h4>
+<ul class="toc">
+    <li class="toc"><a href="#description" class="toc">DESCRIPTION</a>
+    <ul class="toc">
+        <li class="toc"><a href="#first-order-statistics-in-the-spatial-domain" class="toc">First-order statistics in the spatial domain</a></li>
+        <li class="toc"><a href="#second-order-statistics-in-the-spatial-domain" class="toc">Second-order statistics in the spatial domain</a></li>
+    </ul></li>
+    <li class="toc"><a href="#notes" class="toc">NOTES</a></li>
+    <li class="toc"><a href="#example" class="toc">EXAMPLE</a></li>
+    <li class="toc"><a href="#known-issues" class="toc">KNOWN ISSUES</a></li>
+    <li class="toc"><a href="#references" class="toc">REFERENCES</a></li>
+    <li class="toc"><a href="#see-also" class="toc">SEE ALSO</a></li>
+    <li class="toc"><a href="#authors" class="toc">AUTHORS</a></li>
+</ul>
+</div>
+<h2><a name="description">DESCRIPTION</a></h2>
+
+<em>r.texture</em> creates raster maps with textural features from a
+user-specified raster map layer. The module calculates textural features 
+based on spatial dependence matrices at 0, 45, 90, and 135 
+degrees for a <em>distance</em> (default = 1).
+<p>
+<em>r.texture</em> assumes grey levels ranging from 0 to 255 as input. 
+The input is automatically rescaled to 0 to 255 if the input map range is outside
+of this range.
+<p>
+In general, several variables constitute texture: differences in grey level values,
+coarseness as scale of grey level differences, presence or lack of directionality
+and regular patterns. A texture can be characterized by tone (grey level intensity
+properties) and structure (spatial relationships). Since textures are highly scale
+dependent, hierarchical textures may occur.
+<p>
+    
+<em>r.texture</em> reads a GRASS raster map as input and calculates
+textural features based on spatial dependence matrices for north-south,
+east-west, northwest, and southwest directions using a side by side
+neighborhood (i.e., a distance of 1), and writes out by default the average
+over all angles for each measure. Optionally, using flag <b>-s</b> the output
+consists of four images for each textural feature, one for every direction
+(0, 45, 90, 135).
+
+<p>
+The user must carefully set the resolution (using <em>g.region</em>) before
+running this program, or the computer may run out of memory.
+
+<p>
+A commonly used texture model is based on the so-called grey level co-occurrence
+matrix. This matrix is a two-dimensional histogram of grey levels
+for a pair of pixels which are separated by a fixed spatial relationship. 
+The matrix approximates the joint probability distribution of a pair of pixels.
+Several texture measures are directly computed from the grey level co-occurrence
+matrix. 
+<p>
+The following part offers brief explanations of texture measures (after
+Jensen 1996).
+
+<h3><a name="first-order-statistics-in-the-spatial-domain">First-order statistics in the spatial domain</a></h3>
+<ul>
+<li> Sum Average (SA)</li>
+
+<li> Entropy (ENT):
+ This measure analyses the randomness. It is high when the values of the
+ moving window have similar values. It is low when the values are close
+ to either 0 or 1 (i.e. when the pixels in the local window are uniform).</li>
+
+<li> Difference Entropy (DE)</li>
+
+<li> Sum Entropy (SE)</li>
+
+<li> Variance (VAR):
+  A measure of gray tone variance within the moving window (second-order
+moment about the mean)</li>
+
+<li> Difference Variance (DV)</li>
+
+<li> Sum Variance (SV)</li>
+</ul>
+
+Note that measures "mean", "kurtosis", "range", "skewness", and "standard
+deviation" are available in <em>r.neighbors</em>.
+
+<h3><a name="second-order-statistics-in-the-spatial-domain">Second-order statistics in the spatial domain</a></h3>
+
+The second-order statistics texture model is based on the so-called grey
+level co-occurrence matrices (GLCM; after Haralick 1979).
+
+<ul>
+<li> Angular Second Moment (ASM, also called Uniformity):
+ This is a measure of local homogeneity and the opposite of Entropy.
+ High values of ASM occur when the pixels in the moving window are
+ very similar.
+ <br>
+ Note: The square root of the ASM is sometimes used as a texture measure,
+ and is called Energy.</li>
+
+<li> Inverse Difference Moment (IDM, also called Homogeneity):
+ This measure relates inversely to the contrast measure. It is a direct measure of the
+ local homogeneity of a digital image. Low values are associated with low homogeneity
+ and vice versa.</li>
+
+<li> Contrast (CON):
+ This measure analyses the image contrast (locally gray-level variations) as
+ the linear dependency of grey levels of neighboring pixels (similarity). Typically high,
+ when the scale of local texture is larger than the <em>distance</em>.</li>
+
+<li> Correlation (COR):
+ This measure  analyses the linear dependency of grey levels of neighboring
+ pixels. Typically high, when the scale of local texture is larger than the
+ <em>distance</em>.</li>
+
+<li> Information Measures of Correlation (MOC)</li>
+
+<li> Maximal Correlation Coefficient (MCC)</li>
+</ul>
+   
+<h2><a name="notes">NOTES</a></h2>
+
+Importantly, the input raster map cannot have more than 255 categories.
+
+<h2><a name="example">EXAMPLE</a></h2>
+
+Calculation of Angular Second Moment of B/W orthophoto (North Carolina data set):
+
+<div class="code"><pre>
+g.region raster=ortho_2001_t792_1m -p
+# set grey level color table 0% black 100% white
+r.colors ortho_2001_t792_1m color=grey
+# extract grey levels
+r.mapcalc "ortho_2001_t792_1m.greylevel = ortho_2001_t792_1m"
+# texture analysis
+r.texture ortho_2001_t792_1m.greylevel prefix=ortho_texture method=asm -s 
+# display
+g.region n=221461 s=221094 w=638279 e=638694
+d.shade color=ortho_texture_ASM_0 shade=ortho_2001_t792_1m
+</pre></div>
+
+This calculates four maps (requested texture at four orientations):
+ortho_texture_ASM_0, ortho_texture_ASM_45, ortho_texture_ASM_90, ortho_texture_ASM_135.
+
+<h2><a name="known-issues">KNOWN ISSUES</a></h2>
+The program can run incredibly slow for large raster maps.
+
+<h2><a name="references">REFERENCES</a></h2>
+
+The algorithm was implemented after Haralick et al., 1973 and 1979.
+
+<p>
+The code was taken by permission from <em>pgmtexture</em>, part of
+PBMPLUS (Copyright 1991, Jef Poskanser and Texas Agricultural Experiment
+Station, employer for hire of James Darrell McCauley). Manual page 
+of <a href="http://netpbm.sourceforge.net/doc/pgmtexture.html">pgmtexture</a>.
+
+<ul> 
+<li>Haralick, R.M., K. Shanmugam, and I. Dinstein (1973). Textural features for
+    image classification. <em>IEEE Transactions on Systems, Man, and
+    Cybernetics</em>, SMC-3(6):610-621.</li>
+<li>Bouman, C. A., Shapiro, M. (1994). A Multiscale Random Field Model for
+ Bayesian Image Segmentation, IEEE Trans. on Image Processing, vol. 3, no. 2.</li>
+<li>Jensen, J.R. (1996). Introductory digital image processing. Prentice Hall.
+  ISBN 0-13-205840-5 </li>
+<li>Haralick, R. (May 1979). <i>Statistical and structural approaches to texture</i>,
+   Proceedings of the IEEE, vol. 67, No.5, pp. 786-804</li>
+<li>Hall-Beyer, M. (2007). <a href="http://www.fp.ucalgary.ca/mhallbey/tutorial.htm">The GLCM Tutorial Home Page</a>
+  (Grey-Level Co-occurrence Matrix texture measurements). University of Calgary, Canada
+</ul>
+
+<h2><a name="see-also">SEE ALSO</a></h2>
+
+<em>
+<a href="i.smap.html">i.smap</a>,
+<a href="i.gensigset.html">i.gensigset</a>,
+<a href="i.pca.html">i.pca</a>,
+<a href="r.neighbors.html">r.neighbors</a>,
+<a href="r.rescale.html">r.rescale</a>
+</em>
+
+<h2><a name="authors">AUTHORS</a></h2>
+<a href="mailto:antoniol@ieee.org">G. Antoniol</a> - RCOST (Research Centre on Software Technology - Viale Traiano - 82100 Benevento)<br>
+C. Basco -  RCOST (Research Centre on Software Technology - Viale Traiano - 82100 Benevento)<br>
+M. Ceccarelli - Facolta di Scienze, Universita del Sannio, Benevento
+
+<p><i>Last changed: $Date: 2015-12-03 17:34:44 +0100 (Thu, 03 Dec 2015) $</i><hr class="header">
+<p>
+<a href="index.html">Main index</a> |
+<a href="raster.html">Raster index</a> |
+<a href="topics.html">Topics index</a> |
+<a href="keywords.html">Keywords index</a> |
+<a href="full_index.html">Full index</a>
+</p>
+<p>
+&copy; 2003-2016
+<a href="http://grass.osgeo.org">GRASS Development Team</a>,
+GRASS GIS 7.0.4 Reference Manual
+</p>
+
+</div>
+</body>
+</html>

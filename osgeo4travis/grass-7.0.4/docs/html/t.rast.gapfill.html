@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GRASS GIS manual: t.rast.gapfill</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="grassdocs.css" type="text/css">
+</head>
+<body bgcolor="white">
+<div id="container">
+
+<a href="index.html"><img src="grass_logo.png" alt="GRASS logo"></a>
+<hr class="header">
+
+<h2>NAME</h2>
+<em><b>t.rast.gapfill</b></em>  - Replaces gaps in a space time raster dataset with interpolated raster maps.
+<h2>KEYWORDS</h2>
+<a href="temporal.html">temporal</a>, <a href="topic_interpolation.html">interpolation</a>, <a href="keywords.html#raster">raster</a>, <a href="keywords.html#time">time</a>
+<h2>SYNOPSIS</h2>
+<div id="name"><b>t.rast.gapfill</b><br></div>
+<b>t.rast.gapfill --help</b><br>
+<div id="synopsis"><b>t.rast.gapfill</b> [-<b>t</b>] <b>input</b>=<em>name</em>  [<b>where</b>=<em>sql_query</em>]  <b>basename</b>=<em>string</em>  [<b>nprocs</b>=<em>integer</em>]   [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+</div>
+
+<div id="flags">
+<h3>Flags:</h3>
+<dl>
+<dt><b>-t</b></dt>
+<dd>Assign the space time raster dataset start and end time to the output map</dd>
+
+<dt><b>--help</b></dt>
+<dd>Print usage summary</dd>
+<dt><b>--verbose</b></dt>
+<dd>Verbose module output</dd>
+<dt><b>--quiet</b></dt>
+<dd>Quiet module output</dd>
+<dt><b>--ui</b></dt>
+<dd>Force launching GUI dialog</dd>
+</dl>
+</div>
+
+<div id="parameters">
+<h3>Parameters:</h3>
+<dl>
+<dt><b>input</b>=<em>name</em>&nbsp;<b>[required]</b></dt>
+<dd>Name of the input space time raster dataset</dd>
+
+<dt><b>where</b>=<em>sql_query</em></dt>
+<dd>WHERE conditions of SQL statement without 'where' keyword used in the temporal GIS framework</dd>
+<dd>Example: start_time &gt; '2001-01-01 12:30:00'</dd>
+
+<dt><b>basename</b>=<em>string</em>&nbsp;<b>[required]</b></dt>
+<dd>Basename of the new generated output maps</dd>
+<dd>A numerical suffix separated by an underscore will be attached to create a unique identifier</dd>
+
+<dt><b>nprocs</b>=<em>integer</em></dt>
+<dd>Number of interpolation processes to run in parallel</dd>
+<dd>Default: <em>1</em></dd>
+
+</dl>
+</div>
+<div class="toc">
+<h4 class="toc">Table of contents</h4>
+<ul class="toc">
+    <li class="toc"><a href="#description" class="toc">DESCRIPTION</a></li>
+    <li class="toc"><a href="#notes" class="toc">NOTES</a></li>
+    <li class="toc"><a href="#examples" class="toc">Examples</a></li>
+    <li class="toc"><a href="#see-also" class="toc">SEE ALSO</a></li>
+    <li class="toc"><a href="#author" class="toc">AUTHOR</a></li>
+</ul>
+</div>
+<h2><a name="description">DESCRIPTION</a></h2>
+
+<em>t.rast.gapfill</em> fills temporal gaps in space time raster datasets
+using linear interpolation. Temporal all gaps will be detected in the input
+space time raster dataset automatically. The predecessor and successor maps
+of the gaps will be identified and used to linear interpolate the raster
+map between them.
+
+<h2><a name="notes">NOTES</a></h2>
+This module uses <a href="r.series.interp.html">r.series.interp</a> to
+perform the interpolation for each gap independently. Hence several
+interpolation processes can be run in parallel.
+
+<h2><a name="examples">Examples</a></h2>
+
+In this example we will create 3 raster maps and register them in the
+temporal database an then in the newly created space time raster dataset.
+There are gaps of one day size between the raster maps. The values of
+the maps are chosen so that the interpolated values can be estimated.
+We expect two maps with values 2 and 4 after interpolation.
+
+<div class="code"><pre>
+r.mapcalc expression="map1 = 1" 
+r.mapcalc expression="map2 = 3" 
+r.mapcalc expression="map3 = 5" 
+
+t.register type=raster maps=map1 start=2012-08-20 end=2012-08-21
+t.register type=raster maps=map2 start=2012-08-22 end=2012-08-23
+t.register type=raster maps=map3 start=2012-08-24 end=2012-08-25
+
+t.create type=strds temporaltype=absolute \
+         output=precipitation_daily \
+         title="Daily precipitation" \
+         description="Test dataset with daily precipitation"
+         
+t.register type=raster input=precipitation_daily maps=map1,map2,map3
+
+t.rast.list input=precipitation_daily columns=name,start_time,min,max
+
+name|start_time|min|max
+map1|2012-08-20 00:00:00|1.0|1.0
+map2|2012-08-22 00:00:00|3.0|3.0
+map3|2012-08-24 00:00:00|5.0|5.0
+
+
+t.rast.list input=precipitation_daily method=deltagaps
+
+id|name|mapset|start_time|end_time|interval_length|distance_from_begin
+map1@PERMANENT|map1|PERMANENT|2012-08-20 00:00:00|2012-08-21 00:00:00|1.0|0.0
+None|None|None|2012-08-21 00:00:00|2012-08-22 00:00:00|1.0|1.0
+map2@PERMANENT|map2|PERMANENT|2012-08-22 00:00:00|2012-08-23 00:00:00|1.0|2.0
+None|None|None|2012-08-23 00:00:00|2012-08-24 00:00:00|1.0|3.0
+map3@PERMANENT|map3|PERMANENT|2012-08-24 00:00:00|2012-08-25 00:00:00|1.0|4.0
+
+t.rast.gapfill input=precipitation_daily basename=gap
+
+t.rast.list input=precipitation_daily columns=name,start_time,min,max
+
+name|start_time|min|max
+map1|2012-08-20 00:00:00|1.0|1.0
+gap_6|2012-08-21 00:00:00|2.0|2.0
+map2|2012-08-22 00:00:00|3.0|3.0
+gap_7|2012-08-23 00:00:00|4.0|4.0
+map3|2012-08-24 00:00:00|5.0|5.0
+</pre></div>
+
+<h2><a name="see-also">SEE ALSO</a></h2>
+
+<em>
+<a href="r.series.interp.html">r.series.interp</a>,
+<a href="t.create.html">t.create</a>,
+<a href="t.info.html">t.info</a>
+</em>
+
+<h2><a name="author">AUTHOR</a></h2>
+
+S&ouml;ren Gebbert, Th&uuml;nen Institute of Climate-Smart Agriculture
+
+<p><i>Last changed: $Date: 2015-09-22 10:12:20 +0200 (Tue, 22 Sep 2015) $</i>
+<hr class="header">
+<p>
+<a href="index.html">Main index</a> |
+<a href="temporal.html">Temporal index</a> |
+<a href="topics.html">Topics index</a> |
+<a href="keywords.html">Keywords index</a> |
+<a href="full_index.html">Full index</a>
+</p>
+<p>
+&copy; 2003-2016
+<a href="http://grass.osgeo.org">GRASS Development Team</a>,
+GRASS GIS 7.0.4 Reference Manual
+</p>
+
+</div>
+</body>
+</html>

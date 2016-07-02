@@ -1,0 +1,203 @@
+.TH d.grid 1 "" "GRASS 7.0.4" "Grass User's Manual"
+.SH NAME
+\fI\fBd.grid\fR\fR  \- Overlays a user\-specified grid in the active display frame on the graphics monitor.
+.SH KEYWORDS
+display, cartography, graticule
+.SH SYNOPSIS
+\fBd.grid\fR
+.br
+\fBd.grid \-\-help\fR
+.br
+\fBd.grid\fR [\-\fBagwcdfnbt\fR] \fBsize\fR=\fIvalue\fR  [\fBorigin\fR=\fIeast,north\fR]   [\fBdirection\fR=\fIstring\fR]   [\fBwidth\fR=\fIfloat\fR]   [\fBcolor\fR=\fIname\fR]   [\fBborder_color\fR=\fIname\fR]   [\fBtext_color\fR=\fIname\fR]   [\fBfontsize\fR=\fIinteger\fR]   [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-a\fR" 4m
+.br
+Align the origin to the east\-north corner of the current region
+.IP "\fB\-g\fR" 4m
+.br
+Draw geographic grid (referenced to current ellipsoid)
+.IP "\fB\-w\fR" 4m
+.br
+Draw geographic grid (referenced to WGS84 ellipsoid)
+.IP "\fB\-c\fR" 4m
+.br
+Draw \(cq+\(cq marks instead of grid lines
+.IP "\fB\-d\fR" 4m
+.br
+Draw \(cq.\(cq marks instead of grid lines
+.IP "\fB\-f\fR" 4m
+.br
+Draw fiducial marks instead of grid lines
+.IP "\fB\-n\fR" 4m
+.br
+Disable grid drawing
+.IP "\fB\-b\fR" 4m
+.br
+Disable border drawing
+.IP "\fB\-t\fR" 4m
+.br
+Disable text drawing
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBsize\fR=\fIvalue\fR \fB[required]\fR" 4m
+.br
+Size of grid to be drawn (in map units)
+.br
+0 for north\-south resolution of the current region. In map units or DDD:MM:SS format. Example: \(dq1000\(dq or \(dq0:10\(dq
+.IP "\fBorigin\fR=\fIeast,north\fR" 4m
+.br
+Lines of the grid pass through this coordinate
+.br
+Default: \fI0,0\fR
+.IP "\fBdirection\fR=\fIstring\fR" 4m
+.br
+Draw only east\-west lines, north\-south lines, or both
+.br
+Options: \fIboth, east\-west, north\-south\fR
+.br
+Default: \fIboth\fR
+.IP "\fBwidth\fR=\fIfloat\fR" 4m
+.br
+Grid line width
+.IP "\fBcolor\fR=\fIname\fR" 4m
+.br
+Grid color
+.br
+Either a standard color name or R:G:B triplet
+.br
+Default: \fIgray\fR
+.IP "\fBborder_color\fR=\fIname\fR" 4m
+.br
+Border color
+.br
+Either a standard color name or R:G:B triplet
+.br
+Default: \fIblack\fR
+.IP "\fBtext_color\fR=\fIname\fR" 4m
+.br
+Text color
+.br
+Either a standard color name or R:G:B triplet
+.br
+Default: \fIgray\fR
+.IP "\fBfontsize\fR=\fIinteger\fR" 4m
+.br
+Font size for gridline coordinate labels
+.br
+Options: \fI1\-72\fR
+.br
+Default: \fI9\fR
+.SH DESCRIPTION
+\fId.grid\fR overlays a grid of user\-defined size and
+color in the active display frame on the graphics monitor.
+The grid can be created as a standard rectangular grid or
+a geographic grid. The grid will overlay, not overwrite,
+the contents of the active display frame.
+.PP
+\fId.grid\fR can be run non\-interactively or
+interactively.  If the user specifies the grid
+\fIsize\fR and (optionally) the grid \fIcolor\fR on
+the command line the program will run non\-interactively; if
+no grid \fIcolor\fR is given the default will be used.
+Alternately, the user may simply type \fBd.grid\fR on the
+command line; in this case, the program will prompt the
+user for parameter values using the standard GRASS graphical
+user interface.
+.SH NOTES
+\fId.grid\fR will not erase grids already displayed in
+the active graphics display frame by previous invocations
+of \fId.grid\fR; multiple invocations of \fId.grid\fR
+will therefore result in the drawing of multiple grids
+inside the active graphics frame.  (A command like
+\fId.erase\fR, which erases the
+entire contents of the active display frame, must be run to
+erase previously drawn grids from the display frame.)
+.PP
+If the user provides a \fI\-g\fR flag a geographic (projected) grid
+will be drawn. With the \fI\-g\fR flag the \fIsize\fR
+argument accepts both decimal degrees and colon separated
+ddd:mm:ss coordinates (eg. 00:30:00 for half of a degree).
+.PP
+A geographic grid cannot be drawn for a \fIlatitude/longitude\fR
+or \fIXY\fR projection.
+.PP
+Colors may be standard named GRASS colors (red, green, aqua, etc.) or
+a numerical R:G:B triplet, where component values range from 0\-255.
+.br
+.PP
+The grid drawing may be turned off by using the \fI\-n\fR flag.
+.br
+The border drawing may be turned off by using the \fI\-b\fR flag.
+.br
+The coordinate text may be turned off by using the \fI\-t\fR flag.
+.br
+.PP
+To draw grid lines at different intervals, e.g. at high latitudes, you
+can run the module twice, once with \fBdirection\fR=\fIeast\-west\fR
+at one interval \fBsize\fR, and again with
+\fBdirection\fR=\fInorth\-south\fR at another interval \fBsize\fR.
+.SH EXAMPLES
+To draw a red geographic grid with 30 minute grid spacing, run
+either of the following:
+.br
+.nf
+\fC
+d.grid \-g size=00:30:00 color=red
+\fR
+.fi
+or
+.br
+.nf
+\fC
+d.grid \-g size=0.5 color=255:0:0
+\fR
+.fi
+To draw a blue standard rectangular grid at a 500 (meter) spacing run the following:
+.br
+.nf
+\fC
+d.grid size=500 color=blue
+\fR
+.fi
+.SH SEE ALSO
+\fI
+d.barscale,
+d.legend,
+d.geodesic,
+d.rhumbline,
+d.erase,
+d.frame,
+d.rast
+\fR
+.SH AUTHORS
+James Westervelt, U.S. Army Construction Engineering Research Laboratory
+.br
+Geogrid support: Bob Covill
+.br
+Border support: Markus Neteler
+.br
+Text and RGB support: Hamish Bowman
+.br
+.PP
+\fILast changed: $Date: 2014\-11\-28 10:58:18 +0100 (Fri, 28 Nov 2014) $\fR
+.PP
+Main index |
+Display index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2016
+GRASS Development Team,
+GRASS GIS 7.0.4 Reference Manual

@@ -141,9 +141,9 @@ private:
 public:
     char  **papszGMLMetadata;
 
-    int     bHaveGeoTransform;
+    bool    bHaveGeoTransform;
     double  adfGeoTransform[6];
-    int     bPixelIsPoint;
+    bool    bPixelIsPoint;
 
     char   *pszProjection;
 
@@ -167,8 +167,12 @@ public:
     int     ParseMSIG();
     int     ParseGMLCoverageDesc();
 
-    int     ReadAndParse( VSILFILE * fpVSIL );
-    int     ReadAndParse( const char *pszFilename );
+    int     ReadAndParse( VSILFILE * fpVSIL,
+                          int nGEOJP2Index = 0, int nGMLJP2Index = 1,
+                          int nMSIGIndex = 2, int *pnIndexUsed = NULL );
+    int     ReadAndParse( const char *pszFilename, int nGEOJP2Index = 0,
+                          int nGMLJP2Index = 1, int nMSIGIndex = 2,
+                          int nWorldFileIndex = 3, int *pnIndexUsed = NULL );
 
     // Write oriented.
     void    SetProjection( const char *pszWKT );

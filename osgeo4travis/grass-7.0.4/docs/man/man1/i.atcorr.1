@@ -1,0 +1,1503 @@
+.TH i.atcorr 1 "" "GRASS 7.0.4" "Grass User's Manual"
+.SH NAME
+\fI\fBi.atcorr\fR\fR  \- Performs atmospheric correction using the 6S algorithm.
+.br
+6S \- Second Simulation of Satellite Signal in the Solar Spectrum.
+.SH KEYWORDS
+imagery, atmospheric correction
+.SH SYNOPSIS
+\fBi.atcorr\fR
+.br
+\fBi.atcorr \-\-help\fR
+.br
+\fBi.atcorr\fR [\-\fBirab\fR] \fBinput\fR=\fIname\fR  [\fBrange\fR=\fImin,max\fR]   [\fBelevation\fR=\fIname\fR]   [\fBvisibility\fR=\fIname\fR]  \fBparameters\fR=\fIname\fR \fBoutput\fR=\fIname\fR  [\fBrescale\fR=\fImin,max\fR]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-i\fR" 4m
+.br
+Output raster map as integer
+.IP "\fB\-r\fR" 4m
+.br
+Input raster map converted to reflectance (default is radiance)
+.IP "\fB\-a\fR" 4m
+.br
+Input from ETM+ image taken after July 1, 2000
+.IP "\fB\-b\fR" 4m
+.br
+Input from ETM+ image taken before July 1, 2000
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input raster map
+.IP "\fBrange\fR=\fImin,max\fR" 4m
+.br
+Input range
+.br
+Default: \fI0,255\fR
+.IP "\fBelevation\fR=\fIname\fR" 4m
+.br
+Name of input elevation raster map (in m)
+.IP "\fBvisibility\fR=\fIname\fR" 4m
+.br
+Name of input visibility raster map (in km)
+.IP "\fBparameters\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input text file with 6S parameters
+.IP "\fBoutput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name for output raster map
+.IP "\fBrescale\fR=\fImin,max\fR" 4m
+.br
+Rescale output raster map
+.br
+Default: \fI0,255\fR
+.SH DESCRIPTION
+\fBi.atcorr\fR performs atmospheric correction on the input raster
+map using the 6S algorithm (\fISecond Simulation of Satellite Signal
+in the Solar Spectrum\fR). A detailed algorithm description is
+available at the
+Land Surface
+Reflectance Science Computing Facility website.
+.PP
+\fIImportant note: Current region settings are ignored!\fR The region is adjusted
+to cover the input raster map before the atmospheric correction is
+performed. The previous settings are restored afterwards.
+This flag tells \fIi.atcorr\fR to try and speedup calculations.
+However, this option will increase memory requirements.
+.PP
+If flag \fB\-r\fR is used, the input raster data are treated as
+\fIreflectance\fR. Otherwise, the input raster data are treated
+as \fIradiance\fR values and are converted to reflectance at
+the \fIi.atcorr\fR runtime. The output data are always reflectance.
+.PP
+Note that the satellite overpass time has to be specified in Greenwich
+Mean Time (GMT).
+.PP
+An example 6S parameters:
+.br
+.nf
+\fC
+8                            \- geometrical conditions=Landsat ETM+
+2 19 13.00 \-47.410 \-20.234   \- month day hh.ddd longitude latitude (\(dqhh.ddd\(dq is in decimal hours GMT)
+1                            \- atmospheric mode=tropical
+1                            \- aerosols model=continental
+15                           \- visibility [km] (aerosol model concentration)
+\-0.600                       \- mean target elevation above sea level [km] (here 600m asl)
+\-1000                        \- sensor height (here, sensor on board a satellite)
+64                           \- 4th band of ETM+ Landsat 7
+\fR
+.fi
+If the position is not available in longitude\-latitude (WGS84), the
+\fIm.proj\fR conversion module can be
+used to reproject from a different projection.
+.SH 6S CODE PARAMETER CHOICES
+.SS A. Geometrical conditions
+.TS
+expand;
+lw60 lw1 lw60 lw1 lw60.
+T{
+\fBCode\fR
+T}	 	T{
+\fBDescription\fR
+T}	 	T{
+\fBDetails\fR
+T}
+.sp 1
+T{
+1
+T}	 	T{
+\fBmeteosat\fR observation
+T}	 	T{
+enter month,day,decimal hour (universal time\-hh.ddd)
+n. of column,n. of line. (full scale 5000*2500)
+T}
+.sp 1
+T{
+2
+T}	 	T{
+\fBgoes east \fRobservation
+T}	 	T{
+enter month,day,decimal hour (universal time\-hh.ddd)
+n. of column,n. of line. (full scale 17000*12000)c
+T}
+.sp 1
+T{
+3
+T}	 	T{
+\fBgoes west\fR observation
+T}	 	T{
+enter month,day,decimal hour (universal time\-hh.ddd)
+n. of column,n. of line. (full scale 17000*12000)
+T}
+.sp 1
+T{
+4
+T}	 	T{
+\fBavhrr\fR (PM noaa)
+T}	 	T{
+enter month,day,decimal hour (universal time\-hh.ddd)
+n. of column(1\-2048),xlonan,hna
+give long.(xlonan) and overpass hour (hna) at
+the ascendant node at equator
+T}
+.sp 1
+T{
+5
+T}	 	T{
+\fBavhrr\fR (AM noaa)
+T}	 	T{
+enter month,day,decimal hour (universal time\-hh.ddd)
+n. of column(1\-2048),xlonan,hna
+give long.(xlonan) and overpass hour (hna) at
+the ascendant node at equator
+T}
+.sp 1
+T{
+6
+T}	 	T{
+\fBhrv\fR (spot)
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+7
+T}	 	T{
+\fBtm\fR (landsat)
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+8
+T}	 	T{
+\fBetm+\fR (landsat7)
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+9
+T}	 	T{
+\fBliss\fR (IRS 1C)
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+10
+T}	 	T{
+\fBaster\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+11
+T}	 	T{
+\fBavnir\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+12
+T}	 	T{
+\fBikonos\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+13
+T}	 	T{
+\fBRapidEye\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+14
+T}	 	T{
+\fBVGT1 (SPOT4)\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+15
+T}	 	T{
+\fBVGT2 (SPOT5)\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+16
+T}	 	T{
+\fBWorldView 2\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+17
+T}	 	T{
+\fBQuickBird\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+T{
+18
+T}	 	T{
+\fBLandSat 8\fR
+T}	 	T{
+enter month,day,hh.ddd,long.,lat. *
+T}
+.sp 1
+.TE
+* \fINOTE\fR: for HRV, TM, ETM+, LISS and ASTER experiments,
+longitude and latitude are the coordinates of the scene
+center. Latitude must be > 0 for northern hemisphere and < 0 for
+southern. Longitude must be > 0 for eastern hemisphere and < 0 for
+western.
+.SS B. Atmospheric model
+.TS
+expand;
+lw60 lw1 lw60.
+T{
+\fBCode\fR
+T}	 	T{
+\fBMeaning\fR
+T}
+.sp 1
+T{
+0
+T}	 	T{
+no gaseous absorption
+T}
+.sp 1
+T{
+1
+T}	 	T{
+tropical
+T}
+.sp 1
+T{
+2
+T}	 	T{
+midlatitude summer
+T}
+.sp 1
+T{
+3
+T}	 	T{
+midlatitude winter
+T}
+.sp 1
+T{
+4
+T}	 	T{
+subarctic summer
+T}
+.sp 1
+T{
+5
+T}	 	T{
+subarctic winter
+T}
+.sp 1
+T{
+6
+T}	 	T{
+us standard 62
+T}
+.sp 1
+T{
+7
+T}	 	T{
+Define your own atmospheric model as a set of the following 5 parameters
+per each measurement:
+altitude [km]
+pressure [mb]
+temperature [k]
+h2o density [g/m3]
+o3 density [g/m3]
+For example: there is one radiosonde measurement for each altitude of
+0\-25km at a step of 1km, one measurment for each altitude of 25\-50km at a step
+of 5km, and two single measurements for altitudes 70km and 100km. This makes 34
+measurments. In that case, there are 34*5 values to input.
+T}
+.sp 1
+T{
+8
+T}	 	T{
+Define your own atmospheric model providing values of the water vapor and
+ozone content:
+uw [g/cm2]
+uo3 [cm\-atm]
+The profile is taken from us62.
+T}
+.sp 1
+.TE
+.SS C. Aerosols model
+.TS
+expand;
+lw60 lw1 lw60 lw1 lw60.
+T{
+\fBCode\fR
+T}	 	T{
+\fBMeaning\fR
+T}	 	T{
+\fBDetails\fR
+T}
+.sp 1
+T{
+0
+T}	 	T{
+no aerosols
+T}	 	T{
+T}
+.sp 1
+T{
+1
+T}	 	T{
+continental model
+T}	 	T{
+T}
+.sp 1
+T{
+2
+T}	 	T{
+maritime model
+T}	 	T{
+T}
+.sp 1
+T{
+3
+T}	 	T{
+urban model
+T}	 	T{
+T}
+.sp 1
+T{
+4
+T}	 	T{
+shettle model for background desert aerosol
+T}	 	T{
+T}
+.sp 1
+T{
+5
+T}	 	T{
+biomass burning
+T}	 	T{
+T}
+.sp 1
+T{
+6
+T}	 	T{
+stratospheric model
+T}	 	T{
+T}
+.sp 1
+T{
+7
+T}	 	T{
+define your own model
+T}	 	T{
+Enter the volumic percentage of each component:
+c(1) = volumic % of dust\-like
+c(2) = volumic % of water\-soluble
+c(3) = volumic % of oceanic
+c(4) = volumic % of soot
+All values between 0 and 1.
+T}
+.sp 1
+T{
+8
+T}	 	T{
+define your own model
+T}	 	T{
+Size distribution function: Multimodal Log Normal (up to 4 modes).
+T}
+.sp 1
+T{
+9
+T}	 	T{
+define your own model
+T}	 	T{
+Size distribution function: Modified gamma.
+T}
+.sp 1
+T{
+10
+T}	 	T{
+define your own model
+T}	 	T{
+Size distribution function: Junge Power\-Law.
+T}
+.sp 1
+T{
+11
+T}	 	T{
+define your own model
+T}	 	T{
+Sun\-photometer measurements, 50 values max, entered as:
+r and d V / d (logr)
+where r is the radius [micron], V is the volume, d V / d (logr) [cm3/cm2/micron].
+Followed by:
+nr and ni for each wavelength
+where nr and ni are respectively the real and imaginary part of the
+refractive index.
+T}
+.sp 1
+.TE
+.SS D. Aerosol concentration model (visibility)
+If you have an estimate of the meteorological parameter visibility
+v, enter directly the value of v [km] (the aerosol optical depth (AOD) will be
+computed from a standard aerosol profile).
+.PP
+If you have an estimate of aerosol optical depth, enter 0 for the
+visibility and in a following line enter the aerosol optical depth at 550nm
+(iaer means \(cqi\(cq for input and \(cqaer\(cq for aerosol), for example:
+.br
+.br
+.nf
+\fC
+0                            \- visibility
+0.112                        \- aerosol optical depth 550 nm
+\fR
+.fi
+.PP
+NOTE: if iaer is 0, enter \-1 for visibility.
+.SS E. Target altitude (xps), sensor platform (xpp)
+Target altitude (xps, in negative [km]):
+xps >= 0 means the target is at the sea level.
+.br
+otherwise xps expresses the altitude of the target (e.g., mean elevation)
+in [km], given as negative value
+.PP
+Sensor platform (xpp, in negative [km] or \-1000):
+.br
+xpp = \-1000 means that the sensor is on board a satellite.
+.br
+xpp = 0 means that the sensor is at the ground level.
+.br
+\-100 < xpp < 0 defines the altitude of the sensor expressed in [km];
+this altitude is given \fBrelative to the target\fR altitude as negative value.
+.PP
+For aircraft simulations only (xpp is neither equal to 0 nor equal to \-1000):
+puw,po3 (water vapor content,ozone content between the aircraft and the surface)
+.br
+taerp (the aerosol optical thickness at 550nm between the aircraft and the
+surface)
+.PP
+If these data are not available, enter negative values for all of them.
+puw,po3 will then be interpolated from the us62 standard profile according
+to the values at the ground level. taerp will be computed according to a 2km
+exponential profile for aerosol.
+.SS F. Sensor band
+.PP
+There are two possibilities: either define your own spectral conditions
+(codes \-2, \-1, 0, or 1) or choose a code indicating the band of one of the
+pre\-defined satellites.
+.PP
+Define your own spectral conditions:
+.TS
+expand;
+lw60 lw1 lw60.
+T{
+\fBCode\fR
+T}	 	T{
+\fBMeaning\fR
+T}
+.sp 1
+T{
+\-2
+T}	 	T{
+Enter wlinf, wlsup.
+The filter function will be equal to 1 over the whole band (as iwave=0)
+but step by step output will be printed.
+T}
+.sp 1
+T{
+\-1
+T}	 	T{
+Enter wl (monochr. cond, gaseous absorption is included).
+T}
+.sp 1
+T{
+0
+T}	 	T{
+Enter wlinf, wlsup.
+The filter function will be equal to 1over the whole band.
+T}
+.sp 1
+T{
+1
+T}	 	T{
+Enter wlinf, wlsup and user\(cqs filter function s(lambda) by step of 0.0025
+micrometer.
+T}
+.sp 1
+.TE
+.PP
+Pre\-defined satellite bands:
+.TS
+expand;
+lw60 lw1 lw60.
+T{
+\fBCode\fR
+T}	 	T{
+\fBMeaning\fR
+T}
+.sp 1
+T{
+2
+T}	 	T{
+\fBmeteosat\fR vis band (0.350\-1.110)
+T}
+.sp 1
+T{
+3
+T}	 	T{
+\fBgoes east\fR band vis (0.490\-0.900)
+T}
+.sp 1
+T{
+4
+T}	 	T{
+goes west band vis (0.490\-0.900)
+T}
+.sp 1
+T{
+5
+T}	 	T{
+\fBavhrr (noaa6)\fR band 1 (0.550\-0.750)
+T}
+.sp 1
+T{
+6
+T}	 	T{
+avhrr (noaa6) band 2 (0.690\-1.120)
+T}
+.sp 1
+T{
+7
+T}	 	T{
+\fBavhrr (noaa7)\fR band 1 (0.500\-0.800)
+T}
+.sp 1
+T{
+8
+T}	 	T{
+avhrr (noaa7) band 2 (0.640\-1.170)
+T}
+.sp 1
+T{
+9
+T}	 	T{
+\fBavhrr (noaa8)\fR band 1 (0.540\-1.010)
+T}
+.sp 1
+T{
+10
+T}	 	T{
+avhrr (noaa8) band 2 (0.680\-1.120)
+T}
+.sp 1
+T{
+11
+T}	 	T{
+\fBavhrr (noaa9)\fR band 1 (0.530\-0.810)
+T}
+.sp 1
+T{
+12
+T}	 	T{
+avhrr (noaa9) band 1 (0.680\-1.170)
+T}
+.sp 1
+T{
+13
+T}	 	T{
+\fBavhrr (noaa10)\fR band 1 (0.530\-0.780)
+T}
+.sp 1
+T{
+14
+T}	 	T{
+avhrr (noaa10) band 2 (0.600\-1.190)
+T}
+.sp 1
+T{
+15
+T}	 	T{
+\fBavhrr (noaa11)\fR band 1 (0.540\-0.820)
+T}
+.sp 1
+T{
+16
+T}	 	T{
+avhrr (noaa11) band 2 (0.600\-1.120)
+T}
+.sp 1
+T{
+17
+T}	 	T{
+\fBhrv1 (spot1)\fR band 1 (0.470\-0.650)
+T}
+.sp 1
+T{
+18
+T}	 	T{
+hrv1 (spot1) band 2 (0.600\-0.720)
+T}
+.sp 1
+T{
+19
+T}	 	T{
+hrv1 (spot1) band 3 (0.730\-0.930)
+T}
+.sp 1
+T{
+20
+T}	 	T{
+hrv1 (spot1) band pan (0.470\-0.790)
+T}
+.sp 1
+T{
+21
+T}	 	T{
+\fBhrv2 (spot1)\fR band 1 (0.470\-0.650)
+T}
+.sp 1
+T{
+22
+T}	 	T{
+hrv2 (spot1) band 2 (0.590\-0.730)
+T}
+.sp 1
+T{
+23
+T}	 	T{
+hrv2 (spot1) band 3 (0.740\-0.940)
+T}
+.sp 1
+T{
+24
+T}	 	T{
+hrv2 (spot1) band pan (0.470\-0.790)
+T}
+.sp 1
+T{
+25
+T}	 	T{
+\fBtm (landsat5)\fR band 1 (0.430\-0.560)
+T}
+.sp 1
+T{
+26
+T}	 	T{
+tm (landsat5) band 2 (0.500\-0.650)
+T}
+.sp 1
+T{
+27
+T}	 	T{
+tm (landsat5) band 3 (0.580\-0.740)
+T}
+.sp 1
+T{
+28
+T}	 	T{
+tm (landsat5) band 4 (0.730\-0.950)
+T}
+.sp 1
+T{
+29
+T}	 	T{
+tm (landsat5) band 5 (1.5025\-1.890)
+T}
+.sp 1
+T{
+30
+T}	 	T{
+tm (landsat5) band 7 (1.950\-2.410)
+T}
+.sp 1
+T{
+31
+T}	 	T{
+\fBmss (landsat5)\fR band 1 (0.475\-0.640)
+T}
+.sp 1
+T{
+32
+T}	 	T{
+mss (landsat5) band 2 (0.580\-0.750)
+T}
+.sp 1
+T{
+33
+T}	 	T{
+mss (landsat5) band 3 (0.655\-0.855)
+T}
+.sp 1
+T{
+34
+T}	 	T{
+mss (landsat5) band 4 (0.785\-1.100)
+T}
+.sp 1
+T{
+35
+T}	 	T{
+\fBMAS (ER2)\fR band 1 (0.5025\-0.5875)
+T}
+.sp 1
+T{
+36
+T}	 	T{
+MAS (ER2) band 2 (0.6075\-0.7000)
+T}
+.sp 1
+T{
+37
+T}	 	T{
+MAS (ER2) band 3 (0.8300\-0.9125)
+T}
+.sp 1
+T{
+38
+T}	 	T{
+MAS (ER2) band 4 (0.9000\-0.9975)
+T}
+.sp 1
+T{
+39
+T}	 	T{
+MAS (ER2) band 5 (1.8200\-1.9575)
+T}
+.sp 1
+T{
+40
+T}	 	T{
+MAS (ER2) band 6 (2.0950\-2.1925)
+T}
+.sp 1
+T{
+41
+T}	 	T{
+MAS (ER2) band 7 (3.5800\-3.8700)
+T}
+.sp 1
+T{
+42
+T}	 	T{
+\fBMODIS\fR band 1 (0.6100\-0.6850)
+T}
+.sp 1
+T{
+43
+T}	 	T{
+MODIS band 2 (0.8200\-0.9025)
+T}
+.sp 1
+T{
+44
+T}	 	T{
+MODIS band 3 (0.4500\-0.4825)
+T}
+.sp 1
+T{
+45
+T}	 	T{
+MODIS band 4 (0.5400\-0.5700)
+T}
+.sp 1
+T{
+46
+T}	 	T{
+MODIS band 5 (1.2150\-1.2700)
+T}
+.sp 1
+T{
+47
+T}	 	T{
+MODIS band 6 (1.6000\-1.6650)
+T}
+.sp 1
+T{
+48
+T}	 	T{
+MODIS band 7 (2.0575\-2.1825)
+T}
+.sp 1
+T{
+49
+T}	 	T{
+\fBavhrr (noaa12)\fR band 1 (0.500\-1.000)
+T}
+.sp 1
+T{
+50
+T}	 	T{
+avhrr (noaa12) band 2 (0.650\-1.120)
+T}
+.sp 1
+T{
+51
+T}	 	T{
+\fBavhrr (noaa14)\fR band 1 (0.500\-1.110)
+T}
+.sp 1
+T{
+52
+T}	 	T{
+avhrr (noaa14) band 2 (0.680\-1.100)
+T}
+.sp 1
+T{
+53
+T}	 	T{
+\fBPOLDER\fR band 1 (0.4125\-0.4775)
+T}
+.sp 1
+T{
+54
+T}	 	T{
+POLDER band 2 (non polar) (0.4100\-0.5225)
+T}
+.sp 1
+T{
+55
+T}	 	T{
+POLDER band 3 (non polar) (0.5325\-0.5950)
+T}
+.sp 1
+T{
+56
+T}	 	T{
+POLDER band 4 P1 (0.6300\-0.7025)
+T}
+.sp 1
+T{
+57
+T}	 	T{
+POLDER band 5 (non polar) (0.7450\-0.7800)
+T}
+.sp 1
+T{
+58
+T}	 	T{
+POLDER band 6 (non polar) (0.7000\-0.8300)
+T}
+.sp 1
+T{
+59
+T}	 	T{
+POLDER band 7 P1 (0.8100\-0.9200)
+T}
+.sp 1
+T{
+60
+T}	 	T{
+POLDER band 8 (non polar) (0.8650\-0.9400)
+T}
+.sp 1
+T{
+61
+T}	 	T{
+\fBetm+ (landsat7)\fR band 1 (0.435\-0.520)
+T}
+.sp 1
+T{
+62
+T}	 	T{
+etm+ (landsat7) band 2 (0.506\-0.621)
+T}
+.sp 1
+T{
+63
+T}	 	T{
+etm+ (landsat7) band 3 (0.622\-0.702)
+T}
+.sp 1
+T{
+64
+T}	 	T{
+etm+ (landsat7) band 4 (0.751\-0.911)
+T}
+.sp 1
+T{
+65
+T}	 	T{
+etm+ (landsat7) band 5 (1.512\-1.792)
+T}
+.sp 1
+T{
+66
+T}	 	T{
+etm+ (landsat7) band 7 (2.020\-2.380)
+T}
+.sp 1
+T{
+67
+T}	 	T{
+etm+ (landsat7) band 8 (0.504\-0.909)
+T}
+.sp 1
+T{
+68
+T}	 	T{
+\fBliss (IRC 1C)\fR band 2 (0.502\-0.620)
+T}
+.sp 1
+T{
+69
+T}	 	T{
+liss (IRC 1C) band 3 (0.612\-0.700)
+T}
+.sp 1
+T{
+70
+T}	 	T{
+liss (IRC 1C) band 4 (0.752\-0.880)
+T}
+.sp 1
+T{
+71
+T}	 	T{
+liss (IRC 1C) band 5 (1.452\-1.760)
+T}
+.sp 1
+T{
+72
+T}	 	T{
+\fBaster \fR band 1 (0.480\-0.645)
+T}
+.sp 1
+T{
+73
+T}	 	T{
+aster band 2 (0.588\-0.733)
+T}
+.sp 1
+T{
+74
+T}	 	T{
+aster band 3N (0.723\-0.913)
+T}
+.sp 1
+T{
+75
+T}	 	T{
+aster band 4 (1.530\-1.750)
+T}
+.sp 1
+T{
+76
+T}	 	T{
+aster band 5 (2.103\-2.285)
+T}
+.sp 1
+T{
+77
+T}	 	T{
+aster band 6 (2.105\-2.298)
+T}
+.sp 1
+T{
+78
+T}	 	T{
+aster band 7 (2.200\-2.393)
+T}
+.sp 1
+T{
+79
+T}	 	T{
+aster band 8 (2.248\-2.475)
+T}
+.sp 1
+T{
+80
+T}	 	T{
+aster band 9 (2.295\-2.538)
+T}
+.sp 1
+T{
+81
+T}	 	T{
+\fBavnir\fR band 1 (0.390\-0.550)
+T}
+.sp 1
+T{
+82
+T}	 	T{
+avnir band 2 (0.485\-0.695)
+T}
+.sp 1
+T{
+83
+T}	 	T{
+avnir band 3 (0.545\-0.745)
+T}
+.sp 1
+T{
+84
+T}	 	T{
+avnir band 4 (0.700\-0.925)
+T}
+.sp 1
+T{
+85
+T}	 	T{
+\fBikonos\fR Green band (0.350\-1.035)
+T}
+.sp 1
+T{
+86
+T}	 	T{
+ikonos Red band (0.350\-1.035)
+T}
+.sp 1
+T{
+87
+T}	 	T{
+ikonos NIR band (0.350\-1.035)
+T}
+.sp 1
+T{
+88
+T}	 	T{
+\fBRapidEye\fR Blue band (0.438\-0.513)
+T}
+.sp 1
+T{
+89
+T}	 	T{
+RapidEye Green band (0.463\-0.594)
+T}
+.sp 1
+T{
+90
+T}	 	T{
+RapidEye Red band (0.624\-0.690)
+T}
+.sp 1
+T{
+91
+T}	 	T{
+RapidEye RedEdge band (0.500\-0.737)
+T}
+.sp 1
+T{
+92
+T}	 	T{
+RapidEye NIR band (0.520\-0.862)
+T}
+.sp 1
+T{
+93
+T}	 	T{
+\fBVGT1 (SPOT4)\fR band 0 (0.400\-0.500)
+T}
+.sp 1
+T{
+94
+T}	 	T{
+VGT1 (SPOT4) band 2 (0.580\-0.782)
+T}
+.sp 1
+T{
+95
+T}	 	T{
+VGT1 (SPOT4) band 3 (0.700\-1.030)
+T}
+.sp 1
+T{
+96
+T}	 	T{
+VGT1 (SPOT4) MIR band (1.450\-1.800)
+T}
+.sp 1
+T{
+97
+T}	 	T{
+\fBVGT2 (SPOT5)\fR band 0 (0.400\-0.550)
+T}
+.sp 1
+T{
+98
+T}	 	T{
+VGT2 (SPOT5) band 2 (0.580\-0.780)
+T}
+.sp 1
+T{
+99
+T}	 	T{
+VGT2 (SPOT5) band 3 (0.700\-1.000)
+T}
+.sp 1
+T{
+100
+T}	 	T{
+VGT2 (SPOT5) MIR band (1.450\-1.800)
+T}
+.sp 1
+T{
+101
+T}	 	T{
+WorldView 2 Panchromatic band (0.447\-0.808)
+T}
+.sp 1
+T{
+102
+T}	 	T{
+WorldView 2 Coastal Blue band (0.396\-0.458)
+T}
+.sp 1
+T{
+103
+T}	 	T{
+WorldView 2 Blue band (0.442\-0.515)
+T}
+.sp 1
+T{
+104
+T}	 	T{
+WorldView 2 Green band (0.506\-0.586)
+T}
+.sp 1
+T{
+105
+T}	 	T{
+WorldView 2 Yellow band (0.584\-0.632)
+T}
+.sp 1
+T{
+106
+T}	 	T{
+WorldView 2 Red band (0.624\-0.694)
+T}
+.sp 1
+T{
+107
+T}	 	T{
+WorldView 2 Red Edge band (0.699\-0.749)
+T}
+.sp 1
+T{
+108
+T}	 	T{
+WorldView 2 NIR1 band (0.765\-0.901)
+T}
+.sp 1
+T{
+109
+T}	 	T{
+WorldView 2 NIR2 band (0.856\-0.1043)
+T}
+.sp 1
+T{
+110
+T}	 	T{
+\fBQuickBird\fR Panchromatic band (0.405\-1.053)
+T}
+.sp 1
+T{
+111
+T}	 	T{
+QuickBird Blue band (0.430\-0.545)
+T}
+.sp 1
+T{
+112
+T}	 	T{
+QuickBird Green band (0.466\-0.620)
+T}
+.sp 1
+T{
+113
+T}	 	T{
+QuickBird Red band (0.590\-0.710)
+T}
+.sp 1
+T{
+114
+T}	 	T{
+QuickBird NIR1 band (0.715\-0.918)
+T}
+.sp 1
+T{
+115
+T}	 	T{
+\fBLandsat 8 \fR Coastal Aerosol Band (0.427nm \- 0.459nm)
+T}
+.sp 1
+T{
+116
+T}	 	T{
+Landsat 8 Blue Band  (436nm \- 527nm)
+T}
+.sp 1
+T{
+117
+T}	 	T{
+Landsat 8 Green Band (512nm\-610nm)
+T}
+.sp 1
+T{
+118
+T}	 	T{
+Landsat 8 Red Band (625nm\-691nm)
+T}
+.sp 1
+T{
+119
+T}	 	T{
+Landsat 8 Panchromatic Band (488nm\-692nm)
+T}
+.sp 1
+T{
+120
+T}	 	T{
+Landsat 8 NIR Band (829nm\-900nm)
+T}
+.sp 1
+T{
+121
+T}	 	T{
+Landsat 8 Cirrus Band (1340nm\-1409nm)
+T}
+.sp 1
+T{
+122
+T}	 	T{
+Landsat 8 SWIR1 Band (1515nm \- 1697nm)
+T}
+.sp 1
+T{
+123
+T}	 	T{
+Landsat 8 SWIR2 Band (2037nm \- 2355nm)
+T}
+.sp 1
+.TE
+.SH EXAMPLES
+.SS Atmospheric correction of a LANDSAT\-7 channel
+The example is based on the North Carolina sample dataset (GMT \-5 hours).
+First we set the computational region to the satellite map, e.g. channel 4:
+.br
+.nf
+\fC
+g.region raster=lsat7_2002_40 \-p
+\fR
+.fi
+It is important to verify the available metadata for the sun position which
+has to be defined for the atmospheric correction. An option is to check the
+satellite overpass time with sun position as reported in
+metadata. For the North Carolina sample dataset, they have also been
+stored for each channel and can be retrieved like this:
+.br
+.nf
+\fC
+r.info lsat7_2002_40
+\fR
+.fi
+In this case, we have: SUN_AZIMUTH = 120.8810347, SUN_ELEVATION = 64.7730999.
+.PP
+If the sun position metadata are unavailable, we can also calculate
+them from the overpass time as follows
+(\fIr.sunmask\fR
+uses SOLPOS):
+.br
+.nf
+\fC
+r.sunmask \-s elev=elevation out=dummy year=2002 month=5 day=24 hour=10 min=42 sec=7 timezone=\-5
+# .. reports: sun azimuth: 121.342461, sun angle above horz.(refraction corrected): 65.396652
+\fR
+.fi
+If the overpass time is unknown, use the Satellite Overpass Predictor.
+.PP
+Convert DN (digital number = pixel values) to Radiance at top\-of\-atmosphere (TOA), using the
+formula
+.br
+.nf
+\fC
+   L&#955; = ((LMAX&#955; \- LMIN&#955;)/(QCALMAX\-QCALMIN)) * (QCAL\-QCALMIN) + LMIN&#955;
+\fR
+.fi
+Where:
+.RS 4n
+.IP \(bu 4n
+L&#955; = Spectral Radiance at the sensor\(cqs aperture in Watt/(meter squared * ster * µm), the
+apparent radiance as seen by the satellite sensor;
+.IP \(bu 4n
+QCAL = the quantized calibrated pixel value in DN;
+.IP \(bu 4n
+LMIN&#955; = the spectral radiance that is scaled to QCALMIN in watts/(meter squared * ster * µm);
+.IP \(bu 4n
+LMAX&#955; = the spectral radiance that is scaled to QCALMAX in watts/(meter squared * ster * µm);
+.IP \(bu 4n
+QCALMIN = the minimum quantized calibrated pixel value (corresponding to LMIN&#955;) in DN;
+.IP \(bu 4n
+QCALMAX = the maximum quantized calibrated pixel value (corresponding to LMAX&#955;) in DN=255.
+.RE
+LMIN&#955; and LMAX&#955; are the radiances related to the minimal and maximal DN value, and are reported
+in the metadata file for each image, or in the table 1. High gain or low gain is also reported
+in the metadata file of each Landsat image. The minimal DN value (QCALMIN) is 1 for Landsat ETM+
+images (see
+Landsat handbook, see chapter 11),
+and the maximal DN value (QCALMAX) is 255. QCAL is the DN value for every
+separate pixel in the Landsat image.
+.PP
+We extract the coefficients and apply them in order to obtain the radiance map:
+.br
+.nf
+\fC
+CHAN=4
+r.info lsat7_2002_${CHAN}0 \-h | tr \(cq\(rsn\(cq \(cq \(cq | sed \(cqs+ ++g\(cq | tr \(cq:\(cq \(cq\(rsn\(cq | grep \(dqLMIN_BAND${CHAN}\(rs|LMAX_BAND${CHAN}\(dq
+LMAX_BAND4=241.100,p016r035_7x20020524.met
+LMIN_BAND4=\-5.100,p016r035_7x20020524.met
+QCALMAX_BAND4=255.0,p016r035_7x20020524.met
+QCALMIN_BAND4=1.0,p016r035_7x20020524.met
+\fR
+.fi
+Conversion to radiance (this calculation is done for band 4, for the other bands, the numbers in italics
+need to be replaced with their related values):
+.br
+.nf
+\fC
+r.mapcalc \(dqlsat7_2002_40_rad = ((241.1 \- (\-5.1)) / (255.0 \- 1.0)) * (lsat7_2002_40 \- 1.0) + (\-5.1)\(dq
+\fR
+.fi
+.br
+.nf
+\fC
+# find mean elevation (target above sea level, used as initialization value in control file)
+r.univar elevation
+\fR
+.fi
+Create a control file \(cqicnd.txt\(cq for channel 4 (NIR), based on metadata. For the overpass time,
+we need to define decimal hours:
+.br
+10:42:07 NC local time = 10.70 decimal hours (decimal minutes: 42 * 100 / 60) which is 15.70 GMT:
+.br
+.nf
+\fC
+8                            \- geometrical conditions=Landsat ETM+
+5 24 15.70 \-78.691 35.749    \- month day hh.ddd longitude latitude (\(dqhh.ddd\(dq is in GMT decimal hours)
+2                            \- atmospheric mode=midlatitude summer
+1                            \- aerosols model=continental
+50                           \- visibility [km] (aerosol model concentration)
+\-0.110                       \- mean target elevation above sea level [km]
+\-1000                        \- sensor on board a satellite
+64                           \- 4th band of ETM+ Landsat 7
+\fR
+.fi
+Finally, run the atmospheric correction (\-r for reflectance input map; \-a for date >July 2000):
+.br
+.nf
+\fC
+i.atcorr \-r \-a lsat7_2002_40_rad elev=elevation parameters=icnd_lsat4.txt output=lsat7_2002_40_atcorr
+\fR
+.fi
+Note that the altitude value from \(cqicnd_lsat4.txt\(cq file is read at the beginning
+to compute the initial transform. It is necessary to give a value which could
+be the mean value of the elevation model. For the atmospheric correction then
+the raster elevation values are used from the map.
+.PP
+Note that the process is computationally intensive.
+.br
+Note also, that \fIi.atcorr\fR reports solar elevation angle above horizon rather than solar zenith angle.
+.SH REMAINING DOCUMENTATION ISSUES
+1. The influence and importance of the visibility value or map should be
+explained, also how to obtain an estimate for either visibility or aerosol
+optical depth at 550nm.
+.SH SEE ALSO
+GRASS Wiki page about
+Atmospheric correction
+.PP
+\fI
+r.info,
+r.mapcalc,
+r.univar
+\fR
+.SH REFERENCES
+.RS 4n
+.IP \(bu 4n
+Vermote, E.F., Tanre, D., Deuze, J.L., Herman, M., and Morcrette, J.J., 1997,
+Second simulation of the satellite signal in the solar spectrum, 6S: An
+overview., IEEE Trans. Geosc. and Remote Sens. 35(3):675\-686.
+.IP \(bu 4n
+6S Manual: PDF1,
+PDF2,
+and PDF3
+.IP \(bu 4n
+RapidEye sensors have been provided by RapidEye AG, Germany
+.IP \(bu 4n
+Julia A. Barsi, Brian L. Markham and Jeffrey A. Pedelty  \(dqThe operational land imager: spectral response and spectral uniformity\(dq, Proc. SPIE 8153, 81530G (2011); doi:10.1117/12.895438
+.RE
+.SH AUTHORS
+.PP
+\fIOriginal version of the program for GRASS 5:\fR
+.br
+Christo Zietsman, 13422863(at)sun.ac.za
+.PP
+\fICode clean\-up and port to GRASS 6.3, 15.12.2006:\fR
+.br
+Yann Chemin, ychemin(at)gmail.com
+.PP
+\fIDocumentation clean\-up + IRS LISS sensor addition 5/2009:\fR
+.br
+Markus Neteler, FEM, Italy
+.PP
+\fIASTER sensor addition 7/2009:\fR
+.br
+Michael Perdue, Canada
+.PP
+\fIAVNIR, IKONOS sensors addition 7/2010:\fR
+.br
+Daniel Victoria, Anne Ghisla
+.PP
+\fIRapidEye sensors addition 11/2010:\fR
+.br
+Peter Löwe, Anne Ghisla
+.PP
+\fIVGT1 and VGT2 sensors addition from 6SV\-1.1 sources, addition 07/2011:\fR
+.br
+Alfredo Alessandrini, Anne Ghisla
+.PP
+\fIAdded Landsat 8 from NASA sources, addition 05/2014:\fR
+.br
+Nikolaos Ves
+.PP
+\fILast changed: $Date: 2015\-11\-12 15:44:10 +0100 (Thu, 12 Nov 2015) $\fR
+.PP
+Main index |
+Imagery index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2016
+GRASS Development Team,
+GRASS GIS 7.0.4 Reference Manual

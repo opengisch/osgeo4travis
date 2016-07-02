@@ -362,12 +362,12 @@ extern "C++" {
 
 
 #ifndef MAX
-#  define MIN(a,b)      ((a<b) ? a : b)
-#  define MAX(a,b)      ((a>b) ? a : b)
+#  define MIN(a,b)      (((a)<(b)) ? (a) : (b))
+#  define MAX(a,b)      (((a)>(b)) ? (a) : (b))
 #endif
 
 #ifndef ABS
-#  define ABS(x)        ((x<0) ? (-1*(x)) : x)
+#  define ABS(x)        (((x)<0) ? (-1*(x)) : (x))
 #endif
 
 #ifndef M_PI
@@ -547,6 +547,12 @@ static inline char* CPL_afl_friendly_strstr(const char* haystack, const char* ne
 #  define CPLIsNan(x) _isnan(x)
 #  define CPLIsInf(x) (!_isnan(x) && !_finite(x))
 #  define CPLIsFinite(x) _finite(x)
+#elif defined(HAVE_CXX11) && HAVE_CXX11 && defined(__GNUC__)
+/* When including <cmath> in C++11 the isnan() macro is undefined, so that */
+/* std::isnan() can work (#6489). This is a GCC specific workaround for now. */
+#  define CPLIsNan(x)    __builtin_isnan(x)
+#  define CPLIsInf(x)    __builtin_isinf(x)
+#  define CPLIsFinite(x) __builtin_isfinite(x)
 #else
 #  define CPLIsNan(x) isnan(x)
 #  ifdef isinf

@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GRASS GIS manual: v.random</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="grassdocs.css" type="text/css">
+</head>
+<body bgcolor="white">
+<div id="container">
+
+<a href="index.html"><img src="grass_logo.png" alt="GRASS logo"></a>
+<hr class="header">
+
+<h2>NAME</h2>
+<em><b>v.random</b></em>  - Generates random 2D/3D vector points.
+<h2>KEYWORDS</h2>
+<a href="vector.html">vector</a>, <a href="topic_sampling.html">sampling</a>, <a href="keywords.html#statistics">statistics</a>, <a href="keywords.html#random">random</a>, <a href="keywords.html#point pattern">point pattern</a>
+<h2>SYNOPSIS</h2>
+<div id="name"><b>v.random</b><br></div>
+<b>v.random --help</b><br>
+<div id="synopsis"><b>v.random</b> [-<b>zab</b>] <b>output</b>=<em>name</em> <b>npoints</b>=<em>integer</em>  [<b>restrict</b>=<em>name</em>]   [<b>layer</b>=<em>string</em>]   [<b>cats</b>=<em>range</em>]   [<b>where</b>=<em>sql_query</em>]   [<b>zmin</b>=<em>float</em>]   [<b>zmax</b>=<em>float</em>]   [<b>seed</b>=<em>integer</em>]   [<b>column</b>=<em>name</em>]   [<b>column_type</b>=<em>string</em>]   [--<b>overwrite</b>]  [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+</div>
+
+<div id="flags">
+<h3>Flags:</h3>
+<dl>
+<dt><b>-z</b></dt>
+<dd>Create 3D output</dd>
+
+<dt><b>-a</b></dt>
+<dd>Generate n points for each individual area</dd>
+
+<dt><b>-b</b></dt>
+<dd>Do not build topology</dd>
+
+<dt><b>--overwrite</b></dt>
+<dd>Allow output files to overwrite existing files</dd>
+<dt><b>--help</b></dt>
+<dd>Print usage summary</dd>
+<dt><b>--verbose</b></dt>
+<dd>Verbose module output</dd>
+<dt><b>--quiet</b></dt>
+<dd>Quiet module output</dd>
+<dt><b>--ui</b></dt>
+<dd>Force launching GUI dialog</dd>
+</dl>
+</div>
+
+<div id="parameters">
+<h3>Parameters:</h3>
+<dl>
+<dt><b>output</b>=<em>name</em>&nbsp;<b>[required]</b></dt>
+<dd>Name for output vector map</dd>
+
+<dt><b>npoints</b>=<em>integer</em>&nbsp;<b>[required]</b></dt>
+<dd>Number of points to be created</dd>
+
+<dt><b>restrict</b>=<em>name</em></dt>
+<dd>Name of input vector map</dd>
+<dd>Restrict points to areas in input vector</dd>
+
+<dt><b>layer</b>=<em>string</em></dt>
+<dd>Layer number or name ('-1' for all layers)</dd>
+<dd>A single vector map can be connected to multiple database tables. This number determines which table to use. When used with direct OGR access this is the layer name.</dd>
+<dd>Default: <em>-1</em></dd>
+
+<dt><b>cats</b>=<em>range</em></dt>
+<dd>Category values</dd>
+<dd>Example: 1,3,7-9,13</dd>
+
+<dt><b>where</b>=<em>sql_query</em></dt>
+<dd>WHERE conditions of SQL statement without 'where' keyword</dd>
+<dd>Example: income &lt; 1000 and inhab &gt;= 10000</dd>
+
+<dt><b>zmin</b>=<em>float</em></dt>
+<dd>Minimum z height (needs -z flag or column name)</dd>
+<dd>Default: <em>0.0</em></dd>
+
+<dt><b>zmax</b>=<em>float</em></dt>
+<dd>Maximum z height (needs -z flag or column name)</dd>
+<dd>Default: <em>0.0</em></dd>
+
+<dt><b>seed</b>=<em>integer</em></dt>
+<dd>The seed to initialize the random generator. If not set the process ID is used</dd>
+
+<dt><b>column</b>=<em>name</em></dt>
+<dd>Name of column for z values</dd>
+<dd>Writes z values to column</dd>
+
+<dt><b>column_type</b>=<em>string</em></dt>
+<dd>Type of column for z values</dd>
+<dd>Options: <em>integer, double precision</em></dd>
+<dd>Default: <em>double precision</em></dd>
+
+</dl>
+</div>
+<div class="toc">
+<h4 class="toc">Table of contents</h4>
+<ul class="toc">
+    <li class="toc"><a href="#description" class="toc">DESCRIPTION</a>
+    <ul class="toc">
+        <li class="toc"><a href="#restriction-to-vector-areas" class="toc">Restriction to vector areas</a></li>
+    </ul></li>
+    <li class="toc"><a href="#examples" class="toc">EXAMPLES</a></li>
+    <li class="toc"><a href="#see-also" class="toc">SEE ALSO</a></li>
+    <li class="toc"><a href="#author" class="toc">AUTHOR</a></li>
+</ul>
+</div>
+<h2><a name="description">DESCRIPTION</a></h2>
+
+<em>v.random</em> randomly generates vector points within the
+current region using the selected random number generator.
+
+<p><em>v.random</em> can generate also 3D vector points or
+write random value to attribute table. Point height range or
+attribute value range is controlled by specifying zmin and zmax values.
+Both z values are included in range (<em>zmin &lt;= z &lt;= zmax</em>).
+Generated random attribute value type can be controlled by column
+data type. Use <b>INTEGER</b> column type for integers and 
+<b>DOUBLE PRECISION</b> for floating point numbers. Integer values are
+calculated by rounding random floating point number.
+
+<p>To produce repeatable results a random seed can be set using the
+option <em>seed</em>.
+
+<h3><a name="restriction-to-vector-areas">Restriction to vector areas</a></h3>
+<p>
+If an <em>input</em> vector map with areas is specified, the location of 
+random points is restricted to the selected areas. By default, the 
+requested number of points are distributed across all areas.
+
+<p>
+If the <em>-a</em> flag is given, the requested number of points is 
+generated for each individual area. For example, if 20 points should be 
+generated and the input map has 100 individual areas, 2000 points will 
+be generated in total.
+
+<h2><a name="examples">EXAMPLES</a></h2>
+All examples use the North Carolina sample dataset.
+<p>
+Generate 20 random points with binary attribute (only 0 or 1):
+<div class="code"><pre>
+v.random output=binary_random npoints=20 zmin=0 zmax=1 column='binary INTEGER'
+</pre></div>
+
+Generate 20 random 3D points using a specific random seed:
+<div class="code"><pre>
+v.random seed=52 output=height_random npoints=40 zmin=110 zmax=170 -z
+</pre></div>
+
+<p>
+<center>
+<img src="vrandom_z.png"><br>
+Random points with different X, Y, and Z coordinates
+</center>
+
+<!--
+g.region rast=elev_lid792_1m
+...
+d.vect height_random color=60:60:60 icon=basic/point size=40 width=2 zcolor=gyr
+optipng -o5 map.png
+mv map.png vrandom_z.png
+-->
+
+Get 20 random samples from raster map:
+<div class="code"><pre>
+g.region -p raster=elevation
+v.random output=random_samples npoints=20
+v.db.addtable map=random_samples layer=1 columns='cat INTEGER, sample DOUBLE PRECISION'
+v.what.rast vector=random_samples raster=elevation@PERMANENT layer=1 column=sample 
+</pre></div>
+
+Generate 20 random points and sample attribute data from geology (vector) map:
+<div class="code"><pre>
+g.region -p vector=geology
+v.random output=random_samples npoints=20
+v.db.addtable map=random_samples layer=1 columns='cat integer, geology varchar(100)'
+v.what.vect vector=random_samples layer=1 column=geology \
+  qvector=geology@PERMANENT qlayer=1 qcolumn=label 
+</pre></div>
+
+Generate 20 random points in forested areas
+<div class="code"><pre>
+g.region -p raster=landclass96
+r.to.vect -v input=landclass96 output=landclass96 type=area
+v.random input=landclass96 output=random_samples npoints=20 \
+  where="label = 'forest'"
+</pre></div>
+
+Generate 20 random points in each forest patch
+<div class="code"><pre>
+g.region -p raster=landclass96
+r.to.vect -v input=landclass96 output=landclass96 type=area
+v.random input=landclass96 output=random_samples npoints=20 \
+  where="label = 'forest'" -a
+</pre></div>
+
+
+<h2><a name="see-also">SEE ALSO</a></h2>
+
+<em>
+<a href="g.region.html">g.region</a>,
+<a href="r.random.html">r.random</a>,
+<a href="v.perturb.html">v.perturb</a>,
+<a href="v.sample.html">v.sample</a>,
+<a href="v.what.rast.html">v.what.rast</a>,
+<a href="v.what.vect.html">v.what.vect</a>
+</em>
+
+<h2><a name="author">AUTHOR</a></h2>
+
+<a href="http://mccauley-usa.com/">James Darrell McCauley</a>
+<a href="mailto:darrell@mccauley-usa.com">&lt;darrell@mccauley-usa.com&gt;</a>,
+<br>when he was at: 
+<a href="http://ABE.www.ecn.purdue.edu/ABE/">Agricultural
+Engineering</a>
+<a href="http://www.purdue.edu/">Purdue University</a>
+
+<p><i>Last changed: $Date: 2014-12-20 06:05:23 +0100 (Sat, 20 Dec 2014) $</i><hr class="header">
+<p>
+<a href="index.html">Main index</a> |
+<a href="vector.html">Vector index</a> |
+<a href="topics.html">Topics index</a> |
+<a href="keywords.html">Keywords index</a> |
+<a href="full_index.html">Full index</a>
+</p>
+<p>
+&copy; 2003-2016
+<a href="http://grass.osgeo.org">GRASS Development Team</a>,
+GRASS GIS 7.0.4 Reference Manual
+</p>
+
+</div>
+</body>
+</html>

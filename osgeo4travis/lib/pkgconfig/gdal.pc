@@ -1,4 +1,4 @@
-CONFIG_VERSION=2.1.0
+CONFIG_VERSION=2.2.0
 CONFIG_INST_PREFIX=/home/travis/osgeo4travis
 CONFIG_INST_LIBS=-L/home/travis/osgeo4travis/lib -lgdal
 CONFIG_INST_CFLAGS=-I/home/travis/osgeo4travis/include

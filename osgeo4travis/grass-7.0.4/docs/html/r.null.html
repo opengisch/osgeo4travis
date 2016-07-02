@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>GRASS GIS manual: r.null</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="grassdocs.css" type="text/css">
+</head>
+<body bgcolor="white">
+<div id="container">
+
+<a href="index.html"><img src="grass_logo.png" alt="GRASS logo"></a>
+<hr class="header">
+
+<h2>NAME</h2>
+<em><b>r.null</b></em>  - Manages NULL-values of given raster map.
+<h2>KEYWORDS</h2>
+<a href="raster.html">raster</a>, <a href="topic_null_data.html">null data</a>
+<h2>SYNOPSIS</h2>
+<div id="name"><b>r.null</b><br></div>
+<b>r.null --help</b><br>
+<div id="synopsis"><b>r.null</b> [-<b>fincr</b>] <b>map</b>=<em>name</em>  [<b>setnull</b>=<em>val[-val]</em>[,<i>val[-val]</i>,...]]   [<b>null</b>=<em>float</em>]   [--<b>help</b>]  [--<b>verbose</b>]  [--<b>quiet</b>]  [--<b>ui</b>] 
+</div>
+
+<div id="flags">
+<h3>Flags:</h3>
+<dl>
+<dt><b>-f</b></dt>
+<dd>Only do the work if the map is floating-point</dd>
+
+<dt><b>-i</b></dt>
+<dd>Only do the work if the map is integer</dd>
+
+<dt><b>-n</b></dt>
+<dd>Only do the work if the map doesn't have a NULL-value bitmap file</dd>
+
+<dt><b>-c</b></dt>
+<dd>Create NULL-value bitmap file validating all data cells</dd>
+
+<dt><b>-r</b></dt>
+<dd>Remove NULL-value bitmap file</dd>
+
+<dt><b>--help</b></dt>
+<dd>Print usage summary</dd>
+<dt><b>--verbose</b></dt>
+<dd>Verbose module output</dd>
+<dt><b>--quiet</b></dt>
+<dd>Quiet module output</dd>
+<dt><b>--ui</b></dt>
+<dd>Force launching GUI dialog</dd>
+</dl>
+</div>
+
+<div id="parameters">
+<h3>Parameters:</h3>
+<dl>
+<dt><b>map</b>=<em>name</em>&nbsp;<b>[required]</b></dt>
+<dd>Name of raster map for which to edit null values</dd>
+
+<dt><b>setnull</b>=<em>val[-val][,<i>val[-val]</i>,...]</em></dt>
+<dd>List of cell values to be set to NULL</dd>
+
+<dt><b>null</b>=<em>float</em></dt>
+<dd>The value to replace the null value by</dd>
+
+</dl>
+</div>
+<div class="toc">
+<h4 class="toc">Table of contents</h4>
+<ul class="toc">
+    <li class="toc"><a href="#description" class="toc">DESCRIPTION</a></li>
+    <li class="toc"><a href="#examples" class="toc">EXAMPLES</a></li>
+    <li class="toc"><a href="#notes" class="toc">NOTES</a></li>
+    <li class="toc"><a href="#see-also" class="toc">SEE ALSO</a></li>
+    <li class="toc"><a href="#author" class="toc">AUTHOR</a></li>
+</ul>
+</div>
+<h2><a name="description">DESCRIPTION</a></h2>
+
+The function of <em>r.null</em> is to explicitly create the NULL-value
+bitmap file. The intended usage is to fix "old" maps that don't have a
+NULL-value bitmap file (i.e. to indicate if zero is valid value or is to be
+converted to NULL). The module does not work with reclassified maps.
+
+<p>
+The design is flexible. Ranges of values can be set to NULL and/or the NULL
+value can be eliminated and replace with a specified value.
+<p>
+The <b>setnull</b> parameter is used to specify values in the ranges to
+be set to NULL.  A range is either a single value (e.g., 5.3), or a pair of
+values (e.g., 4.76-34.56).  Existing NULL-values are left NULL, unless the
+null argument is requested.
+<p>
+The <b>null</b> parameter eliminates the NULL value and replaces it with
+value. This argument is applied only to existing NULL values, and not to the
+NULLs created by the setnull argument.
+
+<h2><a name="examples">EXAMPLES</a></h2>
+Set specific values of a classified map to NULL:<br>
+<div class="code"><pre>
+r.null map=landcover.30m setnull=21,22
+</pre></div>
+
+Set NULL-values of a map to a specific value:<br>
+<div class="code"><pre>
+r.null map=fields null=99
+</pre></div>
+
+
+<h2><a name="notes">NOTES</a></h2>
+
+Note that value is restricted to integer if the map is an integer map. 
+<p><em>r.null</em> and reclassified maps:<br>
+The problem is, if r.null was run on the reclass raster it would alter the
+original and any other reclass rasters of the original.  Therefore r.null 
+doesn't allow recoding reclassified maps (products of r.reclass).
+<br>
+So, the way to recode such a map is: The user makes a raster out of the
+reclass that isn't a reclass by copying it:<br>
+
+<div class="code"><pre>
+r.mapcalc newmap = reclass
+</pre></div>
+
+
+<h2><a name="see-also">SEE ALSO</a></h2>
+
+<em><a href="r.support.html">r.support</a></em>
+and
+<em><a href="r.quant.html">r.quant</a></em>
+
+<h2><a name="author">AUTHOR</a></h2>
+
+U.S.Army Construction Engineering Research Laboratory
+
+<p><i>Last changed: $Date: 2015-07-11 16:04:13 +0200 (Sat, 11 Jul 2015) $</i><hr class="header">
+<p>
+<a href="index.html">Main index</a> |
+<a href="raster.html">Raster index</a> |
+<a href="topics.html">Topics index</a> |
+<a href="keywords.html">Keywords index</a> |
+<a href="full_index.html">Full index</a>
+</p>
+<p>
+&copy; 2003-2016
+<a href="http://grass.osgeo.org">GRASS Development Team</a>,
+GRASS GIS 7.0.4 Reference Manual
+</p>
+
+</div>
+</body>
+</html>

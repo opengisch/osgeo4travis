@@ -1,0 +1,221 @@
+.TH r.texture 1 "" "GRASS 7.0.4" "Grass User's Manual"
+.SH NAME
+\fI\fBr.texture\fR\fR  \- Generate images with textural features from a raster map.
+.SH KEYWORDS
+raster, algebra, statistics, texture
+.SH SYNOPSIS
+\fBr.texture\fR
+.br
+\fBr.texture \-\-help\fR
+.br
+\fBr.texture\fR [\-\fBsa\fR] \fBinput\fR=\fIname\fR \fBoutput\fR=\fIbasename\fR  [\fBsize\fR=\fIvalue\fR]   [\fBdistance\fR=\fIvalue\fR]   [\fBmethod\fR=\fIstring\fR[,\fIstring\fR,...]]   [\-\-\fBoverwrite\fR]  [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-s\fR" 4m
+.br
+Separate output for each angle (0, 45, 90, 135)
+.IP "\fB\-a\fR" 4m
+.br
+Calculate all textural measurements
+.IP "\fB\-\-overwrite\fR" 4m
+.br
+Allow output files to overwrite existing files
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBinput\fR=\fIname\fR \fB[required]\fR" 4m
+.br
+Name of input raster map
+.IP "\fBoutput\fR=\fIbasename\fR \fB[required]\fR" 4m
+.br
+Name for output basename raster map(s)
+.IP "\fBsize\fR=\fIvalue\fR" 4m
+.br
+The size of moving window (odd and >= 3)
+.br
+Default: \fI3\fR
+.IP "\fBdistance\fR=\fIvalue\fR" 4m
+.br
+The distance between two samples (>= 1)
+.br
+Default: \fI1\fR
+.IP "\fBmethod\fR=\fIstring[,\fIstring\fR,...]\fR" 4m
+.br
+Textural measurement method
+.br
+Options: \fIasm, contrast, corr, var, idm, sa, se, sv, entr, dv, de, moc1, moc2\fR
+.SH DESCRIPTION
+\fIr.texture\fR creates raster maps with textural features from a
+user\-specified raster map layer. The module calculates textural features
+based on spatial dependence matrices at 0, 45, 90, and 135
+degrees for a \fIdistance\fR (default = 1).
+.PP
+\fIr.texture\fR assumes grey levels ranging from 0 to 255 as input.
+The input is automatically rescaled to 0 to 255 if the input map range is outside
+of this range.
+.PP
+In general, several variables constitute texture: differences in grey level values,
+coarseness as scale of grey level differences, presence or lack of directionality
+and regular patterns. A texture can be characterized by tone (grey level intensity
+properties) and structure (spatial relationships). Since textures are highly scale
+dependent, hierarchical textures may occur.
+.PP
+\fIr.texture\fR reads a GRASS raster map as input and calculates
+textural features based on spatial dependence matrices for north\-south,
+east\-west, northwest, and southwest directions using a side by side
+neighborhood (i.e., a distance of 1), and writes out by default the average
+over all angles for each measure. Optionally, using flag \fB\-s\fR the output
+consists of four images for each textural feature, one for every direction
+(0, 45, 90, 135).
+.PP
+The user must carefully set the resolution (using \fIg.region\fR) before
+running this program, or the computer may run out of memory.
+.PP
+A commonly used texture model is based on the so\-called grey level co\-occurrence
+matrix. This matrix is a two\-dimensional histogram of grey levels
+for a pair of pixels which are separated by a fixed spatial relationship.
+The matrix approximates the joint probability distribution of a pair of pixels.
+Several texture measures are directly computed from the grey level co\-occurrence
+matrix.
+.PP
+The following part offers brief explanations of texture measures (after
+Jensen 1996).
+.SS First\-order statistics in the spatial domain
+.RS 4n
+.IP \(bu 4n
+Sum Average (SA)
+.IP \(bu 4n
+Entropy (ENT):
+This measure analyses the randomness. It is high when the values of the
+moving window have similar values. It is low when the values are close
+to either 0 or 1 (i.e. when the pixels in the local window are uniform).
+.IP \(bu 4n
+Difference Entropy (DE)
+.IP \(bu 4n
+Sum Entropy (SE)
+.IP \(bu 4n
+Variance (VAR):
+A measure of gray tone variance within the moving window (second\-order
+moment about the mean)
+.IP \(bu 4n
+Difference Variance (DV)
+.IP \(bu 4n
+Sum Variance (SV)
+.RE
+Note that measures \(dqmean\(dq, \(dqkurtosis\(dq, \(dqrange\(dq, \(dqskewness\(dq, and \(dqstandard
+deviation\(dq are available in \fIr.neighbors\fR.
+.SS Second\-order statistics in the spatial domain
+The second\-order statistics texture model is based on the so\-called grey
+level co\-occurrence matrices (GLCM; after Haralick 1979).
+.RS 4n
+.IP \(bu 4n
+Angular Second Moment (ASM, also called Uniformity):
+This is a measure of local homogeneity and the opposite of Entropy.
+High values of ASM occur when the pixels in the moving window are
+very similar.
+.br
+Note: The square root of the ASM is sometimes used as a texture measure,
+and is called Energy.
+.IP \(bu 4n
+Inverse Difference Moment (IDM, also called Homogeneity):
+This measure relates inversely to the contrast measure. It is a direct measure of the
+local homogeneity of a digital image. Low values are associated with low homogeneity
+and vice versa.
+.IP \(bu 4n
+Contrast (CON):
+This measure analyses the image contrast (locally gray\-level variations) as
+the linear dependency of grey levels of neighboring pixels (similarity). Typically high,
+when the scale of local texture is larger than the \fIdistance\fR.
+.IP \(bu 4n
+Correlation (COR):
+This measure  analyses the linear dependency of grey levels of neighboring
+pixels. Typically high, when the scale of local texture is larger than the
+\fIdistance\fR.
+.IP \(bu 4n
+Information Measures of Correlation (MOC)
+.IP \(bu 4n
+Maximal Correlation Coefficient (MCC)
+.RE
+.SH NOTES
+Importantly, the input raster map cannot have more than 255 categories.
+.SH EXAMPLE
+Calculation of Angular Second Moment of B/W orthophoto (North Carolina data set):
+.br
+.nf
+\fC
+g.region raster=ortho_2001_t792_1m \-p
+# set grey level color table 0% black 100% white
+r.colors ortho_2001_t792_1m color=grey
+# extract grey levels
+r.mapcalc \(dqortho_2001_t792_1m.greylevel = ortho_2001_t792_1m\(dq
+# texture analysis
+r.texture ortho_2001_t792_1m.greylevel prefix=ortho_texture method=asm \-s
+# display
+g.region n=221461 s=221094 w=638279 e=638694
+d.shade color=ortho_texture_ASM_0 shade=ortho_2001_t792_1m
+\fR
+.fi
+This calculates four maps (requested texture at four orientations):
+ortho_texture_ASM_0, ortho_texture_ASM_45, ortho_texture_ASM_90, ortho_texture_ASM_135.
+.SH KNOWN ISSUES
+The program can run incredibly slow for large raster maps.
+.SH REFERENCES
+The algorithm was implemented after Haralick et al., 1973 and 1979.
+.PP
+The code was taken by permission from \fIpgmtexture\fR, part of
+PBMPLUS (Copyright 1991, Jef Poskanser and Texas Agricultural Experiment
+Station, employer for hire of James Darrell McCauley). Manual page
+of pgmtexture.
+.RS 4n
+.IP \(bu 4n
+Haralick, R.M., K. Shanmugam, and I. Dinstein (1973). Textural features for
+image classification. \fIIEEE Transactions on Systems, Man, and
+Cybernetics\fR, SMC\-3(6):610\-621.
+.IP \(bu 4n
+Bouman, C. A., Shapiro, M. (1994). A Multiscale Random Field Model for
+Bayesian Image Segmentation, IEEE Trans. on Image Processing, vol. 3, no. 2.
+.IP \(bu 4n
+Jensen, J.R. (1996). Introductory digital image processing. Prentice Hall.
+ISBN 0\-13\-205840\-5
+.IP \(bu 4n
+Haralick, R. (May 1979). \fIStatistical and structural approaches to texture\fR,
+Proceedings of the IEEE, vol. 67, No.5, pp. 786\-804
+.IP \(bu 4n
+Hall\-Beyer, M. (2007). The GLCM Tutorial Home Page
+(Grey\-Level Co\-occurrence Matrix texture measurements). University of Calgary, Canada
+.RE
+.SH SEE ALSO
+\fI
+i.smap,
+i.gensigset,
+i.pca,
+r.neighbors,
+r.rescale
+\fR
+.SH AUTHORS
+G. Antoniol \- RCOST (Research Centre on Software Technology \- Viale Traiano \- 82100 Benevento)
+.br
+C. Basco \-  RCOST (Research Centre on Software Technology \- Viale Traiano \- 82100 Benevento)
+.br
+M. Ceccarelli \- Facolta di Scienze, Universita del Sannio, Benevento
+.PP
+\fILast changed: $Date: 2015\-12\-03 17:34:44 +0100 (Thu, 03 Dec 2015) $\fR
+.PP
+Main index |
+Raster index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2016
+GRASS Development Team,
+GRASS GIS 7.0.4 Reference Manual

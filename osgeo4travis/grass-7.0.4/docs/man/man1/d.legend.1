@@ -1,0 +1,220 @@
+.TH d.legend 1 "" "GRASS 7.0.4" "Grass User's Manual"
+.SH NAME
+\fI\fBd.legend\fR\fR  \- Displays a legend for a 2D or 3D raster map in the active frame of the graphics monitor.
+.SH KEYWORDS
+display, cartography, legend
+.SH SYNOPSIS
+\fBd.legend\fR
+.br
+\fBd.legend \-\-help\fR
+.br
+\fBd.legend\fR [\-\fBvcnsfd\fR]  [\fBraster\fR=\fIname\fR]   [\fBraster_3d\fR=\fIname\fR]   [\fBlines\fR=\fIinteger\fR]   [\fBthin\fR=\fIinteger\fR]   [\fBlabelnum\fR=\fIinteger\fR]   [\fBat\fR=\fIbottom,top,left,right\fR]   [\fBuse\fR=\fIfloat\fR[,\fIfloat\fR,...]]   [\fBrange\fR=\fImin,max\fR]   [\fBcolor\fR=\fIname\fR]   [\fBfont\fR=\fIstring\fR]   [\fBfontsize\fR=\fIfloat\fR]   [\fBpath\fR=\fIname\fR]   [\fBcharset\fR=\fIstring\fR]   [\-\-\fBhelp\fR]  [\-\-\fBverbose\fR]  [\-\-\fBquiet\fR]  [\-\-\fBui\fR]
+.SS Flags:
+.IP "\fB\-v\fR" 4m
+.br
+Do not show category labels
+.IP "\fB\-c\fR" 4m
+.br
+Do not show category numbers
+.IP "\fB\-n\fR" 4m
+.br
+Skip categories with no label
+.IP "\fB\-s\fR" 4m
+.br
+Draw smooth gradient
+.IP "\fB\-f\fR" 4m
+.br
+Flip legend
+.IP "\fB\-d\fR" 4m
+.br
+Add histogram to smoothed legend
+.IP "\fB\-\-help\fR" 4m
+.br
+Print usage summary
+.IP "\fB\-\-verbose\fR" 4m
+.br
+Verbose module output
+.IP "\fB\-\-quiet\fR" 4m
+.br
+Quiet module output
+.IP "\fB\-\-ui\fR" 4m
+.br
+Force launching GUI dialog
+.SS Parameters:
+.IP "\fBraster\fR=\fIname\fR" 4m
+.br
+Name of raster map
+.IP "\fBraster_3d\fR=\fIname\fR" 4m
+.br
+Name of 3D raster map
+.IP "\fBlines\fR=\fIinteger\fR" 4m
+.br
+Number of text lines (useful for truncating long legends)
+.br
+Options: \fI0\-1000\fR
+.br
+Default: \fI0\fR
+.IP "\fBthin\fR=\fIinteger\fR" 4m
+.br
+Thinning factor (thin=10 gives cats 0,10,20...)
+.br
+Options: \fI1\-1000\fR
+.br
+Default: \fI1\fR
+.IP "\fBlabelnum\fR=\fIinteger\fR" 4m
+.br
+Number of text labels for smooth gradient legend
+.br
+Options: \fI2\-100\fR
+.br
+Default: \fI5\fR
+.IP "\fBat\fR=\fIbottom,top,left,right\fR" 4m
+.br
+Size and placement as percentage of screen coordinates (0,0 is lower left)
+.br
+bottom,top,left,right
+.br
+Options: \fI0\-100\fR
+.IP "\fBuse\fR=\fIfloat[,\fIfloat\fR,...]\fR" 4m
+.br
+List of discrete category numbers/values for legend
+.IP "\fBrange\fR=\fImin,max\fR" 4m
+.br
+Use a subset of the map range for the legend (min,max)
+.IP "\fBcolor\fR=\fIname\fR" 4m
+.br
+Text color
+.br
+Either a standard color name or R:G:B triplet
+.br
+Default: \fIblack\fR
+.IP "\fBfont\fR=\fIstring\fR" 4m
+.br
+Font name
+.IP "\fBfontsize\fR=\fIfloat\fR" 4m
+.br
+Font size
+.br
+Default: Auto\-scaled
+.br
+Options: \fI1\-360\fR
+.IP "\fBpath\fR=\fIname\fR" 4m
+.br
+Path to font file
+.IP "\fBcharset\fR=\fIstring\fR" 4m
+.br
+Text encoding (only applicable to TrueType fonts)
+.SH DESCRIPTION
+\fId.legend\fR displays a legend for a user\-specified raster map or
+3D raster map layer in the active frame on the graphics monitor.
+.PP
+The legend\(cqs default size is based on the dimensions of the
+active frame, specifically its height.  \fId.legend\fR will only
+obscure those portions of the active frame that directly underlie the legend.
+.SH NOTES
+When using the \fBat\fR to size & place the legend, a user may
+create a horizontal legend by making the box wider than it is tall.
+.PP
+Raster maps based on floating point values will display smoothed, from greatest
+to smallest value, while categorical raster maps will display in order, from
+top to bottom. Horizontal legends will always be smoothed. If the box is defined
+with inverted y\-values or an inverted \fBrange\fR, the legend will automatically
+flip. If this is not the desired result, the \fB\-f\fR flag may be used to flip
+it back.
+.PP
+If the user attempts to display a very long legend in a relatively short
+display frame, the legend may appear in unreadably small text, or even revert
+to a smooth gradient legend. Use the \fBlines\fR, \fBthin\fR, \fBuse\fR, \fBrange\fR,
+and/or \fB\-n\fR options to reduce the number of categories to be displayed,
+or the \fB\-s\fR flag to force a smooth gradient legend.
+.PP
+The \fBlines\fR option will display the first number of categories, as defined
+by \fIvalue\fR, contained in the raster map. When used with the \fB\-n\fR flag,
+it takes on a new meaning: \(dqup to category #\(dq. When used with both
+\fBthin\fR and the \fB\-n\fR flag, its meaning becomes more obscure. When
+using \fBlines\fR, auto\-scaled text similar to \(dq4 of 16 categories\(dq will be placed at
+the bottom of the legend.
+.PP
+The \fBthin\fR option sets the thinning factor. For raster maps with a 0th
+category, \fBthin=\fR\fI10\fR gives cats [0,10,20,...]. For raster maps
+starting at category 1, \fBthin=\fR\fI10\fR gives cats [1,11,21,...].
+.PP
+The \fBuse\fR option lets the user create a legend made up of arbitrary category
+values. e.g. \fBuse=\fR\fI1000,100,10,0,\-10,\-100,\-1000\fR
+.PP
+The \fBrange\fR option lets the user define the minimum and maximum categories
+to be used in the legend. It may also be used to define the limits of a smooth
+gradient legend created from a raster containing floating point values. Note
+the color scale will remain faithful to the category values as defined with
+\fIr.colors\fR, and the \fBrange\fR may be
+extended to the limits defined by the \fIr.colors\fR
+color map.
+.PP
+The flag \fB\-n\fR is useful for categorial maps, as it suppresses the
+drawing of non\-existing categories (otherwise the full range is shown).
+.PP
+Vertical legends produced with \fId.legend\fR will place text labels to the
+right of the legend box, horizontal legends will place text below. This text
+will be auto\-scaled to fit within the frame, reducing the size of the legend
+if necessary. Legends positioned with the \fBat\fR option
+will not auto\-scale text, in order to provide more control to the user.
+Smaller text may be obtained in this case by reducing the height of the box
+or by using the \fBfontsize\fR option. The \fB\-c\fR and \fB\-v\fR flags may
+be used to suppress the display of category numbers and labels respectively,
+or used together to suppress all text of categorial raster maps.
+.PP
+The text produced from floating\-point raster maps will automatically create
+output with a meaningful number of significant digits. For very small values,
+numbers will be expressed in scientific notation, e.g. \(dq1.7e\-9\(dq.
+.PP
+When the \fB\-d\fR flag is used to display a histogram distribution along
+side the smoothed gradient legend, note that the statistics are calculated
+on the \fIcurrent computational region\fR settings set by \fIg.region\fR.
+The default \fBrange\fR however covers the entire natural bounds of the input map.
+If the histogram appears empty, check your region settings.
+.PP
+If the raster map\(cqs \fIunits\fR metadata has been set with the
+\fIr.support\fR module then it will be displayed along side the legend.
+.SH EXAMPLE
+Displaying the legend along with a histogram (North Carolina Sample dataset):
+.br
+.nf
+\fC
+g.region raster=elevation \-p
+d.rast elevation
+d.legend \-d elevation
+\fR
+.fi
+.SH SEE ALSO
+\fI
+d.barscale,
+d.colortable,
+d.font,
+d.grid,
+d.rast,
+d.rast.leg,
+d.text,
+d.vect.thematic,
+r.reclass,
+r.stats,
+r3.stats
+\fR
+.SH AUTHORS
+Bill Brown, U.S. Army Construction Engineering Research Laboratories
+.br
+Late 2002: Rewrite of much of the code. Hamish Bowman,
+Otago University, New Zealand
+.br
+Additional improvements from various authors
+.PP
+\fILast changed: $Date: 2015\-07\-20 20:56:23 +0200 (Mon, 20 Jul 2015) $\fR
+.PP
+Main index |
+Display index |
+Topics index |
+Keywords index |
+Full index
+.PP
+© 2003\-2016
+GRASS Development Team,
+GRASS GIS 7.0.4 Reference Manual
