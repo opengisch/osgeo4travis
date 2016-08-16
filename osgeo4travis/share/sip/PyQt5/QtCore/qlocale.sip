@@ -2,7 +2,7 @@
 //
 // This file is part of the QtCore Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -544,6 +544,66 @@ public:
 %If (Qt_5_5_0 -)
         Maithili,
 %End
+%If (Qt_5_7_0 -)
+        Ahom,
+%End
+%If (Qt_5_7_0 -)
+        AmericanSignLanguage,
+%End
+%If (Qt_5_7_0 -)
+        ArdhamagadhiPrakrit,
+%End
+%If (Qt_5_7_0 -)
+        Bhojpuri,
+%End
+%If (Qt_5_7_0 -)
+        HieroglyphicLuwian,
+%End
+%If (Qt_5_7_0 -)
+        LiteraryChinese,
+%End
+%If (Qt_5_7_0 -)
+        Mazanderani,
+%End
+%If (Qt_5_7_0 -)
+        Mru,
+%End
+%If (Qt_5_7_0 -)
+        Newari,
+%End
+%If (Qt_5_7_0 -)
+        NorthernLuri,
+%End
+%If (Qt_5_7_0 -)
+        Palauan,
+%End
+%If (Qt_5_7_0 -)
+        Papiamento,
+%End
+%If (Qt_5_7_0 -)
+        Saraiki,
+%End
+%If (Qt_5_7_0 -)
+        TokelauLanguage,
+%End
+%If (Qt_5_7_0 -)
+        TokPisin,
+%End
+%If (Qt_5_7_0 -)
+        TuvaluLanguage,
+%End
+%If (Qt_5_7_0 -)
+        UncodedLanguages,
+%End
+%If (Qt_5_7_0 -)
+        Cantonese,
+%End
+%If (Qt_5_7_0 -)
+        Osage,
+%End
+%If (Qt_5_7_0 -)
+        Tangut,
+%End
     };
 
     enum Country
@@ -815,12 +875,33 @@ public:
 %If (Qt_5_2_0 -)
         Kosovo,
 %End
+%If (Qt_5_7_0 -)
+        TokelauCountry,
+%End
+%If (Qt_5_7_0 -)
+        TuvaluCountry,
+%End
+%If (Qt_5_7_0 -)
+        EuropeanUnion,
+%End
+%If (Qt_5_7_0 -)
+        OutlyingOceania,
+%End
     };
 
     enum NumberOption
     {
         OmitGroupSeparator,
         RejectGroupSeparator,
+%If (Qt_5_7_0 -)
+        DefaultNumberOptions,
+%End
+%If (Qt_5_7_0 -)
+        OmitLeadingZeroInExponent,
+%End
+%If (Qt_5_7_0 -)
+        RejectLeadingZeroInExponent,
+%End
     };
 
     typedef QFlags<QLocale::NumberOption> NumberOptions;
@@ -882,8 +963,8 @@ public:
     QChar exponential() const;
     QString monthName(int, QLocale::FormatType format = QLocale::LongFormat) const;
     QString dayName(int, QLocale::FormatType format = QLocale::LongFormat) const;
-    void setNumberOptions(QFlags<QLocale::NumberOption> options);
-    QFlags<QLocale::NumberOption> numberOptions() const;
+    void setNumberOptions(QLocale::NumberOptions options);
+    QLocale::NumberOptions numberOptions() const;
 
     enum MeasurementSystem
     {
@@ -1217,6 +1298,48 @@ public:
 %If (Qt_5_5_0 -)
         VarangKshitiScript,
 %End
+%If (Qt_5_7_0 -)
+        AhomScript,
+%End
+%If (Qt_5_7_0 -)
+        AnatolianHieroglyphsScript,
+%End
+%If (Qt_5_7_0 -)
+        HatranScript,
+%End
+%If (Qt_5_7_0 -)
+        MultaniScript,
+%End
+%If (Qt_5_7_0 -)
+        OldHungarianScript,
+%End
+%If (Qt_5_7_0 -)
+        SignWritingScript,
+%End
+%If (Qt_5_7_0 -)
+        AdlamScript,
+%End
+%If (Qt_5_7_0 -)
+        BhaiksukiScript,
+%End
+%If (Qt_5_7_0 -)
+        MarchenScript,
+%End
+%If (Qt_5_7_0 -)
+        NewaScript,
+%End
+%If (Qt_5_7_0 -)
+        OsageScript,
+%End
+%If (Qt_5_7_0 -)
+        TangutScript,
+%End
+%If (Qt_5_7_0 -)
+        HanWithBopomofoScript,
+%End
+%If (Qt_5_7_0 -)
+        JamoScript,
+%End
     };
 
     enum CurrencySymbolFormat
@@ -1236,10 +1359,13 @@ public:
     QString toUpper(const QString &str) const;
     QString toLower(const QString &str) const;
     QString currencySymbol(QLocale::CurrencySymbolFormat format = QLocale::CurrencySymbol) const;
-    QString toCurrencyString(int value /Constrained/, const QString &symbol /DocValue="''"/ = QString()) const;
-    QString toCurrencyString(double value /Constrained/, const QString &symbol /DocValue="''"/ = QString()) const;
-    QString toCurrencyString(qlonglong value, const QString &symbol /DocValue="''"/ = QString()) const;
-    QString toCurrencyString(qulonglong value, const QString &symbol /DocValue="''"/ = QString()) const;
+    QString toCurrencyString(int value /Constrained/, const QString &symbol = QString()) const;
+    QString toCurrencyString(double value /Constrained/, const QString &symbol = QString()) const;
+%If (Qt_5_7_0 -)
+    QString toCurrencyString(double value /Constrained/, const QString &symbol, int precision) const;
+%End
+    QString toCurrencyString(qlonglong value, const QString &symbol = QString()) const;
+    QString toCurrencyString(qulonglong value, const QString &symbol = QString()) const;
     QStringList uiLanguages() const;
     static QString scriptToString(QLocale::Script script);
     static QList<QLocale> matchingLocales(QLocale::Language language, QLocale::Script script, QLocale::Country country);
@@ -1252,6 +1378,24 @@ public:
 
     QString quoteString(const QString &str, QLocale::QuotationStyle style = QLocale::StandardQuotation) const;
     QString createSeparatedList(const QStringList &list) const;
+%If (Qt_5_6_0 -)
+    long __hash__() const;
+%MethodCode
+        sipRes = qHash(*sipCpp);
+%End
+
+%End
+%If (Qt_5_7_0 -)
+
+    enum FloatingPointPrecisionOption
+    {
+        FloatingPointShortest,
+    };
+
+%End
+%If (Qt_5_7_0 -)
+    void swap(QLocale &other);
+%End
 };
 
 QDataStream &operator<<(QDataStream &, const QLocale & /Constrained/) /ReleaseGIL/;

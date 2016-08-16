@@ -1,31 +1,38 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Copyright (C) 2016 Intel Corporation.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the QtCore module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL21$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
-** As a special exception, The Qt Company gives you certain additional
-** rights. These rights are described in The Qt Company LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -125,19 +132,19 @@ public:
         MV_Unknown = 0x0000,
 
         /* version */
-        MV_9 = 0x0001,
-        MV_10_0 = 0x0002,
-        MV_10_1 = 0x0003,
-        MV_10_2 = 0x0004,
-        MV_10_3 = 0x0005,
-        MV_10_4 = 0x0006,
-        MV_10_5 = 0x0007,
-        MV_10_6 = 0x0008,
-        MV_10_7 = 0x0009,
-        MV_10_8 = 0x000A,
-        MV_10_9 = 0x000B,
-        MV_10_10 = 0x000C,
-        MV_10_11 = 0x000D,
+        MV_9 = Q_MV_OSX(9, 0),
+        MV_10_0 = Q_MV_OSX(10, 0),
+        MV_10_1 = Q_MV_OSX(10, 1),
+        MV_10_2 = Q_MV_OSX(10, 2),
+        MV_10_3 = Q_MV_OSX(10, 3),
+        MV_10_4 = Q_MV_OSX(10, 4),
+        MV_10_5 = Q_MV_OSX(10, 5),
+        MV_10_6 = Q_MV_OSX(10, 6),
+        MV_10_7 = Q_MV_OSX(10, 7),
+        MV_10_8 = Q_MV_OSX(10, 8),
+        MV_10_9 = Q_MV_OSX(10, 9),
+        MV_10_10 = Q_MV_OSX(10, 10),
+        MV_10_11 = Q_MV_OSX(10, 11),
 
         /* codenames */
         MV_CHEETAH = MV_10_0,
@@ -186,6 +193,8 @@ public:
     static QString productType();
     static QString productVersion();
     static QString prettyProductName();
+
+    static QString machineHostName();
 };
 
 QT_END_NAMESPACE

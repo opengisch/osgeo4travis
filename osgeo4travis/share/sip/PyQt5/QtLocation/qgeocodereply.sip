@@ -2,7 +2,7 @@
 //
 // This file is part of the QtLocation Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -56,7 +56,12 @@ signals:
     void error(QGeoCodeReply::Error error, const QString &errorString = QString());
 
 protected:
+%If (Qt_5_6_1 -)
+    explicit QGeoCodeReply(QObject *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QGeoCodeReply(QObject *parent /TransferThis/ = 0);
+%End
     void setError(QGeoCodeReply::Error error, const QString &errorString);
     void setFinished(bool finished);
     void setViewport(const QGeoShape &viewport);

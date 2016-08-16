@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5X11Extras_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5X11Extras_VERSION instead.
-set(Qt5X11Extras_VERSION_STRING 5.5.1)
+set(Qt5X11Extras_VERSION_STRING 5.7.0)
 
 set(Qt5X11Extras_LIBRARIES Qt5::X11Extras)
 
@@ -82,7 +82,7 @@ if (NOT TARGET Qt5::X11Extras)
     foreach(_module_dep ${_Qt5X11Extras_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5X11Extras_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5X11Extras_FIND_VERSION_EXACT}
                 ${_Qt5X11Extras_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5X11Extras_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -116,7 +116,7 @@ if (NOT TARGET Qt5::X11Extras)
     set_property(TARGET Qt5::X11Extras PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_X11EXTRAS_LIB)
 
-    _populate_X11Extras_target_properties(RELEASE "libQt5X11Extras.so.5.5.1" "" )
+    _populate_X11Extras_target_properties(RELEASE "libQt5X11Extras.so.5.7.0" "" )
 
 
 

@@ -39,6 +39,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import "."
 
 Rectangle {
     id: chart
@@ -135,7 +136,7 @@ Rectangle {
     Text {
         id: fromDate
         color: "#000000"
-        font.family: "Open Sans"
+        font.family: Settings.fontFamily
         font.pointSize: 8
         anchors.left: parent.left
         anchors.bottom: parent.bottom
@@ -145,7 +146,7 @@ Rectangle {
     Text {
         id: toDate
         color: "#000000"
-        font.family: "Open Sans"
+        font.family: Settings.fontFamily
         font.pointSize: 8
         anchors.right: parent.right
         anchors.rightMargin: canvas.tickMargin
@@ -320,11 +321,27 @@ Rectangle {
             ctx.restore();
         }
 
-        onPaint: {
-            if (!stockModel.ready) {
-                return;
-            }
+        function drawError(ctx, msg)
+        {
+            ctx.save();
+            ctx.strokeStyle = "#888888";
+            ctx.font = "24px Open Sans"
+            ctx.textAlign = "center"
+            ctx.shadowOffsetX = 4;
+            ctx.shadowOffsetY = 4;
+            ctx.shadowBlur = 1.5;
+            ctx.shadowColor = "#aaaaaa";
+            ctx.beginPath();
 
+            ctx.fillText(msg, (canvas.width - tickMargin) / 2,
+                              (canvas.height - yGridOffset - yGridStep) / 2);
+
+            ctx.closePath();
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        onPaint: {
             numPoints = stockModel.indexOf(chart.startDate);
 
             if (chart.gridSize == 0)
@@ -335,6 +352,11 @@ Rectangle {
             ctx.lineWidth = 1;
 
             drawBackground(ctx);
+
+            if (!stockModel.ready) {
+                drawError(ctx, "No data available.");
+                return;
+            }
 
             var highestPrice = 0;
             var highestVolume = 0;

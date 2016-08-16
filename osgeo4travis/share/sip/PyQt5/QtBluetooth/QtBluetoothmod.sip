@@ -2,7 +2,7 @@
 //
 // This file is part of the QtBluetooth Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -25,7 +25,7 @@
 %Import QtCore/QtCoremod.sip
 
 %Copying
-Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 
 This file is part of PyQt5.
 
@@ -57,9 +57,15 @@ WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 %Include qbluetoothtransferreply.sip
 %Include qbluetoothtransferrequest.sip
 %Include qbluetoothuuid.sip
+%Include qlowenergyadvertisingdata.sip
+%Include qlowenergyadvertisingparameters.sip
 %Include qlowenergycharacteristic.sip
+%Include qlowenergycharacteristicdata.sip
+%Include qlowenergyconnectionparameters.sip
 %Include qlowenergycontroller.sip
 %Include qlowenergydescriptor.sip
+%Include qlowenergydescriptordata.sip
 %Include qlowenergyservice.sip
+%Include qlowenergyservicedata.sip
 %Include qpybluetooth_qlist.sip
 %Include qpybluetooth_quint128.sip

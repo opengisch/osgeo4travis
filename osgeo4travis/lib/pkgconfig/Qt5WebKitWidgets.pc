@@ -6,9 +6,9 @@ includedir=${prefix}/include
 
 Name: Qt5 WebKitWidgets
 Description: Qt WebKitWidgets module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5WebKitWidgets 
-Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Widgets -L/home/travis/osgeo4travis/lib -lQt5WebKit -lQt5Gui -lQt5Network -lQt5Core -lpthread -lsqlite3 -L/home/travis/osgeo4travis/lib -lQt5Sensors -L/home/travis/osgeo4travis/lib -L/home/travis/osgeo4travis/lib -lQt5Positioning -L/home/travis/osgeo4travis/lib -lQt5MultimediaWidgets -lQt5Multimedia -lQt5PrintSupport -lQt5OpenGL -lQt5Widgets -lQt5WebKit -lQt5Gui -lQt5Network -lQt5Sql -lQt5Core -lpthread -lGL  
+Libs.private: -L/home/travis/osgeo4travis/lib -lQt5WebKit -L/home/travis/osgeo4travis/lib -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lpthread -lsqlite3 -lQt5WebKit -L/home/travis/osgeo4travis/lib -lQt5Sensors -lQt5Positioning -lQt5MultimediaWidgets -lQt5Multimedia -lQt5PrintSupport -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Sql -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtWebKitWidgets -I${includedir}
 Requires: Qt5Core Qt5Gui Qt5Widgets Qt5Network Qt5WebKit
 

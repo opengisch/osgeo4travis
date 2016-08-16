@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt53DInput_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt53DInput_VERSION instead.
-set(Qt53DInput_VERSION_STRING 5.5.1)
+set(Qt53DInput_VERSION_STRING 5.7.0)
 
 set(Qt53DInput_LIBRARIES Qt5::3DInput)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::3DInput)
 
     set(_Qt53DInput_OWN_INCLUDE_DIRS "${_qt53DInput_install_prefix}/include/" "${_qt53DInput_install_prefix}/include/Qt3DInput")
     set(Qt53DInput_PRIVATE_INCLUDE_DIRS
-        "${_qt53DInput_install_prefix}/include/Qt3DInput/5.5.1"
-        "${_qt53DInput_install_prefix}/include/Qt3DInput/5.5.1/Qt3DInput"
+        "${_qt53DInput_install_prefix}/include/Qt3DInput/5.7.0"
+        "${_qt53DInput_install_prefix}/include/Qt3DInput/5.7.0/Qt3DInput"
     )
 
     foreach(_dir ${_Qt53DInput_OWN_INCLUDE_DIRS})
@@ -64,7 +64,7 @@ if (NOT TARGET Qt5::3DInput)
 
     set(Qt53DInput_DEFINITIONS -DQT_3DINPUT_LIB)
     set(Qt53DInput_COMPILE_DEFINITIONS QT_3DINPUT_LIB)
-    set(_Qt53DInput_MODULE_DEPENDENCIES "3DRenderer;3DCore;Gui;Core")
+    set(_Qt53DInput_MODULE_DEPENDENCIES "3DCore;Gamepad;Gui;Core")
 
 
     set(_Qt53DInput_FIND_DEPENDENCIES_REQUIRED)
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::3DInput)
     foreach(_module_dep ${_Qt53DInput_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt53DInput_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt53DInput_FIND_VERSION_EXACT}
                 ${_Qt53DInput_DEPENDENCIES_FIND_QUIET}
                 ${_Qt53DInput_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -109,7 +109,7 @@ if (NOT TARGET Qt5::3DInput)
     list(REMOVE_DUPLICATES Qt53DInput_COMPILE_DEFINITIONS)
     list(REMOVE_DUPLICATES Qt53DInput_EXECUTABLE_COMPILE_FLAGS)
 
-    set(_Qt53DInput_LIB_DEPENDENCIES "Qt5::3DRenderer;Qt5::3DCore;Qt5::Gui;Qt5::Core")
+    set(_Qt53DInput_LIB_DEPENDENCIES "Qt5::3DCore;Qt5::Gamepad;Qt5::Gui;Qt5::Core")
 
 
     add_library(Qt5::3DInput SHARED IMPORTED)
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::3DInput)
     set_property(TARGET Qt5::3DInput PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_3DINPUT_LIB)
 
-    _populate_3DInput_target_properties(RELEASE "libQt53DInput.so.5.5.1" "" )
+    _populate_3DInput_target_properties(RELEASE "libQt53DInput.so.5.7.0" "" )
 
 
 

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtMultimedia Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -36,7 +36,7 @@ public:
 
     typedef QFlags<QVideoFilterRunnable::RunFlag> RunFlags;
     virtual ~QVideoFilterRunnable() /ReleaseGIL/;
-    virtual QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, QFlags<QVideoFilterRunnable::RunFlag> flags) = 0 /ReleaseGIL/;
+    virtual QVideoFrame run(QVideoFrame *input, const QVideoSurfaceFormat &surfaceFormat, QVideoFilterRunnable::RunFlags flags) = 0 /ReleaseGIL/;
 };
 
 %End

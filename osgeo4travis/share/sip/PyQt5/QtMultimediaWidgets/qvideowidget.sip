@@ -2,7 +2,7 @@
 //
 // This file is part of the QtMultimediaWidgets Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -57,7 +57,12 @@ class QVideoWidget : QWidget, QMediaBindableInterface
 %End
 
 public:
+%If (Qt_5_6_1 -)
+    explicit QVideoWidget(QWidget *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QVideoWidget(QWidget *parent /TransferThis/ = 0);
+%End
     virtual ~QVideoWidget();
     virtual QMediaObject *mediaObject() const;
     Qt::AspectRatioMode aspectRatioMode() const;

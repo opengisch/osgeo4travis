@@ -1,31 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the QtCore module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL21$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
-** As a special exception, The Qt Company gives you certain additional
-** rights. These rights are described in The Qt Company LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -91,7 +97,7 @@ class QScopedPointer
 {
     typedef T *QScopedPointer:: *RestrictedBool;
 public:
-    explicit inline QScopedPointer(T *p = 0) : d(p)
+    explicit inline QScopedPointer(T *p = Q_NULLPTR) : d(p)
     {
     }
 
@@ -121,12 +127,12 @@ public:
 #if defined(Q_QDOC)
     inline operator bool() const
     {
-        return isNull() ? 0 : &QScopedPointer::d;
+        return isNull() ? Q_NULLPTR : &QScopedPointer::d;
     }
 #else
     inline operator RestrictedBool() const
     {
-        return isNull() ? 0 : &QScopedPointer::d;
+        return isNull() ? Q_NULLPTR : &QScopedPointer::d;
     }
 #endif
 
@@ -140,7 +146,7 @@ public:
         return !d;
     }
 
-    inline void reset(T *other = 0)
+    inline void reset(T *other = Q_NULLPTR)
     {
         if (d == other)
             return;
@@ -152,11 +158,11 @@ public:
     inline T *take()
     {
         T *oldD = d;
-        d = 0;
+        d = Q_NULLPTR;
         return oldD;
     }
 
-    inline void swap(QScopedPointer<T, Cleanup> &other)
+    void swap(QScopedPointer<T, Cleanup> &other) Q_DECL_NOTHROW
     {
         qSwap(d, other.d);
     }
@@ -183,17 +189,8 @@ inline bool operator!=(const QScopedPointer<T, Cleanup> &lhs, const QScopedPoint
 }
 
 template <class T, class Cleanup>
-Q_INLINE_TEMPLATE void qSwap(QScopedPointer<T, Cleanup> &p1, QScopedPointer<T, Cleanup> &p2)
+inline void swap(QScopedPointer<T, Cleanup> &p1, QScopedPointer<T, Cleanup> &p2) Q_DECL_NOTHROW
 { p1.swap(p2); }
-
-QT_END_NAMESPACE
-namespace std {
-    template <class T, class Cleanup>
-    Q_INLINE_TEMPLATE void swap(QT_PREPEND_NAMESPACE(QScopedPointer)<T, Cleanup> &p1, QT_PREPEND_NAMESPACE(QScopedPointer)<T, Cleanup> &p2)
-    { p1.swap(p2); }
-}
-QT_BEGIN_NAMESPACE
-
 
 
 namespace QtPrivate {
@@ -206,10 +203,10 @@ template <typename T, typename Cleanup = QScopedPointerArrayDeleter<T> >
 class QScopedArrayPointer : public QScopedPointer<T, Cleanup>
 {
 public:
-    inline QScopedArrayPointer() : QScopedPointer<T, Cleanup>(0) {}
+    inline QScopedArrayPointer() : QScopedPointer<T, Cleanup>(Q_NULLPTR) {}
 
     template <typename D>
-    explicit inline QScopedArrayPointer(D *p, typename QtPrivate::QScopedArrayEnsureSameType<T,D>::Type = 0)
+    explicit inline QScopedArrayPointer(D *p, typename QtPrivate::QScopedArrayEnsureSameType<T,D>::Type = Q_NULLPTR)
         : QScopedPointer<T, Cleanup>(p)
     {
     }
@@ -223,6 +220,9 @@ public:
     {
         return this->d[i];
     }
+
+    void swap(QScopedArrayPointer &other) Q_DECL_NOTHROW // prevent QScopedPointer <->QScopedArrayPointer swaps
+    { QScopedPointer<T, Cleanup>::swap(other); }
 
 private:
     explicit inline QScopedArrayPointer(void *) {
@@ -238,6 +238,10 @@ private:
 
     Q_DISABLE_COPY(QScopedArrayPointer)
 };
+
+template <typename T, typename Cleanup>
+inline void swap(QScopedArrayPointer<T, Cleanup> &lhs, QScopedArrayPointer<T, Cleanup> &rhs) Q_DECL_NOTHROW
+{ lhs.swap(rhs); }
 
 QT_END_NAMESPACE
 

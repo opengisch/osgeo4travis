@@ -2,7 +2,7 @@
 //
 // This file is part of the QtGui Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -53,6 +53,11 @@ public:
     QPixmap dragCursor(Qt::DropAction action) const;
     Qt::DropActions supportedActions() const;
     Qt::DropAction defaultAction() const;
+%If (Qt_5_7_0 -)
+%If (WS_X11 || WS_WIN)
+    static void cancel();
+%End
+%End
 
 private:
     QDrag(const QDrag &);

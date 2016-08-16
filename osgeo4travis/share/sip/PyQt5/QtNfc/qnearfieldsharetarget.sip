@@ -2,7 +2,7 @@
 //
 // This file is part of the QtNfc Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -30,7 +30,7 @@ class QNearFieldShareTarget : QObject
 
 public:
     virtual ~QNearFieldShareTarget();
-    QFlags<QNearFieldShareManager::ShareMode> shareModes() const;
+    QNearFieldShareManager::ShareModes shareModes() const;
     bool share(const QNdefMessage &message);
     bool share(const QList<QFileInfo> &files);
     void cancel();

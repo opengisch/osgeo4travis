@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5Positioning_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5Positioning_VERSION instead.
-set(Qt5Positioning_VERSION_STRING 5.5.1)
+set(Qt5Positioning_VERSION_STRING 5.7.0)
 
 set(Qt5Positioning_LIBRARIES Qt5::Positioning)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::Positioning)
 
     set(_Qt5Positioning_OWN_INCLUDE_DIRS "${_qt5Positioning_install_prefix}/include/" "${_qt5Positioning_install_prefix}/include/QtPositioning")
     set(Qt5Positioning_PRIVATE_INCLUDE_DIRS
-        "${_qt5Positioning_install_prefix}/include/QtPositioning/5.5.1"
-        "${_qt5Positioning_install_prefix}/include/QtPositioning/5.5.1/QtPositioning"
+        "${_qt5Positioning_install_prefix}/include/QtPositioning/5.7.0"
+        "${_qt5Positioning_install_prefix}/include/QtPositioning/5.7.0/QtPositioning"
     )
 
     foreach(_dir ${_Qt5Positioning_OWN_INCLUDE_DIRS})
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::Positioning)
     foreach(_module_dep ${_Qt5Positioning_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5Positioning_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5Positioning_FIND_VERSION_EXACT}
                 ${_Qt5Positioning_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5Positioning_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::Positioning)
     set_property(TARGET Qt5::Positioning PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_POSITIONING_LIB)
 
-    _populate_Positioning_target_properties(RELEASE "libQt5Positioning.so.5.5.1" "" )
+    _populate_Positioning_target_properties(RELEASE "libQt5Positioning.so.5.7.0" "" )
 
 
 

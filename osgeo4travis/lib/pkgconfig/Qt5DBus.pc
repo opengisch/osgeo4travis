@@ -6,7 +6,7 @@ includedir=${prefix}/include
 
 Name: Qt5 DBus
 Description: Qt DBus module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5DBus 
 Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Core -lpthread   
 Cflags: -I${includedir}/QtDBus -I${includedir}

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtCore Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -64,7 +64,7 @@ public:
     QTimeZone(const QByteArray &zoneId, int offsetSeconds, const QString &name, const QString &abbreviation, QLocale::Country country = QLocale::AnyCountry, const QString &comment = QString());
     QTimeZone(const QTimeZone &other);
     ~QTimeZone();
-    void swap(QTimeZone &other);
+    void swap(QTimeZone &other /Constrained/);
     bool operator==(const QTimeZone &other) const;
     bool operator!=(const QTimeZone &other) const;
     bool isValid() const;
@@ -83,7 +83,7 @@ public:
     bool hasTransitions() const;
     QTimeZone::OffsetData nextTransition(const QDateTime &afterDateTime) const;
     QTimeZone::OffsetData previousTransition(const QDateTime &beforeDateTime) const;
-    QVector<QTimeZone::OffsetData> transitions(const QDateTime &fromDateTime, const QDateTime &toDateTime) const;
+    QTimeZone::OffsetDataList transitions(const QDateTime &fromDateTime, const QDateTime &toDateTime) const;
     static QByteArray systemTimeZoneId();
     static bool isTimeZoneIdAvailable(const QByteArray &ianaId);
     static QList<QByteArray> availableTimeZoneIds();

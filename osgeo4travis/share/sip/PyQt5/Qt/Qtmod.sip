@@ -27,7 +27,6 @@
 %Include QtX11Extras/QtX11Extrasmod.sip
 %Include QtQuickWidgets/QtQuickWidgetsmod.sip
 %Include QtWebSockets/QtWebSocketsmod.sip
-%Include Enginio/Enginiomod.sip
 %Include QtWebChannel/QtWebChannelmod.sip
 %Include QtLocation/QtLocationmod.sip
 %Include QtNfc/QtNfcmod.sip

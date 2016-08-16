@@ -6,7 +6,7 @@ includedir=${prefix}/include
 
 Name: Qt5 Location
 Description: Qt Location module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5Location 
 Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Positioning -L/home/travis/osgeo4travis/lib -L/home/travis/osgeo4travis/lib -lQt5Quick -lQt5Gui -lQt5Qml -lQt5Network -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtLocation -I${includedir}

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtBluetooth Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -46,7 +46,12 @@ public:
         FullDiscovery,
     };
 
+%If (Qt_5_6_1 -)
+    explicit QBluetoothServiceDiscoveryAgent(QObject *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QBluetoothServiceDiscoveryAgent(QObject *parent /TransferThis/ = 0);
+%End
     QBluetoothServiceDiscoveryAgent(const QBluetoothAddress &deviceAdapter, QObject *parent /TransferThis/ = 0);
     virtual ~QBluetoothServiceDiscoveryAgent();
     bool isActive() const;

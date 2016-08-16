@@ -2,7 +2,7 @@
 //
 // This file is part of the QtGui Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -68,6 +68,22 @@ signals:
     void animatingChanged();
     void localeChanged();
     void inputDirectionChanged(Qt::LayoutDirection newDirection);
+
+public:
+%If (Qt_5_7_0 -)
+    QRectF anchorRectangle() const;
+%End
+%If (Qt_5_7_0 -)
+    QRectF inputItemClipRectangle() const;
+%End
+
+signals:
+%If (Qt_5_7_0 -)
+    void anchorRectangleChanged();
+%End
+%If (Qt_5_7_0 -)
+    void inputItemClipRectangleChanged();
+%End
 
 private:
     QInputMethod();

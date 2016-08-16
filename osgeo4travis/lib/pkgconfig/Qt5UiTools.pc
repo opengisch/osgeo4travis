@@ -6,9 +6,9 @@ includedir=${prefix}/include
 
 Name: Qt5 UiTools
 Description: Qt UiTools module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5UiTools 
-Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -lGL  
+Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -lQt5Widgets -L/home/travis/osgeo4travis/lib -lQt5Gui -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtUiTools -I${includedir}
-Requires: Qt5Core Qt5Gui Qt5Widgets Qt5UiPlugin
+Requires: Qt5Core Qt5Gui Qt5Widgets
 

@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5Svg_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5Svg_VERSION instead.
-set(Qt5Svg_VERSION_STRING 5.5.1)
+set(Qt5Svg_VERSION_STRING 5.7.0)
 
 set(Qt5Svg_LIBRARIES Qt5::Svg)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::Svg)
 
     set(_Qt5Svg_OWN_INCLUDE_DIRS "${_qt5Svg_install_prefix}/include/" "${_qt5Svg_install_prefix}/include/QtSvg")
     set(Qt5Svg_PRIVATE_INCLUDE_DIRS
-        "${_qt5Svg_install_prefix}/include/QtSvg/5.5.1"
-        "${_qt5Svg_install_prefix}/include/QtSvg/5.5.1/QtSvg"
+        "${_qt5Svg_install_prefix}/include/QtSvg/5.7.0"
+        "${_qt5Svg_install_prefix}/include/QtSvg/5.7.0/QtSvg"
     )
 
     foreach(_dir ${_Qt5Svg_OWN_INCLUDE_DIRS})
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::Svg)
     foreach(_module_dep ${_Qt5Svg_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5Svg_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5Svg_FIND_VERSION_EXACT}
                 ${_Qt5Svg_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5Svg_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::Svg)
     set_property(TARGET Qt5::Svg PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_SVG_LIB)
 
-    _populate_Svg_target_properties(RELEASE "libQt5Svg.so.5.5.1" "" )
+    _populate_Svg_target_properties(RELEASE "libQt5Svg.so.5.7.0" "" )
 
 
 

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtGui Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -73,14 +73,28 @@ public:
     void addPixmap(const QPixmap &pixmap, QIcon::Mode mode = QIcon::Normal, QIcon::State state = QIcon::Off);
     void addFile(const QString &fileName, const QSize &size = QSize(), QIcon::Mode mode = QIcon::Normal, QIcon::State state = QIcon::Off);
     qint64 cacheKey() const;
+%If (Qt_5_7_0 -)
+    static QIcon fromTheme(const QString &name);
+%End
+%If (Qt_5_7_0 -)
+    static QIcon fromTheme(const QString &name, const QIcon &fallback);
+%End
+%If (- Qt_5_7_0)
     static QIcon fromTheme(const QString &name, const QIcon &fallback = QIcon());
+%End
     static bool hasThemeIcon(const QString &name);
     static QStringList themeSearchPaths();
     static void setThemeSearchPaths(const QStringList &searchpath);
     static QString themeName();
     static void setThemeName(const QString &path);
     QString name() const;
-    void swap(QIcon &other);
+    void swap(QIcon &other /Constrained/);
+%If (Qt_5_6_0 -)
+    void setIsMask(bool isMask);
+%End
+%If (Qt_5_6_0 -)
+    bool isMask() const;
+%End
 };
 
 QDataStream &operator<<(QDataStream &, const QIcon & /Constrained/) /ReleaseGIL/;

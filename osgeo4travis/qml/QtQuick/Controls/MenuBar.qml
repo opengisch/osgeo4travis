@@ -1,34 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
 ** packaging of this file. Please review the following information to
 ** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -44,6 +47,8 @@ import QtQuick.Controls.Private 1.0
     \inqmlmodule QtQuick.Controls
     \since 5.1
     \ingroup applicationwindow
+    \ingroup controls
+    \inherits QtQuickControls1::MenuBarPrivate
     \brief Provides a horizontal menu bar.
 
     \image menubar.png
@@ -146,11 +151,39 @@ MenuBarPrivate {
             property bool altPressedAgain: false
             property var mnemonicsMap: ({})
 
+            function openMenuAtIndex(index) {
+                if (openedMenuIndex === index)
+                    return;
+
+                var oldIndex = openedMenuIndex
+                openedMenuIndex = index
+
+                if (oldIndex !== -1) {
+                    var menu = root.menus[oldIndex]
+                    if (menu.__popupVisible)
+                        menu.__dismissAndDestroy()
+                }
+
+                if (openedMenuIndex !== -1) {
+                    menu = root.menus[openedMenuIndex]
+                    if (menu.enabled) {
+                        if (menu.__usingDefaultStyle)
+                            menu.style = d.style.menuStyle
+
+                        var xPos = row.LayoutMirroring.enabled ? menuItemLoader.width : 0
+                        menu.__popup(Qt.rect(xPos, menuBarLoader.height - d.heightPadding, 0, 0), 0)
+
+                        if (preselectMenuItem)
+                            menu.__currentIndex = 0
+                    }
+                }
+            }
+
             function dismissActiveFocus(event, reason) {
                 if (reason) {
                     altPressedAgain = false
                     altPressed = false
-                    openedMenuIndex = -1
+                    openMenuAtIndex(-1)
                     root.__contentItem.parent.forceActiveFocus()
                 } else {
                     event.accepted = false
@@ -160,7 +193,7 @@ MenuBarPrivate {
             function maybeOpenFirstMenu(event) {
                 if (altPressed && openedMenuIndex === -1) {
                     preselectMenuItem = true
-                    openedMenuIndex = 0
+                    openMenuAtIndex(0)
                 } else {
                     event.accepted = false
                 }
@@ -197,7 +230,7 @@ MenuBarPrivate {
                     idx--
                 if (idx >= 0) {
                     d.preselectMenuItem = true
-                    d.openedMenuIndex = idx
+                    d.openMenuAtIndex(idx)
                 }
             } else {
                 event.accepted = false;
@@ -211,12 +244,14 @@ MenuBarPrivate {
                     idx++
                 if (idx < root.menus.length) {
                     d.preselectMenuItem = true
-                    d.openedMenuIndex = idx
+                    d.openMenuAtIndex(idx)
                 }
             } else {
                 event.accepted = false;
             }
         }
+
+        Keys.forwardTo: d.openedMenuIndex !== -1 ? [root.menus[d.openedMenuIndex].__contentItem] : []
 
         Row {
             id: row
@@ -233,7 +268,7 @@ MenuBarPrivate {
 
                     Accessible.role: Accessible.MenuItem
                     Accessible.name: StyleHelpers.removeMnemonics(opts.text)
-                    Accessible.onPressAction: d.openedMenuIndex = opts.index
+                    Accessible.onPressAction: d.openMenuAtIndex(opts.index)
 
                     property var styleData: QtObject {
                         id: opts
@@ -254,35 +289,18 @@ MenuBarPrivate {
                     visible: __menuItem.visible
 
                     Connections {
-                        target: d
-                        onOpenedMenuIndexChanged: {
-                            if (!__menuItem.enabled)
-                                return;
+                        target: __menuItem
+                        onAboutToHide: {
                             if (d.openedMenuIndex === index) {
-                                if (__menuItem.__usingDefaultStyle)
-                                    __menuItem.style = d.style.menuStyle
-                                __menuItem.__popup(Qt.rect(row.LayoutMirroring.enabled ? menuItemLoader.width : 0,
-                                                   menuBarLoader.height - d.heightPadding, 0, 0), 0)
-                                if (d.preselectMenuItem)
-                                    __menuItem.__currentIndex = 0
-                            } else if (__menuItem.__popupVisible) {
-                                __menuItem.__dismissMenu()
-                                __menuItem.__destroyAllMenuPopups()
+                                d.openMenuAtIndex(-1)
+                                menuMouseArea.hoveredItem = null
                             }
                         }
                     }
 
                     Connections {
-                        target: __menuItem
-                        onPopupVisibleChanged: {
-                            if (!__menuItem.__popupVisible && d.openedMenuIndex === index)
-                                d.openedMenuIndex = -1
-                        }
-                    }
-
-                    Connections {
                         target: __menuItem.__action
-                        onTriggered: d.openedMenuIndex = __menuItemIndex
+                        onTriggered: d.openMenuAtIndex(__menuItemIndex)
                     }
 
                     Component.onCompleted: {
@@ -303,26 +321,22 @@ MenuBarPrivate {
             hoverEnabled: Settings.hoverEnabled
 
             onPositionChanged: updateCurrentItem(mouse)
-            onPressed: {
-                if (updateCurrentItem(mouse)) {
-                    d.preselectMenuItem = false
-                    d.openedMenuIndex = currentItem.__menuItemIndex
-                }
-            }
+            onPressed: updateCurrentItem(mouse)
             onExited: hoveredItem = null
 
             property Item currentItem: null
             property Item hoveredItem: null
             function updateCurrentItem(mouse) {
                 var pos = mapToItem(row, mouse.x, mouse.y)
-                if (!hoveredItem || !hoveredItem.contains(Qt.point(pos.x - currentItem.x, pos.y - currentItem.y))) {
+                if (pressed || !hoveredItem
+                    || !hoveredItem.contains(Qt.point(pos.x - currentItem.x, pos.y - currentItem.y))) {
                     hoveredItem = row.childAt(pos.x, pos.y)
                     if (!hoveredItem)
                         return false;
                     currentItem = hoveredItem
-                    if (d.openedMenuIndex !== -1) {
+                    if (pressed || d.openedMenuIndex !== -1) {
                         d.preselectMenuItem = false
-                        d.openedMenuIndex = currentItem.__menuItemIndex
+                        d.openMenuAtIndex(currentItem.__menuItemIndex)
                     }
                 }
                 return true;

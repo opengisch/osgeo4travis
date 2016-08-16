@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5Script_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5Script_VERSION instead.
-set(Qt5Script_VERSION_STRING 5.5.1)
+set(Qt5Script_VERSION_STRING 5.7.0)
 
 set(Qt5Script_LIBRARIES Qt5::Script)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::Script)
 
     set(_Qt5Script_OWN_INCLUDE_DIRS "${_qt5Script_install_prefix}/include/" "${_qt5Script_install_prefix}/include/QtScript")
     set(Qt5Script_PRIVATE_INCLUDE_DIRS
-        "${_qt5Script_install_prefix}/include/QtScript/5.5.1"
-        "${_qt5Script_install_prefix}/include/QtScript/5.5.1/QtScript"
+        "${_qt5Script_install_prefix}/include/QtScript/5.7.0"
+        "${_qt5Script_install_prefix}/include/QtScript/5.7.0/QtScript"
     )
 
     foreach(_dir ${_Qt5Script_OWN_INCLUDE_DIRS})
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::Script)
     foreach(_module_dep ${_Qt5Script_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5Script_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5Script_FIND_VERSION_EXACT}
                 ${_Qt5Script_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5Script_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::Script)
     set_property(TARGET Qt5::Script PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_SCRIPT_LIB)
 
-    _populate_Script_target_properties(RELEASE "libQt5Script.so.5.5.1" "" )
+    _populate_Script_target_properties(RELEASE "libQt5Script.so.5.7.0" "" )
 
 
 

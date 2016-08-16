@@ -2,7 +2,7 @@
 //
 // This file is part of the QtBluetooth Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -233,6 +233,9 @@ public:
     QBluetoothUuid(const QUuid &uuid);
     ~QBluetoothUuid();
     bool operator==(const QBluetoothUuid &other) const;
+%If (Qt_5_7_0 -)
+    bool operator!=(const QBluetoothUuid &other) const;
+%End
     int minimumSize() const;
     quint16 toUInt16(bool *ok = 0) const;
     quint32 toUInt32(bool *ok = 0) const;

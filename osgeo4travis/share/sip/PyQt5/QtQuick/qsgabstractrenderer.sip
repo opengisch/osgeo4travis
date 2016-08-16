@@ -2,7 +2,7 @@
 //
 // This file is part of the QtQuick Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -49,8 +49,8 @@ public:
     QMatrix4x4 projectionMatrix() const;
     void setClearColor(const QColor &color);
     QColor clearColor() const;
-    void setClearMode(QFlags<QSGAbstractRenderer::ClearModeBit> mode);
-    QFlags<QSGAbstractRenderer::ClearModeBit> clearMode() const;
+    void setClearMode(QSGAbstractRenderer::ClearMode mode);
+    QSGAbstractRenderer::ClearMode clearMode() const;
     virtual void renderScene(GLuint fboId = 0) = 0;
 
 signals:

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtWebKitWidgets Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -23,12 +23,13 @@
 %Module(name=PyQt5.QtWebKitWidgets, keyword_arguments="Optional")
 
 %Import QtCore/QtCoremod.sip
+%Import QtNetwork/QtNetworkmod.sip
 %Import QtPrintSupport/QtPrintSupportmod.sip
 %Import QtWebKit/QtWebKitmod.sip
 %Import QtWidgets/QtWidgetsmod.sip
 
 %Copying
-Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 
 This file is part of PyQt5.
 

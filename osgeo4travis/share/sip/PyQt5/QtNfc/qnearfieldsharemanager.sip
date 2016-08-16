@@ -2,7 +2,7 @@
 //
 // This file is part of the QtNfc Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -53,14 +53,14 @@ public:
     };
 
     typedef QFlags<QNearFieldShareManager::ShareMode> ShareModes;
-    static QFlags<QNearFieldShareManager::ShareMode> supportedShareModes();
-    void setShareModes(QFlags<QNearFieldShareManager::ShareMode> modes);
-    QFlags<QNearFieldShareManager::ShareMode> shareModes() const;
+    static QNearFieldShareManager::ShareModes supportedShareModes();
+    void setShareModes(QNearFieldShareManager::ShareModes modes);
+    QNearFieldShareManager::ShareModes shareModes() const;
     QNearFieldShareManager::ShareError shareError() const;
 
 signals:
     void targetDetected(QNearFieldShareTarget *shareTarget);
-    void shareModesChanged(QFlags<QNearFieldShareManager::ShareMode> modes);
+    void shareModesChanged(QNearFieldShareManager::ShareModes modes);
     void error(QNearFieldShareManager::ShareError error);
 
 private:

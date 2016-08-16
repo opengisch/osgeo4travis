@@ -2,7 +2,7 @@
 //
 // This file is part of the QtQuick Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -51,6 +51,9 @@ public:
 %If (Qt_5_3_0 -)
         ItemAntialiasingHasChanged,
 %End
+%If (Qt_5_6_0 -)
+        ItemDevicePixelRatioHasChanged,
+%End
     };
 
     struct ItemChangeData
@@ -82,7 +85,12 @@ public:
         BottomRight,
     };
 
+%If (Qt_5_6_1 -)
+    explicit QQuickItem(QQuickItem *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QQuickItem(QQuickItem *parent /TransferThis/ = 0);
+%End
     virtual ~QQuickItem();
     QQuickWindow *window() const;
     QQuickItem *parentItem() const;
@@ -90,7 +98,7 @@ public:
     void stackBefore(const QQuickItem *);
     void stackAfter(const QQuickItem *);
     QRectF childrenRect();
-    QList<QQuickItem*> childItems() const;
+    QList<QQuickItem *> childItems() const;
     bool clip() const;
     void setClip(bool);
     QString state() const;
@@ -129,9 +137,9 @@ public:
     void setSmooth(bool);
     bool antialiasing() const;
     void setAntialiasing(bool);
-    QFlags<QQuickItem::Flag> flags() const;
+    QQuickItem::Flags flags() const;
     void setFlag(QQuickItem::Flag flag, bool enabled = true);
-    void setFlags(QFlags<QQuickItem::Flag> flags);
+    void setFlags(QQuickItem::Flags flags);
     bool hasActiveFocus() const;
     bool hasFocus() const;
     void setFocus(bool);
@@ -278,6 +286,15 @@ public:
         sipRes = grab->data();
 %End
 
+%End
+%If (Qt_5_7_0 -)
+    bool isAncestorOf(const QQuickItem *child) const;
+%End
+%If (Qt_5_7_0 -)
+    QPointF mapToGlobal(const QPointF &point) const;
+%End
+%If (Qt_5_7_0 -)
+    QPointF mapFromGlobal(const QPointF &point) const;
 %End
 
 private:

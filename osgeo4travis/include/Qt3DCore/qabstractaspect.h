@@ -1,125 +1,132 @@
 /****************************************************************************
 **
 ** Copyright (C) 2014 Klaralvdalens Datakonsult AB (KDAB).
-** Contact: http://www.qt-project.org/legal
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Qt3D module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
 ** packaging of this file. Please review the following information to
 ** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
 
-#ifndef QT3D_QABSTRACTASPECT_H
-#define QT3D_QABSTRACTASPECT_H
+#ifndef QT3DCORE_QABSTRACTASPECT_H
+#define QT3DCORE_QABSTRACTASPECT_H
 
 #include <QObject>
 #include <QSharedPointer>
 #include <Qt3DCore/qt3dcore_global.h>
-#include <Qt3DCore/qaspectjobproviderinterface.h>
-#include <Qt3DCore/qbackendnodefactory.h>
-#include <Qt3DCore/qsceneobserverinterface.h>
+#include <Qt3DCore/qnodeid.h>
 
 QT_BEGIN_NAMESPACE
 
-namespace Qt3D {
+namespace Qt3DCore {
 
+class QAspectEngine;
+class QAspectJob;
 class QAspectManager;
 class QNode;
-class QBackendNode;
 class QEntity;
 class QAbstractAspectPrivate;
-class QAbstractAspectJobManager;
-class QBackendNodeFunctor;
-class QServiceLocator;
+class QBackendNodeMapper;
 
-typedef QSharedPointer<QBackendNodeFunctor> QBackendNodeFunctorPtr;
+typedef QSharedPointer<QAspectJob> QAspectJobPtr;
+typedef QSharedPointer<QBackendNodeMapper> QBackendNodeMapperPtr;
 
-class QT3DCORESHARED_EXPORT QAbstractAspect
-        : public QObject
-        , public QAspectJobProviderInterface
-        , public QSceneObserverInterface
-        , public QBackendNodeFactory
+class QT3DCORESHARED_EXPORT QAbstractAspect : public QObject
 {
     Q_OBJECT
 
 public:
-    enum AspectType {
-        AspectRenderer,
-        AspectAnimation,
-        AspectCollision,
-        AspectPhysics,
-        AspectPhysicsAndCollision,
-        AspectAI,
-        AspectAudio,
-        AspectOther
-    };
-
-    explicit QAbstractAspect(AspectType aspectType, QObject *parent = 0);
-
-    AspectType aspectType() const;
-
-    void registerAspect(QEntity *rootObject);
-
-    QServiceLocator *services() const;
-    QAbstractAspectJobManager *jobManager() const;
-
-    bool isShuttingDown() const;
+    explicit QAbstractAspect(QObject *parent = nullptr);
+    ~QAbstractAspect();
 
 protected:
-    QAbstractAspect(QAbstractAspectPrivate &dd, QObject *parent = 0);
+    explicit QAbstractAspect(QAbstractAspectPrivate &dd, QObject *parent = nullptr);
 
-    QBackendNode *createBackendNode(QNode *frontend) const Q_DECL_OVERRIDE;
-    QBackendNode *getBackendNode(QNode *frontend) const;
-    void clearBackendNode(QNode *frontend) const;
+    QNodeId rootEntityId() const Q_DECL_NOEXCEPT;
 
     template<class Frontend>
-    void registerBackendType(const QBackendNodeFunctorPtr &functor);
-    void registerBackendType(const QMetaObject &, const QBackendNodeFunctorPtr &functor);
+    void registerBackendType(const QBackendNodeMapperPtr &functor);
+    void registerBackendType(const QMetaObject &, const QBackendNodeMapperPtr &functor);
 
 private:
-    virtual void setRootEntity(QEntity *rootObject) = 0;
-    virtual void onInitialize(const QVariantMap &data) = 0;
-    virtual void onStartup();
-    virtual void onShutdown();
-    virtual void onCleanup() = 0;
+    virtual QVariant executeCommand(const QStringList &args);
+
+    virtual QVector<QAspectJobPtr> jobsToExecute(qint64 time);
+
+    virtual void onRegistered();
+    virtual void onUnregistered();
+
+    virtual void onEngineStartup();
+    virtual void onEngineShutdown();
 
     Q_DECLARE_PRIVATE(QAbstractAspect)
+    friend class QAspectEngine;
     friend class QAspectManager;
 };
 
 template<class Frontend>
-void QAbstractAspect::registerBackendType(const QBackendNodeFunctorPtr &functor)
+void QAbstractAspect::registerBackendType(const QBackendNodeMapperPtr &functor)
 {
     registerBackendType(Frontend::staticMetaObject, functor);
 }
 
-} // namespace Qt3D
+} // namespace Qt3DCore
 
 QT_END_NAMESPACE
 
-#endif // QT3D_ABSTRACTASPECT_H
+#define QT3D_REGISTER_NAMESPACED_ASPECT(name, AspectNamespace, AspectType) \
+    QT_BEGIN_NAMESPACE \
+    namespace Qt3DCore { \
+        typedef QAbstractAspect *(*AspectCreateFunction)(QObject *); \
+        QT3DCORESHARED_EXPORT void qt3d_QAspectFactory_addDefaultFactory(const QString &, const QMetaObject *, AspectCreateFunction); \
+    } \
+    QT_END_NAMESPACE \
+    namespace { \
+    QAbstractAspect *qt3d_ ## AspectType ## _createFunction(QObject *parent) \
+    { \
+        using namespace AspectNamespace; \
+        return new AspectType(parent); \
+    } \
+    \
+    void qt3d_ ## AspectType ## _registerFunction() \
+    { \
+        using namespace AspectNamespace; \
+        qt3d_QAspectFactory_addDefaultFactory(QStringLiteral(name), &AspectType::staticMetaObject, qt3d_ ## AspectType ## _createFunction); \
+    } \
+    \
+    Q_CONSTRUCTOR_FUNCTION(qt3d_ ## AspectType ## _registerFunction) \
+    }
+
+#define QT3D_REGISTER_ASPECT(name, AspectType) \
+    QT3D_REGISTER_NAMESPACED_ASPECT(name, QT_PREPEND_NAMESPACE(Qt3DCore), AspectType)
+
+#endif // QT3DCORE_ABSTRACTASPECT_H

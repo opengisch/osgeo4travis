@@ -2,7 +2,7 @@
 //
 // This file is part of the QtGui Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -234,7 +234,7 @@ public:
     int propertyCount() const;
     bool isTableCellFormat() const;
     QTextTableCellFormat toTableCellFormat() const;
-    void swap(QTextFormat &other);
+    void swap(QTextFormat &other /Constrained/);
 %If (Qt_5_3_0 -)
     bool isEmpty() const;
 %End
@@ -371,8 +371,8 @@ public:
     bool nonBreakableLines() const;
     void setAlignment(Qt::Alignment aalignment);
     void setIndent(int aindent);
-    void setPageBreakPolicy(QFlags<QTextFormat::PageBreakFlag> flags);
-    QFlags<QTextFormat::PageBreakFlag> pageBreakPolicy() const;
+    void setPageBreakPolicy(QTextFormat::PageBreakFlags flags);
+    QTextFormat::PageBreakFlags pageBreakPolicy() const;
     void setTabPositions(const QList<QTextOption::Tab> &tabs);
     QList<QTextOption::Tab> tabPositions() const;
 
@@ -471,8 +471,8 @@ public:
     void setWidth(qreal awidth);
     void setHeight(qreal aheight);
     void setHeight(const QTextLength &aheight);
-    void setPageBreakPolicy(QFlags<QTextFormat::PageBreakFlag> flags);
-    QFlags<QTextFormat::PageBreakFlag> pageBreakPolicy() const;
+    void setPageBreakPolicy(QTextFormat::PageBreakFlags flags);
+    QTextFormat::PageBreakFlags pageBreakPolicy() const;
 
     enum BorderStyle
     {

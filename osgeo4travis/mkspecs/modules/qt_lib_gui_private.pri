@@ -1,9 +1,11 @@
-QT.gui_private.VERSION = 5.5.1
+QT.gui_private.VERSION = 5.7.0
 QT.gui_private.MAJOR_VERSION = 5
-QT.gui_private.MINOR_VERSION = 5
-QT.gui_private.PATCH_VERSION = 1
+QT.gui_private.MINOR_VERSION = 7
+QT.gui_private.PATCH_VERSION = 0
 QT.gui_private.name = QtGui
+QT.gui_private.module =
 QT.gui_private.libs = $$QT_MODULE_LIB_BASE
-QT.gui_private.includes = $$QT_MODULE_INCLUDE_BASE/QtGui/5.5.1 $$QT_MODULE_INCLUDE_BASE/QtGui/5.5.1/QtGui
-QT.gui_private.depends = gui
-QT.gui_private.module_config = internal_module no_link
+QT.gui_private.includes = $$QT_MODULE_INCLUDE_BASE/QtGui/5.7.0 $$QT_MODULE_INCLUDE_BASE/QtGui/5.7.0/QtGui
+QT.gui_private.frameworks =
+QT.gui_private.depends = core_private gui
+QT.gui_private.module_config = v2 internal_module

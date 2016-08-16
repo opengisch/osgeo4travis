@@ -44,9 +44,10 @@
 #include <QGraphicsView>
 
 QT_BEGIN_NAMESPACE
+class QGraphicsSvgItem;
+class QSvgRenderer;
 class QWheelEvent;
 class QPaintEvent;
-class QFile;
 QT_END_NAMESPACE
 
 class SvgView : public QGraphicsView
@@ -56,11 +57,14 @@ class SvgView : public QGraphicsView
 public:
     enum RendererType { Native, OpenGL, Image };
 
-    SvgView(QWidget *parent = 0);
+    explicit SvgView(QWidget *parent = nullptr);
 
-    void openFile(const QFile &file);
+    bool openFile(const QString &fileName);
     void setRenderer(RendererType type = Native);
-    void drawBackground(QPainter *p, const QRectF &rect);
+    void drawBackground(QPainter *p, const QRectF &rect) override;
+
+    QSize svgSize() const;
+    QSvgRenderer *renderer() const;
 
 public slots:
     void setHighQualityAntialiasing(bool highQualityAntialiasing);
@@ -68,13 +72,13 @@ public slots:
     void setViewOutline(bool enable);
 
 protected:
-    void wheelEvent(QWheelEvent *event);
-    void paintEvent(QPaintEvent *event);
+    void wheelEvent(QWheelEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     RendererType m_renderer;
 
-    QGraphicsItem *m_svgItem;
+    QGraphicsSvgItem *m_svgItem;
     QGraphicsRectItem *m_backgroundItem;
     QGraphicsRectItem *m_outlineItem;
 

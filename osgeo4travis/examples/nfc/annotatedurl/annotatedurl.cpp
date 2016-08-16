@@ -70,12 +70,15 @@ AnnotatedUrl::AnnotatedUrl(QObject *parent)
     filter.setOrderMatch(false);
     filter.appendRecord<QNdefNfcTextRecord>(1, UINT_MAX);
     filter.appendRecord<QNdefNfcUriRecord>();
+    // type parameter cannot specify substring so filter for "image/" below
+    filter.appendRecord(QNdefRecord::Mime, QByteArray(), 0, 1);
+
     int result = manager->registerNdefMessageHandler(filter, this,
                                        SLOT(handleMessage(QNdefMessage,QNearFieldTarget*)));
     //! [QNearFieldManager register handler]
 
-    if (result != -1)
-        return;
+    if (result < 0)
+        qWarning() << "Platform does not support NDEF message handler registration";
 
     manager->startTargetDetection();
     connect(manager, SIGNAL(targetDetected(QNearFieldTarget*)),

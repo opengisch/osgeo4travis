@@ -6,7 +6,7 @@ includedir=${prefix}/include
 
 Name: Qt5 Quick
 Description: Qt Quick module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5Quick 
 Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Gui -L/home/travis/osgeo4travis/lib -lQt5Qml -lQt5Network -lQt5Core -lpthread -lQt5Network -L/home/travis/osgeo4travis/lib -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtQuick -I${includedir}

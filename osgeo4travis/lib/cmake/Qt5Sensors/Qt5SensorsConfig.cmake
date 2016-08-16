@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5Sensors_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5Sensors_VERSION instead.
-set(Qt5Sensors_VERSION_STRING 5.5.1)
+set(Qt5Sensors_VERSION_STRING 5.7.0)
 
 set(Qt5Sensors_LIBRARIES Qt5::Sensors)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::Sensors)
 
     set(_Qt5Sensors_OWN_INCLUDE_DIRS "${_qt5Sensors_install_prefix}/include/" "${_qt5Sensors_install_prefix}/include/QtSensors")
     set(Qt5Sensors_PRIVATE_INCLUDE_DIRS
-        "${_qt5Sensors_install_prefix}/include/QtSensors/5.5.1"
-        "${_qt5Sensors_install_prefix}/include/QtSensors/5.5.1/QtSensors"
+        "${_qt5Sensors_install_prefix}/include/QtSensors/5.7.0"
+        "${_qt5Sensors_install_prefix}/include/QtSensors/5.7.0/QtSensors"
     )
 
     foreach(_dir ${_Qt5Sensors_OWN_INCLUDE_DIRS})
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::Sensors)
     foreach(_module_dep ${_Qt5Sensors_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5Sensors_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5Sensors_FIND_VERSION_EXACT}
                 ${_Qt5Sensors_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5Sensors_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::Sensors)
     set_property(TARGET Qt5::Sensors PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_SENSORS_LIB)
 
-    _populate_Sensors_target_properties(RELEASE "libQt5Sensors.so.5.5.1" "" )
+    _populate_Sensors_target_properties(RELEASE "libQt5Sensors.so.5.7.0" "" )
 
 
 

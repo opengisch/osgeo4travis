@@ -1,34 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
 ** packaging of this file. Please review the following information to
 ** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -43,6 +46,7 @@ import QtQuick.Controls.Private 1.0
     \inqmlmodule QtQuick.Controls
     \since 5.1
     \ingroup controls
+    \inherits QtQuickControls1::Control
     \brief Provides a drop-down list functionality.
 
     \image combobox.png
@@ -144,6 +148,50 @@ Control {
         This property specifies text being manipulated by the user for an editable combo box.
     */
     property alias editText: input.text
+
+    /*! \qmlproperty enumeration ComboBox::inputMethodHints
+        \since QtQuick.Controls 1.5
+    Provides hints to the input method about the expected content of the combo box and how it
+    should operate.
+
+    The value is a bit-wise combination of flags or \c Qt.ImhNone if no hints are set.
+
+    Flags that alter behavior are:
+
+    \list
+    \li Qt.ImhHiddenText - Characters should be hidden, as is typically used when entering passwords.
+    \li Qt.ImhSensitiveData - Typed text should not be stored by the active input method
+            in any persistent storage like predictive user dictionary.
+    \li Qt.ImhNoAutoUppercase - The input method should not try to automatically switch to upper case
+            when a sentence ends.
+    \li Qt.ImhPreferNumbers - Numbers are preferred (but not required).
+    \li Qt.ImhPreferUppercase - Upper case letters are preferred (but not required).
+    \li Qt.ImhPreferLowercase - Lower case letters are preferred (but not required).
+    \li Qt.ImhNoPredictiveText - Do not use predictive text (i.e. dictionary lookup) while typing.
+
+    \li Qt.ImhDate - The text editor functions as a date field.
+    \li Qt.ImhTime - The text editor functions as a time field.
+    \endlist
+
+    Flags that restrict input (exclusive flags) are:
+
+    \list
+    \li Qt.ImhDigitsOnly - Only digits are allowed.
+    \li Qt.ImhFormattedNumbersOnly - Only number input is allowed. This includes decimal point and minus sign.
+    \li Qt.ImhUppercaseOnly - Only upper case letter input is allowed.
+    \li Qt.ImhLowercaseOnly - Only lower case letter input is allowed.
+    \li Qt.ImhDialableCharactersOnly - Only characters suitable for phone dialing are allowed.
+    \li Qt.ImhEmailCharactersOnly - Only characters suitable for email addresses are allowed.
+    \li Qt.ImhUrlCharactersOnly - Only characters suitable for URLs are allowed.
+    \endlist
+
+    Masks:
+
+    \list
+    \li Qt.ImhExclusiveInputMask - This mask yields nonzero if any of the exclusive flags are used.
+    \endlist
+    */
+    property alias inputMethodHints: input.inputMethodHints
 
     /*! This property specifies whether the combobox should gain active focus when pressed.
         The default value is \c false. */
@@ -511,6 +559,8 @@ Control {
 
     onTextRoleChanged: popup.resolveTextValue(textRole)
 
+    ExclusiveGroup { id: eg }
+
     Menu {
         id: popup
         objectName: "popup"
@@ -518,7 +568,7 @@ Control {
         style: isPopup ? __style.__popupStyle : __style.__dropDownStyle
 
         property string currentText: selectedText
-        onSelectedTextChanged: if (selectedText) popup.currentText = selectedText
+        onSelectedTextChanged: popup.currentText = selectedText
 
         property string selectedText
         on__SelectedIndexChanged: {
@@ -535,8 +585,6 @@ Control {
         property int y: isPopup ? (comboBox.__panel.height - comboBox.__panel.implicitHeight) / 2.0 : comboBox.__panel.height
         __minimumWidth: comboBox.width
         __visualItem: comboBox
-
-        property ExclusiveGroup eg: ExclusiveGroup { id: eg }
 
         property bool modelIsArray: false
 
@@ -626,8 +674,7 @@ Control {
 
         function toggleShow() {
             if (popup.__popupVisible) {
-                popup.__dismissMenu()
-                popup.__destroyAllMenuPopups()
+                popup.__dismissAndDestroy()
             } else {
                 if (items[__selectedIndex])
                     items[__selectedIndex].checked = true

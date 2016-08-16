@@ -2,7 +2,7 @@
 //
 // This file is part of the QtQuick Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -27,7 +27,12 @@ class QQuickPaintedItem : QQuickItem /ExportDerived/
 %End
 
 public:
+%If (Qt_5_6_1 -)
+    explicit QQuickPaintedItem(QQuickItem *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QQuickPaintedItem(QQuickItem *parent /TransferThis/ = 0);
+%End
     virtual ~QQuickPaintedItem();
 
     enum RenderTarget
@@ -50,9 +55,9 @@ public:
     void setAntialiasing(bool enable);
     bool mipmap() const;
     void setMipmap(bool enable);
-    QFlags<QQuickPaintedItem::PerformanceHint> performanceHints() const;
+    QQuickPaintedItem::PerformanceHints performanceHints() const;
     void setPerformanceHint(QQuickPaintedItem::PerformanceHint hint, bool enabled = true);
-    void setPerformanceHints(QFlags<QQuickPaintedItem::PerformanceHint> hints);
+    void setPerformanceHints(QQuickPaintedItem::PerformanceHints hints);
     QRectF contentsBoundingRect() const;
     QSize contentsSize() const;
     void setContentsSize(const QSize &);
@@ -85,6 +90,22 @@ public:
 protected:
 %If (Qt_5_4_0 -)
     virtual void releaseResources();
+%End
+%If (Qt_5_6_1 -)
+    virtual void itemChange(QQuickItem::ItemChange, const QQuickItem::ItemChangeData &);
+%End
+
+public:
+%If (Qt_5_6_0 -)
+    QSize textureSize() const;
+%End
+%If (Qt_5_6_0 -)
+    void setTextureSize(const QSize &size);
+%End
+
+signals:
+%If (Qt_5_6_0 -)
+    void textureSizeChanged();
 %End
 
 private:

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtGui Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -39,6 +39,12 @@ public:
         ~Key();
         bool operator==(const QPixmapCache::Key &key) const;
         bool operator!=(const QPixmapCache::Key &key) const;
+%If (Qt_5_6_0 -)
+        void swap(QPixmapCache::Key &other /Constrained/);
+%End
+%If (Qt_5_7_0 -)
+        bool isValid() const;
+%End
     };
 
     static int cacheLimit();

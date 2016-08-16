@@ -40,7 +40,7 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 1.4
-import QtLocation 5.5
+import QtLocation 5.6
 import QtPositioning 5.5
 import "map"
 import "menus"
@@ -63,26 +63,41 @@ ApplicationWindow {
         var plugin
 
         if (parameters && parameters.length>0)
-            plugin = Qt.createQmlObject ('import QtLocation 5.3; Plugin{ name:"' + provider + '"; parameters: appWindow.parameters}', appWindow)
+            plugin = Qt.createQmlObject ('import QtLocation 5.6; Plugin{ name:"' + provider + '"; parameters: appWindow.parameters}', appWindow)
         else
-            plugin = Qt.createQmlObject ('import QtLocation 5.3; Plugin{ name:"' + provider + '"}', appWindow)
+            plugin = Qt.createQmlObject ('import QtLocation 5.6; Plugin{ name:"' + provider + '"}', appWindow)
 
-        if (map) {
-            map.destroy()
+        if (minimap) {
+            minimap.destroy()
             minimap = null
+        }
+
+        var zoomLevel = null
+        var center = null
+        if (map) {
+            zoomLevel = map.zoomLevel
+            center = map.center
+            map.destroy()
         }
 
         map = mapComponent.createObject(page);
         map.plugin = plugin;
-        map.zoomLevel = (map.maximumZoomLevel - map.minimumZoomLevel)/2
+        if (zoomLevel != null) {
+            map.zoomLevel = zoomLevel
+            map.center = center
+        } else {
+            map.zoomLevel = (map.maximumZoomLevel - map.minimumZoomLevel)/2
+        }
+
+        map.forceActiveFocus()
     }
 
     function getPlugins()
     {
-        var plugin = Qt.createQmlObject ('import QtLocation 5.3; Plugin {}', appWindow)
+        var plugin = Qt.createQmlObject ('import QtLocation 5.6; Plugin {}', appWindow)
         var myArray = new Array()
         for (var i = 0; i<plugin.availableServiceProviders.length; i++) {
-            var tempPlugin = Qt.createQmlObject ('import QtLocation 5.3; Plugin {name: "' + plugin.availableServiceProviders[i]+ '"}', appWindow)
+            var tempPlugin = Qt.createQmlObject ('import QtLocation 5.6; Plugin {name: "' + plugin.availableServiceProviders[i]+ '"}', appWindow)
             if (tempPlugin.supportsMapping())
                 myArray.push(tempPlugin.name)
         }
@@ -94,7 +109,7 @@ ApplicationWindow {
     {
         var parameters = new Array()
         for (var prop in pluginParameters){
-            var parameter = Qt.createQmlObject('import QtLocation 5.3; PluginParameter{ name: "'+ prop + '"; value: "' + pluginParameters[prop]+'"}',appWindow)
+            var parameter = Qt.createQmlObject('import QtLocation 5.6; PluginParameter{ name: "'+ prop + '"; value: "' + pluginParameters[prop]+'"}',appWindow)
             parameters.push(parameter)
         }
         appWindow.parameters = parameters
@@ -156,11 +171,6 @@ ApplicationWindow {
                 providerMenu.items[i].checked = providerMenu.items[i].text === providerName
             }
 
-            if (minimap) {
-                minimap.destroy()
-                minimap = null
-            }
-
             createMap(providerName)
             if (map.error === Map.NoError) {
                 selectMapType(map.activeMapType)
@@ -220,6 +230,12 @@ ApplicationWindow {
                                    properties: { "locale":  map.plugin.locales[0]}})
                 stackView.currentItem.selectLanguage.connect(setLanguage)
                 stackView.currentItem.closeForm.connect(stackView.closeForm)
+                break
+            case "Clear":
+                map.clearData()
+                break
+            case "Prefetch":
+                map.prefetchData()
                 break
             default:
                 console.log("Unsupported operation")

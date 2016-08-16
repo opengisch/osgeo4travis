@@ -2,7 +2,7 @@
 //
 // This file is part of the QtWidgets Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -27,9 +27,24 @@ class QAction : QObject
 %End
 
 public:
+%If (Qt_5_7_0 -)
+    explicit QAction(QObject *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_7_0)
     explicit QAction(QObject *parent /TransferThis/);
+%End
+%If (Qt_5_7_0 -)
+    QAction(const QString &text, QObject *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_7_0)
     QAction(const QString &text, QObject *parent /TransferThis/);
+%End
+%If (Qt_5_7_0 -)
+    QAction(const QIcon &icon, const QString &text, QObject *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_7_0)
     QAction(const QIcon &icon, const QString &text, QObject *parent /TransferThis/);
+%End
     virtual ~QAction();
     void setActionGroup(QActionGroup *group /KeepReference/);
     QActionGroup *actionGroup() const;
@@ -110,8 +125,8 @@ public:
     bool autoRepeat() const;
     void setMenuRole(QAction::MenuRole menuRole);
     QAction::MenuRole menuRole() const;
-    QList<QWidget*> associatedWidgets() const;
-    QList<QGraphicsWidget*> associatedGraphicsWidgets() const;
+    QList<QWidget *> associatedWidgets() const;
+    QList<QGraphicsWidget *> associatedGraphicsWidgets() const;
     void setIconVisibleInMenu(bool visible);
     bool isIconVisibleInMenu() const;
 

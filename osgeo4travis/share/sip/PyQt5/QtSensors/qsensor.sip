@@ -2,7 +2,7 @@
 //
 // This file is part of the QtSensors Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -205,7 +205,7 @@ public:
     int error() const;
     void addFilter(QSensorFilter *filter);
     void removeFilter(QSensorFilter *filter);
-    QList<QSensorFilter*> filters() const;
+    QList<QSensorFilter *> filters() const;
     QSensorReading *reading() const;
     static QList<QByteArray> sensorTypes();
     static QList<QByteArray> sensorsForType(const QByteArray &type);

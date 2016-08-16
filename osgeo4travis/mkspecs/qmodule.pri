@@ -1,6 +1,6 @@
-CONFIG +=  compile_examples qpa largefile precompile_header use_gold_linker enable_new_dtags sse2 sse3 ssse3 sse4_1 sse4_2 avx avx2 pcre
+CONFIG +=  compile_examples qpa largefile precompile_header use_gold_linker enable_new_dtags sse2 sse3 ssse3 sse4_1 sse4_2 avx avx2 avx512f pcre
 QT_BUILD_PARTS += libs tools examples
-QT_NO_DEFINES =  ALSA CUPS EGL EGLFS EGL_X11 IMAGEFORMAT_JPEG LIBPROXY OPENVG PULSEAUDIO STYLE_GTK TSLIB ZLIB
+QT_NO_DEFINES =  ALSA CUPS EGL EGLFS EGL_X11 IMAGEFORMAT_JPEG LIBPROXY OPENVG PULSEAUDIO TSLIB ZLIB
 QT_QCONFIG_PATH = 
 host_build {
     QT_CPU_FEATURES.x86_64 =  mmx sse sse2

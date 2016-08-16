@@ -1,31 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the QtGui module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL21$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
-** As a special exception, The Qt Company gives you certain additional
-** rights. These rights are described in The Qt Company LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -48,12 +54,28 @@ class Q_CORE_EXPORT QItemSelectionRange
 {
 
 public:
-    inline QItemSelectionRange() {}
+    inline QItemSelectionRange() : tl(), br() {}
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    // ### Qt 6: remove them all, the compiler-generated ones are fine
     inline QItemSelectionRange(const QItemSelectionRange &other)
         : tl(other.tl), br(other.br) {}
-    inline QItemSelectionRange(const QModelIndex &topLeft, const QModelIndex &bottomRight);
-    explicit inline QItemSelectionRange(const QModelIndex &index)
-        { tl = index; br = tl; }
+# ifdef Q_COMPILER_RVALUE_REFS
+    QItemSelectionRange(QItemSelectionRange &&other) Q_DECL_NOTHROW
+        : tl(std::move(other.tl)), br(std::move(other.br)) {}
+    QItemSelectionRange &operator=(QItemSelectionRange &&other) Q_DECL_NOTHROW
+    { tl = std::move(other.tl); br = std::move(other.br); return *this; }
+# endif
+    QItemSelectionRange &operator=(const QItemSelectionRange &other)
+    { tl = other.tl; br = other.br; return *this; }
+#endif // Qt < 6
+    QItemSelectionRange(const QModelIndex &topL, const QModelIndex &bottomR) : tl(topL), br(bottomR) {}
+    explicit QItemSelectionRange(const QModelIndex &index) : tl(index), br(tl) {}
+
+    void swap(QItemSelectionRange &other) Q_DECL_NOTHROW
+    {
+        qSwap(tl, other.tl);
+        qSwap(br, other.br);
+    }
 
     inline int top() const { return tl.row(); }
     inline int left() const { return tl.column(); }
@@ -133,10 +155,6 @@ private:
 };
 Q_DECLARE_TYPEINFO(QItemSelectionRange, Q_MOVABLE_TYPE);
 
-inline QItemSelectionRange::QItemSelectionRange(const QModelIndex &atopLeft,
-                                                const QModelIndex &abottomRight)
-{ tl = atopLeft; br = abottomRight; }
-
 class QItemSelection;
 class QItemSelectionModelPrivate;
 
@@ -170,7 +188,7 @@ public:
     Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
     Q_FLAG(SelectionFlags)
 
-    explicit QItemSelectionModel(QAbstractItemModel *model = 0);
+    explicit QItemSelectionModel(QAbstractItemModel *model = Q_NULLPTR);
     explicit QItemSelectionModel(QAbstractItemModel *model, QObject *parent);
     virtual ~QItemSelectionModel();
 
@@ -235,8 +253,11 @@ inline uint qHash(const QItemSelectionRange &) { return 0; }
 class Q_CORE_EXPORT QItemSelection : public QList<QItemSelectionRange>
 {
 public:
-    QItemSelection() {}
+    QItemSelection() Q_DECL_NOTHROW : QList<QItemSelectionRange>() {}
     QItemSelection(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+
+    // reusing QList::swap() here is OK!
+
     void select(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     bool contains(const QModelIndex &index) const;
     QModelIndexList indexes() const;
@@ -245,6 +266,7 @@ public:
                       const QItemSelectionRange &other,
                       QItemSelection *result);
 };
+Q_DECLARE_SHARED_NOT_MOVABLE_UNTIL_QT6(QItemSelection)
 
 #ifndef QT_NO_DEBUG_STREAM
 Q_CORE_EXPORT QDebug operator<<(QDebug, const QItemSelectionRange &);

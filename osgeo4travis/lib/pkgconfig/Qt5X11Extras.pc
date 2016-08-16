@@ -6,9 +6,9 @@ includedir=${prefix}/include
 
 Name: Qt5 X11Extras
 Description: Qt X11Extras module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5X11Extras 
-Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Gui -lQt5Core -lpthread -lGL  
+Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Gui -lQt5Core -lpthread -lQt5Gui -L/home/travis/osgeo4travis/lib -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtX11Extras -I${includedir}
 Requires: Qt5Core Qt5Gui
 

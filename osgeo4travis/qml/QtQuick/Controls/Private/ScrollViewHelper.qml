@@ -1,34 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
 ** packaging of this file. Please review the following information to
 ** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -44,7 +47,7 @@ import QtQuick.Controls.Private 1.0
         \inqmlmodule QtQuick.Controls.Private
 */
 Item {
-    id: wheelarea
+    id: scrollHelper
 
     property alias horizontalScrollBar: hscrollbar
     property alias verticalScrollBar: vscrollbar
@@ -53,17 +56,15 @@ Item {
     property int availableWidth
     property int contentHeight
     property int contentWidth
-    property real originX
-    property real originY
     property bool active
     property int horizontalScrollBarPolicy: Qt.ScrollBarAsNeeded
     property int verticalScrollBarPolicy: Qt.ScrollBarAsNeeded
 
 
-    property int leftMargin: outerFrame ? root.__style.padding.left : 0
-    property int rightMargin: outerFrame ? root.__style.padding.right : 0
-    property int topMargin: outerFrame ? root.__style.padding.top : 0
-    property int bottomMargin: outerFrame ? root.__style.padding.bottom : 0
+    property int leftMargin: outerFrame && root.__style ? root.__style.padding.left : 0
+    property int rightMargin: outerFrame && root.__style ? root.__style.padding.right : 0
+    property int topMargin: outerFrame && root.__style ? root.__style.padding.top : 0
+    property int bottomMargin: outerFrame && root.__style ? root.__style.padding.bottom : 0
 
     anchors.fill: parent
 
@@ -72,12 +73,10 @@ Item {
     function doLayout() {
         if (!recursionGuard) {
             recursionGuard = true
-            wheelarea.availableWidth = viewport.width
-            wheelarea.availableHeight = viewport.height
-            wheelarea.contentWidth = flickableItem !== null ? flickableItem.contentWidth : 0
-            wheelarea.contentHeight = flickableItem !== null ? flickableItem.contentHeight : 0
-            wheelarea.originX = flickableItem !== null ? flickableItem.originX : 0
-            wheelarea.originY = flickableItem !== null ? flickableItem.originY : 0
+            scrollHelper.contentWidth = flickableItem !== null ? flickableItem.contentWidth : 0
+            scrollHelper.contentHeight = flickableItem !== null ? flickableItem.contentHeight : 0
+            scrollHelper.availableWidth = viewport.width
+            scrollHelper.availableHeight = viewport.height
             recursionGuard = false
         }
     }
@@ -92,12 +91,6 @@ Item {
         target: flickableItem
         onContentWidthChanged: doLayout()
         onContentHeightChanged: doLayout()
-        onOriginXChanged: doLayout()
-        onOriginYChanged: doLayout()
-    }
-
-    Connections {
-        target: flickableItem
         onContentXChanged: {
             hscrollbar.flash()
             vscrollbar.flash()
@@ -111,7 +104,7 @@ Item {
     Loader {
         id: cornerFill
         z: 1
-        sourceComponent: __style.corner
+        sourceComponent: __style ? __style.corner : null
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.bottomMargin: bottomMargin
@@ -123,15 +116,17 @@ Item {
 
     ScrollBar {
         id: hscrollbar
+        readonly property int scrollAmount: contentWidth - availableWidth
+        readonly property bool scrollable: scrollAmount > 0
         isTransient: !!__panel && !!__panel.isTransient
         active: !!__panel && (__panel.sunken || __panel.activeControl !== "none")
         enabled: !isTransient || __panel.visible
         orientation: Qt.Horizontal
-        visible: horizontalScrollBarPolicy ==  Qt.ScrollBarAsNeeded ? (contentWidth > availableWidth) : horizontalScrollBarPolicy == Qt.ScrollBarAlwaysOn
+        visible: horizontalScrollBarPolicy ==  Qt.ScrollBarAsNeeded ? scrollable : horizontalScrollBarPolicy == Qt.ScrollBarAlwaysOn
         height: visible ? implicitHeight : 0
         z: 1
-        maximumValue: contentWidth > availableWidth ? originX + contentWidth - availableWidth : 0
-        minimumValue: originX
+        maximumValue: scrollable ? scrollAmount : 0
+        minimumValue: 0
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: cornerFill.left
@@ -139,20 +134,20 @@ Item {
         anchors.bottomMargin: bottomMargin
         onValueChanged: {
             if (!blockUpdates) {
-                flickableItem.contentX = value
+                flickableItem.contentX = value + flickableItem.originX
             }
         }
         Binding {
             target: hscrollbar.__panel
             property: "raised"
-            value: vscrollbar.active || wheelarea.active
+            value: vscrollbar.active || scrollHelper.active
             when: hscrollbar.isTransient
         }
         Binding {
             target: hscrollbar.__panel
             property: "visible"
             value: true
-            when: !hscrollbar.isTransient || wheelarea.active
+            when: !hscrollbar.isTransient || scrollHelper.active
         }
         function flash() {
             if (hscrollbar.isTransient) {
@@ -170,36 +165,38 @@ Item {
 
     ScrollBar {
         id: vscrollbar
+        readonly property int scrollAmount: contentHeight - availableHeight
+        readonly property bool scrollable: scrollAmount > 0
         isTransient: !!__panel && !!__panel.isTransient
         active: !!__panel && (__panel.sunken || __panel.activeControl !== "none")
         enabled: !isTransient || __panel.visible
         orientation: Qt.Vertical
-        visible: verticalScrollBarPolicy ==  Qt.ScrollBarAsNeeded ? (contentHeight > availableHeight) : verticalScrollBarPolicy == Qt.ScrollBarAlwaysOn
+        visible: verticalScrollBarPolicy === Qt.ScrollBarAsNeeded ? scrollable : verticalScrollBarPolicy === Qt.ScrollBarAlwaysOn
         width: visible ? implicitWidth : 0
         z: 1
         anchors.bottom: cornerFill.top
-        maximumValue: contentHeight > availableHeight ? originY + contentHeight - availableHeight + __viewTopMargin : 0
-        minimumValue: originY
+        maximumValue: scrollable ? scrollAmount + __viewTopMargin : 0
+        minimumValue: 0
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.topMargin: __scrollBarTopMargin + topMargin
         anchors.rightMargin: rightMargin
         onValueChanged: {
             if (flickableItem && !blockUpdates && enabled) {
-                flickableItem.contentY = value
+                flickableItem.contentY = value + flickableItem.originY
             }
         }
         Binding {
             target: vscrollbar.__panel
             property: "raised"
-            value: hscrollbar.active || wheelarea.active
+            value: hscrollbar.active || scrollHelper.active
             when: vscrollbar.isTransient
         }
         Binding {
             target: vscrollbar.__panel
             property: "visible"
             value: true
-            when: !vscrollbar.isTransient || wheelarea.active
+            when: !vscrollbar.isTransient || scrollHelper.active
         }
         function flash() {
             if (vscrollbar.isTransient) {

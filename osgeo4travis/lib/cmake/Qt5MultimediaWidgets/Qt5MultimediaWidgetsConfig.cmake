@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5MultimediaWidgets_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5MultimediaWidgets_VERSION instead.
-set(Qt5MultimediaWidgets_VERSION_STRING 5.5.1)
+set(Qt5MultimediaWidgets_VERSION_STRING 5.7.0)
 
 set(Qt5MultimediaWidgets_LIBRARIES Qt5::MultimediaWidgets)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::MultimediaWidgets)
 
     set(_Qt5MultimediaWidgets_OWN_INCLUDE_DIRS "${_qt5MultimediaWidgets_install_prefix}/include/" "${_qt5MultimediaWidgets_install_prefix}/include/QtMultimediaWidgets")
     set(Qt5MultimediaWidgets_PRIVATE_INCLUDE_DIRS
-        "${_qt5MultimediaWidgets_install_prefix}/include/QtMultimediaWidgets/5.5.1"
-        "${_qt5MultimediaWidgets_install_prefix}/include/QtMultimediaWidgets/5.5.1/QtMultimediaWidgets"
+        "${_qt5MultimediaWidgets_install_prefix}/include/QtMultimediaWidgets/5.7.0"
+        "${_qt5MultimediaWidgets_install_prefix}/include/QtMultimediaWidgets/5.7.0/QtMultimediaWidgets"
     )
 
     foreach(_dir ${_Qt5MultimediaWidgets_OWN_INCLUDE_DIRS})
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::MultimediaWidgets)
     foreach(_module_dep ${_Qt5MultimediaWidgets_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5MultimediaWidgets_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5MultimediaWidgets_FIND_VERSION_EXACT}
                 ${_Qt5MultimediaWidgets_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5MultimediaWidgets_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::MultimediaWidgets)
     set_property(TARGET Qt5::MultimediaWidgets PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_MULTIMEDIAWIDGETS_LIB)
 
-    _populate_MultimediaWidgets_target_properties(RELEASE "libQt5MultimediaWidgets.so.5.5.1" "" )
+    _populate_MultimediaWidgets_target_properties(RELEASE "libQt5MultimediaWidgets.so.5.7.0" "" )
 
 
 

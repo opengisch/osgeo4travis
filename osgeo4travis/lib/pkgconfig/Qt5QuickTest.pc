@@ -6,9 +6,9 @@ includedir=${prefix}/include
 
 Name: Qt5 QuickTest
 Description: Qt QuickTest module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5QuickTest 
-Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -lQt5Test -L/home/travis/osgeo4travis/lib -L/home/travis/osgeo4travis/lib -lQt5Quick -lQt5Gui -lQt5Qml -lQt5Network -lQt5Core -lpthread -lGL  
+Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Test -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -L/home/travis/osgeo4travis/lib -lQt5Quick -L/home/travis/osgeo4travis/lib -lQt5Gui -lQt5Qml -lQt5Network -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtQuickTest -I${includedir}
-Requires: Qt5Core Qt5Widgets
+Requires: Qt5Core Qt5Test Qt5Widgets
 

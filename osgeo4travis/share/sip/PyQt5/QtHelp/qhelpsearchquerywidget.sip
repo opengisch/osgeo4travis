@@ -2,7 +2,7 @@
 //
 // This file is part of the QtHelp Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -27,7 +27,12 @@ class QHelpSearchQueryWidget : QWidget
 %End
 
 public:
+%If (Qt_5_6_1 -)
+    explicit QHelpSearchQueryWidget(QWidget *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QHelpSearchQueryWidget(QWidget *parent /TransferThis/ = 0);
+%End
     virtual ~QHelpSearchQueryWidget();
     QList<QHelpSearchQuery> query() const;
     void setQuery(const QList<QHelpSearchQuery> &queryList);

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtNfc Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -84,7 +84,7 @@ public:
     virtual QByteArray uid() const = 0;
     virtual QUrl url() const;
     virtual QNearFieldTarget::Type type() const = 0;
-    virtual QFlags<QNearFieldTarget::AccessMethod> accessMethods() const = 0;
+    virtual QNearFieldTarget::AccessMethods accessMethods() const = 0;
     bool isProcessingCommand() const;
     virtual bool hasNdefMessage();
     virtual QNearFieldTarget::RequestId readNdefMessages();

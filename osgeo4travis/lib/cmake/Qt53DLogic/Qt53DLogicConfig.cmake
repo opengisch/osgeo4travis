@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt53DLogic_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt53DLogic_VERSION instead.
-set(Qt53DLogic_VERSION_STRING 5.5.1)
+set(Qt53DLogic_VERSION_STRING 5.7.0)
 
 set(Qt53DLogic_LIBRARIES Qt5::3DLogic)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::3DLogic)
 
     set(_Qt53DLogic_OWN_INCLUDE_DIRS "${_qt53DLogic_install_prefix}/include/" "${_qt53DLogic_install_prefix}/include/Qt3DLogic")
     set(Qt53DLogic_PRIVATE_INCLUDE_DIRS
-        "${_qt53DLogic_install_prefix}/include/Qt3DLogic/5.5.1"
-        "${_qt53DLogic_install_prefix}/include/Qt3DLogic/5.5.1/Qt3DLogic"
+        "${_qt53DLogic_install_prefix}/include/Qt3DLogic/5.7.0"
+        "${_qt53DLogic_install_prefix}/include/Qt3DLogic/5.7.0/Qt3DLogic"
     )
 
     foreach(_dir ${_Qt53DLogic_OWN_INCLUDE_DIRS})
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::3DLogic)
     foreach(_module_dep ${_Qt53DLogic_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt53DLogic_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt53DLogic_FIND_VERSION_EXACT}
                 ${_Qt53DLogic_DEPENDENCIES_FIND_QUIET}
                 ${_Qt53DLogic_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::3DLogic)
     set_property(TARGET Qt5::3DLogic PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_3DLOGIC_LIB)
 
-    _populate_3DLogic_target_properties(RELEASE "libQt53DLogic.so.5.5.1" "" )
+    _populate_3DLogic_target_properties(RELEASE "libQt53DLogic.so.5.7.0" "" )
 
 
 

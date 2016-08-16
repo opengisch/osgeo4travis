@@ -2,7 +2,7 @@
 //
 // This file is part of the QtCore Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -133,6 +133,9 @@ static void qtcore_invokeMethod_exception()
     int indexOfConstructor(const char *constructor) const;
     QMetaMethod constructor(int index) const;
     static bool checkConnectArgs(const QMetaMethod &signal, const QMetaMethod &method);
+%If (Qt_5_7_0 -)
+    bool inherits(const QMetaObject *metaObject) const;
+%End
 };
 
 // The support for Q_ARG(), Q_RETURN_ARG() and supporting classes.
@@ -147,7 +150,7 @@ public:
 };
 
 
-SIP_PYOBJECT Q_ARG(SIP_PYOBJECT type, SIP_PYOBJECT data) /DocType="QGenericArgument"/;
+SIP_PYOBJECT Q_ARG(SIP_PYOBJECT type, SIP_PYOBJECT data) /TypeHint="QGenericArgument"/;
 %MethodCode
     sipRes = qpycore_ArgumentFactory(a0, a1);
 %End
@@ -164,7 +167,7 @@ public:
 };
 
 
-SIP_PYOBJECT Q_RETURN_ARG(SIP_PYOBJECT type) /DocType="QGenericReturnArgument"/;
+SIP_PYOBJECT Q_RETURN_ARG(SIP_PYOBJECT type) /TypeHint="QGenericReturnArgument"/;
 %MethodCode
     sipRes = qpycore_ReturnFactory(a0);
 %End

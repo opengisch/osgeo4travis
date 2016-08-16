@@ -6,7 +6,7 @@ includedir=${prefix}/include
 
 Name: Qt5 Help
 Description: Qt Help module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5Help 
 Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -lQt5Network -L/home/travis/osgeo4travis/lib -lQt5Sql -L/home/travis/osgeo4travis/lib -lQt5CLucene -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtHelp -I${includedir}

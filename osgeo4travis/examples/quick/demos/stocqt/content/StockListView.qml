@@ -39,6 +39,7 @@
 ****************************************************************************/
 
 import QtQuick 2.0
+import "."
 
 Rectangle {
     id: root
@@ -61,6 +62,7 @@ Rectangle {
         focus: true
         snapMode: ListView.SnapToItem
         model: StockListModel{}
+        currentIndex: -1 // Don't pre-select any item
 
         function requestUrl(stockId) {
             var endDate = new Date(""); //today
@@ -94,7 +96,7 @@ Rectangle {
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.LOADING || xhr.readyState === XMLHttpRequest.DONE) {
                     var records = xhr.responseText.split('\n');
-                    if (records.length > 0) {
+                    if (records.length > 0 && xhr.status == 200) {
                         var r = records[1].split(',');
                         var today = parseFloat(r[4]);
                         model.setProperty(index, "value", today.toFixed(2));
@@ -112,6 +114,9 @@ Rectangle {
                             model.setProperty(index, "changePercentage", "+" + changePercentage.toFixed(2) + "%");
                         else
                             model.setProperty(index, "changePercentage", changePercentage.toFixed(2) + "%");
+                    } else {
+                        var unknown = "n/a";
+                        model.set(index, {"value": unknown, "change": unknown, "changePercentage": unknown});
                     }
                 }
             }
@@ -119,9 +124,10 @@ Rectangle {
         }
 
         onCurrentIndexChanged: {
-            mainRect.listViewActive = 0;
-            root.currentStockId = model.get(currentIndex).stockId;
-            root.currentStockName = model.get(currentIndex).name;
+            if (currentItem) {
+                root.currentStockId = model.get(currentIndex).stockId;
+                root.currentStockName = model.get(currentIndex).name;
+            }
         }
 
         delegate: Rectangle {
@@ -131,7 +137,10 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent;
                 onClicked: {
-                    view.currentIndex = index;
+                    if (view.currentIndex == index)
+                        mainRect.currentIndex = 1;
+                    else
+                        view.currentIndex = index;
                 }
             }
 
@@ -144,7 +153,7 @@ Rectangle {
                 width: 125
                 height: 40
                 color: "#000000"
-                font.family: "Open Sans"
+                font.family: Settings.fontFamily
                 font.pointSize: 20
                 font.weight: Font.Bold
                 verticalAlignment: Text.AlignVCenter
@@ -160,7 +169,7 @@ Rectangle {
                 width: 190
                 height: 40
                 color: "#000000"
-                font.family: "Open Sans"
+                font.family: Settings.fontFamily
                 font.pointSize: 20
                 font.bold: true
                 horizontalAlignment: Text.AlignRight
@@ -178,7 +187,7 @@ Rectangle {
                 width: 135
                 height: 40
                 color: "#328930"
-                font.family: "Open Sans"
+                font.family: Settings.fontFamily
                 font.pointSize: 20
                 font.bold: true
                 horizontalAlignment: Text.AlignRight
@@ -200,7 +209,7 @@ Rectangle {
                 width: 330
                 height: 30
                 color: "#000000"
-                font.family: "Open Sans"
+                font.family: Settings.fontFamily
                 font.pointSize: 16
                 font.bold: false
                 elide: Text.ElideRight
@@ -217,7 +226,7 @@ Rectangle {
                 width: 120
                 height: 30
                 color: "#328930"
-                font.family: "Open Sans"
+                font.family: Settings.fontFamily
                 font.pointSize: 18
                 font.bold: false
                 horizontalAlignment: Text.AlignRight
@@ -242,7 +251,7 @@ Rectangle {
         }
 
         highlight: Rectangle {
-            width: parent.width
+            width: view.width
             color: "#eeeeee"
         }
     }

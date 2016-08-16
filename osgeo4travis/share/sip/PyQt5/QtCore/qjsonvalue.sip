@@ -2,7 +2,7 @@
 //
 // This file is part of the QtCore Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -20,7 +20,7 @@
 // WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 
 
-class QJsonValue
+class QJsonValue /TypeHintIn="Union[QJsonValue, QJsonValue.Type, QJsonArray, QJsonObject, bool, int, float, QString]"/
 {
 %TypeHeaderCode
 #include <qjsonvalue.h>
@@ -61,11 +61,19 @@ public:
     bool toBool(bool defaultValue = false) const;
     int toInt(int defaultValue = 0) const;
     double toDouble(double defaultValue = 0) const;
-    QString toString(const QString &defaultValue = QString()) const;
     QJsonArray toArray() const;
     QJsonArray toArray(const QJsonArray &defaultValue) const;
     QJsonObject toObject() const;
     QJsonObject toObject(const QJsonObject &defaultValue) const;
     bool operator==(const QJsonValue &other) const;
     bool operator!=(const QJsonValue &other) const;
+%If (Qt_5_7_0 -)
+    QString toString() const;
+%End
+%If (Qt_5_7_0 -)
+    QString toString(const QString &defaultValue) const;
+%End
+%If (- Qt_5_7_0)
+    QString toString(const QString &defaultValue = QString()) const;
+%End
 };

@@ -110,7 +110,7 @@ public:
         if (++instances == 1) {
             if (!timer)
                 timer = new MinuteTimer(QCoreApplication::instance());
-            connect(timer, SIGNAL(timeChanged()), this, SIGNAL(timeChanged()));
+            connect(timer, &MinuteTimer::timeChanged, this, &TimeModel::timeChanged);
             timer->start();
         }
     }
@@ -141,7 +141,7 @@ MinuteTimer *TimeModel::timer=0;
 class QExampleQmlPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
+    Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
     void registerTypes(const char *uri)

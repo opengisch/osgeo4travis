@@ -1,31 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the QtTest module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL21$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
-** As a special exception, The Qt Company gives you certain additional
-** rights. These rights are described in The Qt Company LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -39,6 +45,7 @@
 #include <QtCore/qstring.h>
 #include <QtCore/qnamespace.h>
 #include <QtCore/qmetatype.h>
+#include <QtCore/qmetaobject.h>
 #include <QtCore/qtypetraits.h>
 #include <QtCore/qsharedpointer.h>
 #include <QtCore/qtemporarydir.h>
@@ -157,6 +164,15 @@ do { \
 
 #define QTRY_VERIFY(__expr) QTRY_VERIFY_WITH_TIMEOUT((__expr), 5000)
 
+// Will try to wait for the expression to become true while allowing event processing
+#define QTRY_VERIFY2_WITH_TIMEOUT(__expr, __messageExpression, __timeout) \
+do { \
+    QTRY_IMPL((__expr), __timeout);\
+    QVERIFY2(__expr, __messageExpression); \
+} while (0)
+
+#define QTRY_VERIFY2(__expr, __messageExpression) QTRY_VERIFY2_WITH_TIMEOUT((__expr), (__messageExpression), 5000)
+
 // Will try to wait for the comparison to become successful while allowing event processing
 #define QTRY_COMPARE_WITH_TIMEOUT(__expr, __expected, __timeout) \
 do { \
@@ -222,12 +238,28 @@ class QTestData;
 
 namespace QTest
 {
-    template <typename T>
-    inline char *toString(const T &)
+    namespace Internal {
+
+    template<typename T> // Output registered enums
+    inline typename QtPrivate::QEnableIf<QtPrivate::IsQEnumHelper<T>::Value, char*>::Type toString(T e)
     {
-        return 0;
+        QMetaEnum me = QMetaEnum::fromType<T>();
+        return qstrdup(me.valueToKey(int(e))); // int cast is necessary to support enum classes
     }
 
+    template <typename T> // Fallback
+    inline typename QtPrivate::QEnableIf<!QtPrivate::IsQEnumHelper<T>::Value, char*>::Type toString(const T &)
+    {
+        return Q_NULLPTR;
+    }
+
+    } // namespace Internal
+
+    template<typename T>
+    inline char *toString(const T &t)
+    {
+        return Internal::toString(t);
+    }
 
     Q_TESTLIB_EXPORT char *toHexRepresentation(const char *ba, int length);
     Q_TESTLIB_EXPORT char *toPrettyCString(const char *unicode, int length);
@@ -235,10 +267,10 @@ namespace QTest
     Q_TESTLIB_EXPORT char *toString(const char *);
     Q_TESTLIB_EXPORT char *toString(const void *);
 
-    Q_TESTLIB_EXPORT int qExec(QObject *testObject, int argc = 0, char **argv = 0);
+    Q_TESTLIB_EXPORT int qExec(QObject *testObject, int argc = 0, char **argv = Q_NULLPTR);
     Q_TESTLIB_EXPORT int qExec(QObject *testObject, const QStringList &arguments);
 
-    Q_TESTLIB_EXPORT void setMainSourcePath(const char *file, const char *builddir = 0);
+    Q_TESTLIB_EXPORT void setMainSourcePath(const char *file, const char *builddir = Q_NULLPTR);
 
     Q_TESTLIB_EXPORT bool qVerify(bool statement, const char *statementStr, const char *description,
                                  const char *file, int line);
@@ -246,15 +278,15 @@ namespace QTest
     Q_TESTLIB_EXPORT void qSkip(const char *message, const char *file, int line);
     Q_TESTLIB_EXPORT bool qExpectFail(const char *dataIndex, const char *comment, TestFailMode mode,
                            const char *file, int line);
-    Q_TESTLIB_EXPORT void qWarn(const char *message, const char *file = 0, int line = 0);
+    Q_TESTLIB_EXPORT void qWarn(const char *message, const char *file = Q_NULLPTR, int line = 0);
     Q_TESTLIB_EXPORT void ignoreMessage(QtMsgType type, const char *message);
 #ifndef QT_NO_REGULAREXPRESSION
     Q_TESTLIB_EXPORT void ignoreMessage(QtMsgType type, const QRegularExpression &messagePattern);
 #endif
 
     Q_TESTLIB_EXPORT QSharedPointer<QTemporaryDir> qExtractTestData(const QString &dirName);
-    Q_TESTLIB_EXPORT QString qFindTestData(const char* basepath, const char* file = 0, int line = 0, const char* builddir = 0);
-    Q_TESTLIB_EXPORT QString qFindTestData(const QString& basepath, const char* file = 0, int line = 0, const char* builddir = 0);
+    Q_TESTLIB_EXPORT QString qFindTestData(const char* basepath, const char* file = Q_NULLPTR, int line = 0, const char* builddir = Q_NULLPTR);
+    Q_TESTLIB_EXPORT QString qFindTestData(const QString& basepath, const char* file = Q_NULLPTR, int line = 0, const char* builddir = Q_NULLPTR);
 
     Q_TESTLIB_EXPORT void *qData(const char *tagName, int typeId);
     Q_TESTLIB_EXPORT void *qGlobalData(const char *tagName, int typeId);
@@ -323,6 +355,8 @@ namespace QTest
     QTEST_COMPARE_DECL(float)
     QTEST_COMPARE_DECL(double)
     QTEST_COMPARE_DECL(char)
+    QTEST_COMPARE_DECL(signed char)
+    QTEST_COMPARE_DECL(unsigned char)
     QTEST_COMPARE_DECL(bool)
 #endif
 
@@ -391,14 +425,6 @@ namespace QTest
     {
         return compare_string_helper(t1, t2, actual, expected, file, line);
     }
-
-    // NokiaX86 and RVCT do not like implicitly comparing bool with int
-    inline bool qCompare(bool const &t1, int const &t2,
-                    const char *actual, const char *expected, const char *file, int line)
-    {
-        return qCompare(int(t1), t2, actual, expected, file, line);
-    }
-
 
     template <class T>
     inline bool qTest(const T& actual, const char *elementName, const char *actualStr,

@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5Designer_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5Designer_VERSION instead.
-set(Qt5Designer_VERSION_STRING 5.5.1)
+set(Qt5Designer_VERSION_STRING 5.7.0)
 
 set(Qt5Designer_LIBRARIES Qt5::Designer)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::Designer)
 
     set(_Qt5Designer_OWN_INCLUDE_DIRS "${_qt5Designer_install_prefix}/include/" "${_qt5Designer_install_prefix}/include/QtDesigner")
     set(Qt5Designer_PRIVATE_INCLUDE_DIRS
-        "${_qt5Designer_install_prefix}/include/QtDesigner/5.5.1"
-        "${_qt5Designer_install_prefix}/include/QtDesigner/5.5.1/QtDesigner"
+        "${_qt5Designer_install_prefix}/include/QtDesigner/5.7.0"
+        "${_qt5Designer_install_prefix}/include/QtDesigner/5.7.0/QtDesigner"
     )
 
     foreach(_dir ${_Qt5Designer_OWN_INCLUDE_DIRS})
@@ -64,11 +64,8 @@ if (NOT TARGET Qt5::Designer)
 
     set(Qt5Designer_DEFINITIONS -DQT_DESIGNER_LIB)
     set(Qt5Designer_COMPILE_DEFINITIONS QT_DESIGNER_LIB)
-    set(_Qt5Designer_MODULE_DEPENDENCIES "Widgets;Gui;Xml;Core")
+    set(_Qt5Designer_MODULE_DEPENDENCIES "UiPlugin;Widgets;Gui;Xml;Core")
 
-    if (NOT CMAKE_VERSION VERSION_LESS 3.0.0)
-        list(APPEND _Qt5Designer_MODULE_DEPENDENCIES "UiPlugin")
-    endif()
 
     set(_Qt5Designer_FIND_DEPENDENCIES_REQUIRED)
     if (Qt5Designer_FIND_REQUIRED)
@@ -88,7 +85,7 @@ if (NOT TARGET Qt5::Designer)
     foreach(_module_dep ${_Qt5Designer_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5Designer_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5Designer_FIND_VERSION_EXACT}
                 ${_Qt5Designer_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5Designer_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -112,11 +109,8 @@ if (NOT TARGET Qt5::Designer)
     list(REMOVE_DUPLICATES Qt5Designer_COMPILE_DEFINITIONS)
     list(REMOVE_DUPLICATES Qt5Designer_EXECUTABLE_COMPILE_FLAGS)
 
-    set(_Qt5Designer_LIB_DEPENDENCIES "Qt5::Widgets;Qt5::Gui;Qt5::Xml;Qt5::Core")
+    set(_Qt5Designer_LIB_DEPENDENCIES "Qt5::UiPlugin;Qt5::Widgets;Qt5::Gui;Qt5::Xml;Qt5::Core")
 
-    if (NOT CMAKE_VERSION VERSION_LESS 3.0.0)
-        list(APPEND _Qt5Designer_LIB_DEPENDENCIES "Qt5::UiPlugin")
-    endif()
 
     add_library(Qt5::Designer SHARED IMPORTED)
 
@@ -125,7 +119,7 @@ if (NOT TARGET Qt5::Designer)
     set_property(TARGET Qt5::Designer PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_DESIGNER_LIB)
 
-    _populate_Designer_target_properties(RELEASE "libQt5Designer.so.5.5.1" "" )
+    _populate_Designer_target_properties(RELEASE "libQt5Designer.so.5.7.0" "" )
 
 
 

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtMultimedia Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -42,7 +42,12 @@ public:
         ServiceMissingError,
     };
 
+%If (Qt_5_6_1 -)
+    explicit QAudioDecoder(QObject *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QAudioDecoder(QObject *parent /TransferThis/ = 0);
+%End
     virtual ~QAudioDecoder();
     static QMultimedia::SupportEstimate hasSupport(const QString &mimeType, const QStringList &codecs = QStringList());
     QAudioDecoder::State state() const;

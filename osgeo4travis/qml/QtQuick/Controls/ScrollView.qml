@@ -1,34 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the Qt Quick Controls module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL3$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
 ** General Public License version 3 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPLv3 included in the
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
 ** packaging of this file. Please review the following information to
 ** ensure the GNU Lesser General Public License version 3 requirements
-** will be met: https://www.gnu.org/licenses/lgpl.html.
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
 ** GNU General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 2.0 or later as published by the Free
-** Software Foundation and appearing in the file LICENSE.GPL included in
-** the packaging of this file. Please review the following information to
-** ensure the GNU General Public License version 2.0 requirements will be
-** met: http://www.gnu.org/licenses/gpl-2.0.html.
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -44,6 +47,8 @@ import QtQuick.Controls.Styles 1.1
     \inqmlmodule QtQuick.Controls
     \since  5.1
     \ingroup views
+    \ingroup controls
+    \inherits QtQuick::FocusScope
     \brief Provides a scrolling view within another Item.
 
     \image scrollview.png
@@ -163,7 +168,9 @@ FocusScope {
     default property Item contentItem
 
     /*! \internal */
-    property Item __scroller: scroller
+    property alias __scroller: scroller
+    /*! \internal */
+    property alias __verticalScrollbarOffset: scroller.verticalScrollbarOffset
     /*! \internal */
     property alias __wheelAreaScrollSpeed: wheelArea.scrollSpeed
     /*! \internal */
@@ -237,13 +244,13 @@ FocusScope {
 
             onContentYChanged:  {
                 scroller.blockUpdates = true
-                scroller.verticalScrollBar.value = flickableItem.contentY
+                scroller.verticalScrollBar.value = flickableItem.contentY - flickableItem.originY
                 scroller.blockUpdates = false
             }
 
             onContentXChanged:  {
                 scroller.blockUpdates = true
-                scroller.horizontalScrollBar.value = flickableItem.contentX
+                scroller.horizontalScrollBar.value = flickableItem.contentX - flickableItem.originX
                 scroller.blockUpdates = false
             }
 
@@ -273,49 +280,50 @@ FocusScope {
             property bool horizontalRecursionGuard: false
             property bool verticalRecursionGuard: false
 
-            horizontalMinimumValue: flickableItem ? flickableItem.originX : 0
-            horizontalMaximumValue: flickableItem ? flickableItem.originX + flickableItem.contentWidth - viewport.width : 0
+            horizontalMinimumValue: 0
+            horizontalMaximumValue: flickableItem ? flickableItem.contentWidth - viewport.width : 0
 
-            verticalMinimumValue: flickableItem ? flickableItem.originY : 0
-            verticalMaximumValue: flickableItem ? flickableItem.originY + flickableItem.contentHeight - viewport.height + __viewTopMargin : 0
+            verticalMinimumValue: 0
+            verticalMaximumValue: flickableItem ? flickableItem.contentHeight - viewport.height + __viewTopMargin : 0
 
             // The default scroll speed for typical angle-based mouse wheels. The value
             // comes originally from QTextEdit, which sets 20px steps by default, as well as
             // QQuickWheelArea.
             // TODO: centralize somewhere, QPlatformTheme?
-            scrollSpeed: 20 * (__style.__wheelScrollLines || 1)
+            scrollSpeed: 20 * (__style && __style.__wheelScrollLines || 1)
 
             Connections {
                 target: flickableItem
 
                 onContentYChanged: {
                     wheelArea.verticalRecursionGuard = true
-                    wheelArea.verticalValue = flickableItem.contentY
+                    wheelArea.verticalValue = flickableItem.contentY - flickableItem.originY
                     wheelArea.verticalRecursionGuard = false
                 }
                 onContentXChanged: {
                     wheelArea.horizontalRecursionGuard = true
-                    wheelArea.horizontalValue = flickableItem.contentX
+                    wheelArea.horizontalValue = flickableItem.contentX - flickableItem.originX
                     wheelArea.horizontalRecursionGuard = false
                 }
             }
 
             onVerticalValueChanged: {
                 if (!verticalRecursionGuard) {
-                    if (flickableItem.contentY < flickThreshold && verticalDelta > speedThreshold) {
+                    var effectiveContentY = flickableItem.contentY - flickableItem.originY
+                    if (effectiveContentY < flickThreshold && verticalDelta > speedThreshold) {
                         flickableItem.flick(ignored, Math.min(maxFlick, acceleration * verticalDelta))
-                    } else if (flickableItem.contentY > flickableItem.contentHeight
-                               - flickThreshold - viewport.height && verticalDelta < -speedThreshold) {
+                    } else if (effectiveContentY > flickableItem.contentHeight - flickThreshold - viewport.height
+                               && verticalDelta < -speedThreshold) {
                         flickableItem.flick(ignored, Math.max(-maxFlick, acceleration * verticalDelta))
                     } else {
-                        flickableItem.contentY = verticalValue
+                        flickableItem.contentY = verticalValue + flickableItem.originY
                     }
                 }
             }
 
             onHorizontalValueChanged: {
                 if (!horizontalRecursionGuard)
-                    flickableItem.contentX = horizontalValue
+                    flickableItem.contentX = horizontalValue + flickableItem.originX
             }
         }
 
@@ -326,9 +334,9 @@ FocusScope {
             property bool outerFrame: !frameVisible || !(__style ? __style.__externalScrollBars : 0)
             property int scrollBarSpacing: outerFrame ? 0 : (__style ? __style.__scrollBarSpacing : 0)
             property int verticalScrollbarOffset: verticalScrollBar.visible && !verticalScrollBar.isTransient ?
-                                                      verticalScrollBar.width + scrollBarSpacing : 0
+                                                  verticalScrollBar.width + scrollBarSpacing : 0
             property int horizontalScrollbarOffset: horizontalScrollBar.visible && !horizontalScrollBar.isTransient ?
-                                                        horizontalScrollBar.height + scrollBarSpacing : 0
+                                                    horizontalScrollBar.height + scrollBarSpacing : 0
             Loader {
                 id: frameLoader
                 sourceComponent: __style ? __style.frame : null

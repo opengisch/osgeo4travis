@@ -2,7 +2,7 @@
 //
 // This file is part of the QtPrintSupport Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -23,10 +23,11 @@
 %Module(name=PyQt5.QtPrintSupport, keyword_arguments="Optional")
 
 %Import QtCore/QtCoremod.sip
+%Import QtGui/QtGuimod.sip
 %Import QtWidgets/QtWidgetsmod.sip
 
 %Copying
-Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 
 This file is part of PyQt5.
 

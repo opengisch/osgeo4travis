@@ -2,7 +2,7 @@
 //
 // This file is part of the QtGui Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -27,6 +27,9 @@ class QIconEngine /Supertype=sip.wrapper/
 %End
 
 public:
+%If (Qt_5_6_0 -)
+    QIconEngine();
+%End
     virtual ~QIconEngine();
     virtual void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) = 0;
     virtual QSize actualSize(const QSize &size, QIcon::Mode mode, QIcon::State state);
@@ -42,6 +45,9 @@ public:
     {
         AvailableSizesHook,
         IconNameHook,
+%If (Qt_5_7_0 -)
+        IsNullHook,
+%End
     };
 
     struct AvailableSizesArgument
@@ -57,4 +63,7 @@ public:
 
     virtual QList<QSize> availableSizes(QIcon::Mode mode = QIcon::Normal, QIcon::State state = QIcon::Off) const;
     virtual QString iconName() const;
+%If (Qt_5_7_0 -)
+    bool isNull() const;
+%End
 };

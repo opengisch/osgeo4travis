@@ -2,7 +2,7 @@
 //
 // This file is part of the QtCore Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -66,8 +66,13 @@ public:
     void lock() /ReleaseGIL/;
     bool tryLock(int timeout = 0) /ReleaseGIL/;
     void unlock() /ReleaseGIL/;
+%If (Qt_5_7_0 -)
+    bool isRecursive() const;
+%End
+%If (- Qt_5_7_0)
 // Methods implemented in QBasicMutex.
 bool isRecursive();
+%End
 
 private:
     QMutex(const QMutex &);

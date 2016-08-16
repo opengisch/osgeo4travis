@@ -2,7 +2,7 @@
 //
 // This file is part of the QtCore Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -61,6 +61,12 @@ public:
 %If (Qt_5_5_0 -)
         Qt_5_5,
 %End
+%If (Qt_5_6_0 -)
+        Qt_5_6,
+%End
+%If (Qt_5_7_0 -)
+        Qt_5_7,
+%End
     };
 
     enum ByteOrder
@@ -79,7 +85,7 @@ public:
 
     QDataStream();
     explicit QDataStream(QIODevice *);
-    QDataStream(QByteArray * /Constrained/, QFlags<QIODevice::OpenModeFlag> flags);
+    QDataStream(QByteArray * /Constrained/, QIODevice::OpenMode flags);
     QDataStream(const QByteArray & /Constrained/);
     ~QDataStream();
     QIODevice *device() const;
@@ -178,7 +184,7 @@ double readDouble() /ReleaseGIL/;
     Py_END_ALLOW_THREADS
 %End
 
-SIP_PYOBJECT readString() /ReleaseGIL,DocType="Py_v3:bytes;str"/;
+SIP_PYOBJECT readString() /ReleaseGIL,TypeHint="Py_v3:bytes;str"/;
 %MethodCode
     char *s;
 
@@ -384,7 +390,7 @@ void writeQVariantHash(const QVariantHash &qvarhash) /ReleaseGIL/;
     *sipCpp << *a0;
     Py_END_ALLOW_THREADS
 %End
-    SIP_PYOBJECT readBytes() /DocType="Py_v3:bytes;str",ReleaseGIL/;
+    SIP_PYOBJECT readBytes() /TypeHint="Py_v3:bytes;str",ReleaseGIL/;
 %MethodCode
         char *s;
         uint l;
@@ -400,7 +406,7 @@ void writeQVariantHash(const QVariantHash &qvarhash) /ReleaseGIL/;
             delete[] s;
 %End
 
-    SIP_PYOBJECT readRawData(int len) /DocType="Py_v3:bytes;str",ReleaseGIL/;
+    SIP_PYOBJECT readRawData(int len) /TypeHint="Py_v3:bytes;str",ReleaseGIL/;
 %MethodCode
         char *s = new char[a0];
         
@@ -427,6 +433,18 @@ void writeQVariantHash(const QVariantHash &qvarhash) /ReleaseGIL/;
 
     QDataStream::FloatingPointPrecision floatingPointPrecision() const;
     void setFloatingPointPrecision(QDataStream::FloatingPointPrecision precision);
+%If (Qt_5_7_0 -)
+    void startTransaction();
+%End
+%If (Qt_5_7_0 -)
+    bool commitTransaction();
+%End
+%If (Qt_5_7_0 -)
+    void rollbackTransaction();
+%End
+%If (Qt_5_7_0 -)
+    void abortTransaction();
+%End
 
 private:
     QDataStream(const QDataStream &);

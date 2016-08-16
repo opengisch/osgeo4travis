@@ -1,0 +1,14 @@
+prefix=/home/travis/osgeo4travis
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+
+Name: Qt5 Charts
+Description: Qt Charts module
+Version: 5.7.0
+Libs: -L${libdir} -lQt5Charts 
+Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -lGL  
+Cflags: -I${includedir}/QtCharts -I${includedir}
+Requires: Qt5Core Qt5Gui Qt5Widgets
+

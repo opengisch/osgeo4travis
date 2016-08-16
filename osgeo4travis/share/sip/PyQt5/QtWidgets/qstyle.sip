@@ -2,7 +2,7 @@
 //
 // This file is part of the QtWidgets Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -127,6 +127,12 @@ public:
         PE_PanelStatusBar,
         PE_IndicatorTabClose,
         PE_PanelMenu,
+%If (Qt_5_7_0 -)
+        PE_IndicatorTabTearLeft,
+%End
+%If (Qt_5_7_0 -)
+        PE_IndicatorTabTearRight,
+%End
         PE_CustomBase,
     };
 
@@ -243,6 +249,18 @@ public:
         SE_TabBarTabText,
         SE_ShapedFrameContents,
         SE_ToolBarHandle,
+%If (Qt_5_7_0 -)
+        SE_TabBarTearIndicatorLeft,
+%End
+%If (Qt_5_7_0 -)
+        SE_TabBarScrollLeftButton,
+%End
+%If (Qt_5_7_0 -)
+        SE_TabBarScrollRightButton,
+%End
+%If (Qt_5_7_0 -)
+        SE_TabBarTearIndicatorRight,
+%End
         SE_CustomBase,
     };
 
@@ -593,6 +611,9 @@ public:
 %If (Qt_5_5_0 -)
         SH_Menu_SubMenuDontStartSloppyOnLeave,
 %End
+%If (Qt_5_7_0 -)
+        SH_ItemView_ScrollMode,
+%End
         SH_CustomBase,
     };
 
@@ -686,7 +707,7 @@ public:
     static Qt::Alignment visualAlignment(Qt::LayoutDirection direction, Qt::Alignment alignment);
     static QRect alignedRect(Qt::LayoutDirection direction, Qt::Alignment alignment, const QSize &size, const QRect &rectangle);
     virtual int layoutSpacing(QSizePolicy::ControlType control1, QSizePolicy::ControlType control2, Qt::Orientation orientation, const QStyleOption *option = 0, const QWidget *widget = 0) const = 0;
-    int combinedLayoutSpacing(QFlags<QSizePolicy::ControlType> controls1, QFlags<QSizePolicy::ControlType> controls2, Qt::Orientation orientation, QStyleOption *option = 0, QWidget *widget = 0) const;
+    int combinedLayoutSpacing(QSizePolicy::ControlTypes controls1, QSizePolicy::ControlTypes controls2, Qt::Orientation orientation, QStyleOption *option = 0, QWidget *widget = 0) const;
 
     enum RequestSoftwareInputPanel
     {

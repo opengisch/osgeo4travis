@@ -2,7 +2,7 @@
 //
 // This file is part of the QtGui Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -28,6 +28,9 @@ class QBitmap : QPixmap
 
 public:
     QBitmap();
+%If (Qt_5_7_0 -)
+    QBitmap(const QBitmap &other);
+%End
     QBitmap(const QPixmap &);
     QBitmap(int w, int h);
     explicit QBitmap(const QSize &);
@@ -45,5 +48,5 @@ public:
     static QBitmap fromImage(const QImage &image, Qt::ImageConversionFlags flags = Qt::AutoColor);
     static QBitmap fromData(const QSize &size, const uchar *bits, QImage::Format format = QImage::Format_MonoLSB);
     QBitmap transformed(const QTransform &matrix) const;
-    void swap(QBitmap &other);
+    void swap(QBitmap &other /Constrained/);
 };

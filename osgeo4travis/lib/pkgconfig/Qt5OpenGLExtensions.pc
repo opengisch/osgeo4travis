@@ -6,7 +6,7 @@ includedir=${prefix}/include
 
 Name: Qt5 OpenGLExtensions
 Description: Qt OpenGLExtensions module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt5OpenGLExtensions 
 Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Gui -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/QtOpenGLExtensions -I${includedir}

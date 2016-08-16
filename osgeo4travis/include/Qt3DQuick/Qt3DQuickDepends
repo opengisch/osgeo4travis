@@ -3,5 +3,6 @@
 #include <QtCore/QtCore>
 #include <QtGui/QtGui>
 #include <QtQml/QtQml>
+#include <QtQuick/QtQuick>
 #include <Qt3DCore/Qt3DCore>
 #endif

@@ -2,7 +2,7 @@
 //
 // This file is part of the QtQml Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -39,6 +39,9 @@ public:
     void setExtraSelectors(QStringList &strings);
 %End
     static QQmlFileSelector *get(QQmlEngine *);
+%If (Qt_5_7_0 -)
+    QFileSelector *selector() const;
+%End
 
 private:
     QQmlFileSelector(const QQmlFileSelector &);

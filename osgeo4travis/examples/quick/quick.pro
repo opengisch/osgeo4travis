@@ -6,6 +6,7 @@ SUBDIRS =   quick-accessibility \
             canvas \
             imageelements \
             keyinteraction \
+            layouts \
             localstorage \
             models \
             views \
@@ -15,11 +16,13 @@ SUBDIRS =   quick-accessibility \
             scenegraph \
             shadereffects \
             text \
+            textureprovider \
             threading \
             touchinteraction \
             tutorials \
             customitems \
             imageprovider \
+            imageresponseprovider \
             window \
             particles \
             demos \

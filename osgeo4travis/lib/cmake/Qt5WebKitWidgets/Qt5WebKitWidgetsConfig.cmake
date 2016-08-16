@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5WebKitWidgets_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5WebKitWidgets_VERSION instead.
-set(Qt5WebKitWidgets_VERSION_STRING 5.5.1)
+set(Qt5WebKitWidgets_VERSION_STRING 5.7.0)
 
 set(Qt5WebKitWidgets_LIBRARIES Qt5::WebKitWidgets)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::WebKitWidgets)
 
     set(_Qt5WebKitWidgets_OWN_INCLUDE_DIRS "${_qt5WebKitWidgets_install_prefix}/include/" "${_qt5WebKitWidgets_install_prefix}/include/QtWebKitWidgets")
     set(Qt5WebKitWidgets_PRIVATE_INCLUDE_DIRS
-        "${_qt5WebKitWidgets_install_prefix}/include/QtWebKitWidgets/5.5.1"
-        "${_qt5WebKitWidgets_install_prefix}/include/QtWebKitWidgets/5.5.1/QtWebKitWidgets"
+        "${_qt5WebKitWidgets_install_prefix}/include/QtWebKitWidgets/5.7.0"
+        "${_qt5WebKitWidgets_install_prefix}/include/QtWebKitWidgets/5.7.0/QtWebKitWidgets"
     )
 
     foreach(_dir ${_Qt5WebKitWidgets_OWN_INCLUDE_DIRS})
@@ -64,7 +64,7 @@ if (NOT TARGET Qt5::WebKitWidgets)
 
     set(Qt5WebKitWidgets_DEFINITIONS -DQT_WEBKITWIDGETS_LIB)
     set(Qt5WebKitWidgets_COMPILE_DEFINITIONS QT_WEBKITWIDGETS_LIB)
-    set(_Qt5WebKitWidgets_MODULE_DEPENDENCIES "Widgets;WebKit;Gui;Network;Core")
+    set(_Qt5WebKitWidgets_MODULE_DEPENDENCIES "WebKit;Widgets;Gui;Network;Core")
 
 
     set(_Qt5WebKitWidgets_FIND_DEPENDENCIES_REQUIRED)
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::WebKitWidgets)
     foreach(_module_dep ${_Qt5WebKitWidgets_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5WebKitWidgets_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5WebKitWidgets_FIND_VERSION_EXACT}
                 ${_Qt5WebKitWidgets_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5WebKitWidgets_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -109,7 +109,7 @@ if (NOT TARGET Qt5::WebKitWidgets)
     list(REMOVE_DUPLICATES Qt5WebKitWidgets_COMPILE_DEFINITIONS)
     list(REMOVE_DUPLICATES Qt5WebKitWidgets_EXECUTABLE_COMPILE_FLAGS)
 
-    set(_Qt5WebKitWidgets_LIB_DEPENDENCIES "Qt5::Widgets;Qt5::WebKit;Qt5::Gui;Qt5::Network;Qt5::Core")
+    set(_Qt5WebKitWidgets_LIB_DEPENDENCIES "Qt5::WebKit;Qt5::Widgets;Qt5::Gui;Qt5::Network;Qt5::Core")
 
 
     add_library(Qt5::WebKitWidgets SHARED IMPORTED)
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::WebKitWidgets)
     set_property(TARGET Qt5::WebKitWidgets PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_WEBKITWIDGETS_LIB)
 
-    _populate_WebKitWidgets_target_properties(RELEASE "libQt5WebKitWidgets.so.5.5.1" "" )
+    _populate_WebKitWidgets_target_properties(RELEASE "libQt5WebKitWidgets.so.5.7.0" "" )
 
 
 

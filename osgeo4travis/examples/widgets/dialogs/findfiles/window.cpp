@@ -1,12 +1,22 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
-** You may use this file under the terms of the BSD license as follows:
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
 **
 ** "Redistribution and use in source and binary forms, with or without
 ** modification, are permitted provided that the following conditions are
@@ -46,8 +56,10 @@
 Window::Window(QWidget *parent)
     : QWidget(parent)
 {
-    browseButton = createButton(tr("&Browse..."), SLOT(browse()));
-    findButton = createButton(tr("&Find"), SLOT(find()));
+    browseButton = new QPushButton(tr("&Browse..."), this);
+    connect(browseButton, &QAbstractButton::clicked, this, &Window::browse);
+    findButton = new QPushButton(tr("&Find"), this);
+    connect(findButton, &QAbstractButton::clicked, this, &Window::find);
 
     fileComboBox = createComboBox(tr("*"));
     textComboBox = createComboBox();
@@ -195,15 +207,6 @@ void Window::showFiles(const QStringList &files)
 }
 //! [8]
 
-//! [9]
-QPushButton *Window::createButton(const QString &text, const char *member)
-{
-    QPushButton *button = new QPushButton(text);
-    connect(button, SIGNAL(clicked()), this, member);
-    return button;
-}
-//! [9]
-
 //! [10]
 QComboBox *Window::createComboBox(const QString &text)
 {
@@ -228,8 +231,8 @@ void Window::createFilesTable()
     filesTable->verticalHeader()->hide();
     filesTable->setShowGrid(false);
 
-    connect(filesTable, SIGNAL(cellActivated(int,int)),
-            this, SLOT(openFileOfItem(int,int)));
+    connect(filesTable, &QTableWidget::cellActivated,
+            this, &Window::openFileOfItem);
 }
 //! [11]
 

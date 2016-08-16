@@ -2,7 +2,7 @@
 //
 // This file is part of the QtQuick Python extension module.
 //
-// Copyright (c) 2015 Riverbank Computing Limited <info@riverbankcomputing.com>
+// Copyright (c) 2016 Riverbank Computing Limited <info@riverbankcomputing.com>
 // 
 // This file is part of PyQt5.
 // 
@@ -29,7 +29,12 @@ class QQuickRenderControl : QObject
 %End
 
 public:
+%If (Qt_5_6_1 -)
+    explicit QQuickRenderControl(QObject *parent /TransferThis/ = 0);
+%End
+%If (- Qt_5_6_1)
     QQuickRenderControl(QObject *parent /TransferThis/ = 0);
+%End
     virtual ~QQuickRenderControl();
     void initialize(QOpenGLContext *gl);
     void invalidate();

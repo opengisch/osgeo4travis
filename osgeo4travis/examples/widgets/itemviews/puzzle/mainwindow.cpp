@@ -1,12 +1,22 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the examples of the Qt Toolkit.
 **
 ** $QT_BEGIN_LICENSE:BSD$
-** You may use this file under the terms of the BSD license as follows:
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** BSD License Usage
+** Alternatively, you may use this file under the terms of the BSD license
+** as follows:
 **
 ** "Redistribution and use in source and binary forms, with or without
 ** modification, are permitted provided that the following conditions are
@@ -57,26 +67,27 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle(tr("Puzzle"));
 }
 
-void MainWindow::openImage(const QString &path)
+void MainWindow::openImage()
 {
-    QString fileName = path;
+    const QString fileName =
+        QFileDialog::getOpenFileName(this,
+                                     tr("Open Image"), QString(),
+                                     tr("Image Files (*.png *.jpg *.bmp)"));
+    if (!fileName.isEmpty())
+        loadImage(fileName);
+}
 
-    if (fileName.isNull()) {
-        fileName = QFileDialog::getOpenFileName(this,
-            tr("Open Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
+void MainWindow::loadImage(const QString &fileName)
+{
+    QPixmap newImage;
+    if (!newImage.load(fileName)) {
+        QMessageBox::warning(this, tr("Open Image"),
+                             tr("The image file could not be loaded."),
+                             QMessageBox::Cancel);
+        return;
     }
-
-    if (!fileName.isEmpty()) {
-        QPixmap newImage;
-        if (!newImage.load(fileName)) {
-            QMessageBox::warning(this, tr("Open Image"),
-                                 tr("The image file could not be loaded."),
-                                 QMessageBox::Cancel);
-            return;
-        }
-        puzzleImage = newImage;
-        setupPuzzle();
-    }
+    puzzleImage = newImage;
+    setupPuzzle();
 }
 
 void MainWindow::setCompleted()
@@ -116,9 +127,9 @@ void MainWindow::setupMenus()
 
     QAction *restartAction = gameMenu->addAction(tr("&Restart"));
 
-    connect(openAction, SIGNAL(triggered()), this, SLOT(openImage()));
-    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-    connect(restartAction, SIGNAL(triggered()), this, SLOT(setupPuzzle()));
+    connect(openAction, &QAction::triggered, this, &MainWindow::openImage);
+    connect(exitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
+    connect(restartAction, &QAction::triggered, this, &MainWindow::setupPuzzle);
 }
 
 void MainWindow::setupWidgets()
@@ -141,8 +152,8 @@ void MainWindow::setupWidgets()
     PiecesModel *model = new PiecesModel(puzzleWidget->pieceSize(), this);
     piecesList->setModel(model);
 
-    connect(puzzleWidget, SIGNAL(puzzleCompleted()),
-            this, SLOT(setCompleted()), Qt::QueuedConnection);
+    connect(puzzleWidget, &PuzzleWidget::puzzleCompleted,
+            this, &MainWindow::setCompleted, Qt::QueuedConnection);
 
     frameLayout->addWidget(piecesList);
     frameLayout->addWidget(puzzleWidget);

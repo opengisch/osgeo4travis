@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt5Help_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt5Help_VERSION instead.
-set(Qt5Help_VERSION_STRING 5.5.1)
+set(Qt5Help_VERSION_STRING 5.7.0)
 
 set(Qt5Help_LIBRARIES Qt5::Help)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::Help)
 
     set(_Qt5Help_OWN_INCLUDE_DIRS "${_qt5Help_install_prefix}/include/" "${_qt5Help_install_prefix}/include/QtHelp")
     set(Qt5Help_PRIVATE_INCLUDE_DIRS
-        "${_qt5Help_install_prefix}/include/QtHelp/5.5.1"
-        "${_qt5Help_install_prefix}/include/QtHelp/5.5.1/QtHelp"
+        "${_qt5Help_install_prefix}/include/QtHelp/5.7.0"
+        "${_qt5Help_install_prefix}/include/QtHelp/5.7.0/QtHelp"
     )
 
     foreach(_dir ${_Qt5Help_OWN_INCLUDE_DIRS})
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::Help)
     foreach(_module_dep ${_Qt5Help_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt5Help_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt5Help_FIND_VERSION_EXACT}
                 ${_Qt5Help_DEPENDENCIES_FIND_QUIET}
                 ${_Qt5Help_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::Help)
     set_property(TARGET Qt5::Help PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_HELP_LIB)
 
-    _populate_Help_target_properties(RELEASE "libQt5Help.so.5.5.1" "" )
+    _populate_Help_target_properties(RELEASE "libQt5Help.so.5.7.0" "" )
 
 
 

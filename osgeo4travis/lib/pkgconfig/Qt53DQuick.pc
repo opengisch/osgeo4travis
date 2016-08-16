@@ -6,9 +6,9 @@ includedir=${prefix}/include
 
 Name: Qt5 3DQuick
 Description: Qt 3DQuick module
-Version: 5.5.1
+Version: 5.7.0
 Libs: -L${libdir} -lQt53DQuick 
-Libs.private: -L/home/travis/osgeo4travis/lib -lQt53DCore -L/home/travis/osgeo4travis/lib -lQt5Gui -L/home/travis/osgeo4travis/lib -lQt5Qml -lQt5Network -lQt5Core -lpthread -lGL  
+Libs.private: -L/home/travis/osgeo4travis/lib -lQt5Quick -L/home/travis/osgeo4travis/lib -L/home/travis/osgeo4travis/lib -lQt53DCore -lQt5Gui -lQt5Qml -lQt5Network -lQt5Core -lpthread -lGL  
 Cflags: -I${includedir}/Qt3DQuick -I${includedir}
-Requires: Qt5Core Qt5Gui Qt5Qml Qt53DCore
+Requires: Qt5Core Qt5Gui Qt5Qml Qt5Quick Qt53DCore
 

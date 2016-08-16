@@ -6,7 +6,7 @@ endif()
 get_filename_component(_qt53DQuick_install_prefix "${CMAKE_CURRENT_LIST_DIR}/../../../" ABSOLUTE)
 
 # For backwards compatibility only. Use Qt53DQuick_VERSION instead.
-set(Qt53DQuick_VERSION_STRING 5.5.1)
+set(Qt53DQuick_VERSION_STRING 5.7.0)
 
 set(Qt53DQuick_LIBRARIES Qt5::3DQuick)
 
@@ -43,8 +43,8 @@ if (NOT TARGET Qt5::3DQuick)
 
     set(_Qt53DQuick_OWN_INCLUDE_DIRS "${_qt53DQuick_install_prefix}/include/" "${_qt53DQuick_install_prefix}/include/Qt3DQuick")
     set(Qt53DQuick_PRIVATE_INCLUDE_DIRS
-        "${_qt53DQuick_install_prefix}/include/Qt3DQuick/5.5.1"
-        "${_qt53DQuick_install_prefix}/include/Qt3DQuick/5.5.1/Qt3DQuick"
+        "${_qt53DQuick_install_prefix}/include/Qt3DQuick/5.7.0"
+        "${_qt53DQuick_install_prefix}/include/Qt3DQuick/5.7.0/Qt3DQuick"
     )
 
     foreach(_dir ${_Qt53DQuick_OWN_INCLUDE_DIRS})
@@ -64,7 +64,7 @@ if (NOT TARGET Qt5::3DQuick)
 
     set(Qt53DQuick_DEFINITIONS -DQT_3DQUICK_LIB)
     set(Qt53DQuick_COMPILE_DEFINITIONS QT_3DQUICK_LIB)
-    set(_Qt53DQuick_MODULE_DEPENDENCIES "3DCore;Gui;Qml;Core")
+    set(_Qt53DQuick_MODULE_DEPENDENCIES "Quick;3DCore;Gui;Qml;Core")
 
 
     set(_Qt53DQuick_FIND_DEPENDENCIES_REQUIRED)
@@ -85,7 +85,7 @@ if (NOT TARGET Qt5::3DQuick)
     foreach(_module_dep ${_Qt53DQuick_MODULE_DEPENDENCIES})
         if (NOT Qt5${_module_dep}_FOUND)
             find_package(Qt5${_module_dep}
-                5.5.1 ${_Qt53DQuick_FIND_VERSION_EXACT}
+                5.7.0 ${_Qt53DQuick_FIND_VERSION_EXACT}
                 ${_Qt53DQuick_DEPENDENCIES_FIND_QUIET}
                 ${_Qt53DQuick_FIND_DEPENDENCIES_REQUIRED}
                 PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
@@ -109,7 +109,7 @@ if (NOT TARGET Qt5::3DQuick)
     list(REMOVE_DUPLICATES Qt53DQuick_COMPILE_DEFINITIONS)
     list(REMOVE_DUPLICATES Qt53DQuick_EXECUTABLE_COMPILE_FLAGS)
 
-    set(_Qt53DQuick_LIB_DEPENDENCIES "Qt5::3DCore;Qt5::Gui;Qt5::Qml;Qt5::Core")
+    set(_Qt53DQuick_LIB_DEPENDENCIES "Qt5::Quick;Qt5::3DCore;Qt5::Gui;Qt5::Qml;Qt5::Core")
 
 
     add_library(Qt5::3DQuick SHARED IMPORTED)
@@ -119,7 +119,7 @@ if (NOT TARGET Qt5::3DQuick)
     set_property(TARGET Qt5::3DQuick PROPERTY
       INTERFACE_COMPILE_DEFINITIONS QT_3DQUICK_LIB)
 
-    _populate_3DQuick_target_properties(RELEASE "libQt53DQuick.so.5.5.1" "" )
+    _populate_3DQuick_target_properties(RELEASE "libQt53DQuick.so.5.7.0" "" )
 
 
 

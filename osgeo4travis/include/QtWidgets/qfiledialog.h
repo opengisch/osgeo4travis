@@ -1,31 +1,37 @@
 /****************************************************************************
 **
-** Copyright (C) 2015 The Qt Company Ltd.
-** Contact: http://www.qt.io/licensing/
+** Copyright (C) 2016 The Qt Company Ltd.
+** Contact: https://www.qt.io/licensing/
 **
 ** This file is part of the QtWidgets module of the Qt Toolkit.
 **
-** $QT_BEGIN_LICENSE:LGPL21$
+** $QT_BEGIN_LICENSE:LGPL$
 ** Commercial License Usage
 ** Licensees holding valid commercial Qt licenses may use this file in
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and The Qt Company. For licensing terms
-** and conditions see http://www.qt.io/terms-conditions. For further
-** information use the contact form at http://www.qt.io/contact-us.
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 or version 3 as published by the Free
-** Software Foundation and appearing in the file LICENSE.LGPLv21 and
-** LICENSE.LGPLv3 included in the packaging of this file. Please review the
-** following information to ensure the GNU Lesser General Public License
-** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
-** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
 **
-** As a special exception, The Qt Company gives you certain additional
-** rights. These rights are described in The Qt Company LGPL Exception
-** version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
 **
 ** $QT_END_LICENSE$
 **
@@ -66,6 +72,7 @@ class Q_WIDGETS_EXPORT QFileDialog : public QDialog
     Q_PROPERTY(bool nameFilterDetailsVisible READ isNameFilterDetailsVisible
                WRITE setNameFilterDetailsVisible DESIGNABLE false)
     Q_PROPERTY(Options options READ options WRITE setOptions)
+    Q_PROPERTY(QStringList supportedSchemes READ supportedSchemes WRITE setSupportedSchemes)
 
 public:
     enum ViewMode { Detail, List };
@@ -91,7 +98,7 @@ public:
     Q_DECLARE_FLAGS(Options, Option)
 
     QFileDialog(QWidget *parent, Qt::WindowFlags f);
-    explicit QFileDialog(QWidget *parent = 0,
+    explicit QFileDialog(QWidget *parent = Q_NULLPTR,
                          const QString &caption = QString(),
                          const QString &directory = QString(),
                          const QString &filter = QString());
@@ -167,6 +174,9 @@ public:
     void setLabelText(DialogLabel label, const QString &text);
     QString labelText(DialogLabel label) const;
 
+    void setSupportedSchemes(const QStringList &schemes);
+    QStringList supportedSchemes() const;
+
 #ifndef QT_NO_PROXYMODEL
     void setProxyModel(QAbstractProxyModel *model);
     QAbstractProxyModel *proxyModel() const;
@@ -196,60 +206,60 @@ Q_SIGNALS:
 
 public:
 
-    static QString getOpenFileName(QWidget *parent = 0,
+    static QString getOpenFileName(QWidget *parent = Q_NULLPTR,
                                    const QString &caption = QString(),
                                    const QString &dir = QString(),
                                    const QString &filter = QString(),
-                                   QString *selectedFilter = 0,
-                                   Options options = 0);
+                                   QString *selectedFilter = Q_NULLPTR,
+                                   Options options = Options());
 
-    static QUrl getOpenFileUrl(QWidget *parent = 0,
+    static QUrl getOpenFileUrl(QWidget *parent = Q_NULLPTR,
                                const QString &caption = QString(),
                                const QUrl &dir = QUrl(),
                                const QString &filter = QString(),
-                               QString *selectedFilter = 0,
-                               Options options = 0,
+                               QString *selectedFilter = Q_NULLPTR,
+                               Options options = Options(),
                                const QStringList &supportedSchemes = QStringList());
 
-    static QString getSaveFileName(QWidget *parent = 0,
+    static QString getSaveFileName(QWidget *parent = Q_NULLPTR,
                                    const QString &caption = QString(),
                                    const QString &dir = QString(),
                                    const QString &filter = QString(),
-                                   QString *selectedFilter = 0,
-                                   Options options = 0);
+                                   QString *selectedFilter = Q_NULLPTR,
+                                   Options options = Options());
 
-    static QUrl getSaveFileUrl(QWidget *parent = 0,
+    static QUrl getSaveFileUrl(QWidget *parent = Q_NULLPTR,
                                const QString &caption = QString(),
                                const QUrl &dir = QUrl(),
                                const QString &filter = QString(),
-                               QString *selectedFilter = 0,
-                               Options options = 0,
+                               QString *selectedFilter = Q_NULLPTR,
+                               Options options = Options(),
                                const QStringList &supportedSchemes = QStringList());
 
-    static QString getExistingDirectory(QWidget *parent = 0,
+    static QString getExistingDirectory(QWidget *parent = Q_NULLPTR,
                                         const QString &caption = QString(),
                                         const QString &dir = QString(),
                                         Options options = ShowDirsOnly);
 
-    static QUrl getExistingDirectoryUrl(QWidget *parent = 0,
+    static QUrl getExistingDirectoryUrl(QWidget *parent = Q_NULLPTR,
                                         const QString &caption = QString(),
                                         const QUrl &dir = QUrl(),
                                         Options options = ShowDirsOnly,
                                         const QStringList &supportedSchemes = QStringList());
 
-    static QStringList getOpenFileNames(QWidget *parent = 0,
+    static QStringList getOpenFileNames(QWidget *parent = Q_NULLPTR,
                                         const QString &caption = QString(),
                                         const QString &dir = QString(),
                                         const QString &filter = QString(),
-                                        QString *selectedFilter = 0,
-                                        Options options = 0);
+                                        QString *selectedFilter = Q_NULLPTR,
+                                        Options options = Options());
 
-    static QList<QUrl> getOpenFileUrls(QWidget *parent = 0,
+    static QList<QUrl> getOpenFileUrls(QWidget *parent = Q_NULLPTR,
                                        const QString &caption = QString(),
                                        const QUrl &dir = QUrl(),
                                        const QString &filter = QString(),
-                                       QString *selectedFilter = 0,
-                                       Options options = 0,
+                                       QString *selectedFilter = Q_NULLPTR,
+                                       Options options = Options(),
                                        const QStringList &supportedSchemes = QStringList());
 
 
