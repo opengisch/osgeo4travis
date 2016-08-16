@@ -37,6 +37,8 @@ ENV PATH /home/travis/virtualenv/python3.3.6/bin:$PATH
 
 COPY scripts/build-qt5.sh /root/scripts/
 RUN /root/scripts/build-qt5.sh
+COPY scripts/build-qtwebkit.sh /root/scripts/
+RUN /root/scripts/build-qtwebkit.sh
 
 COPY scripts/build-geos.sh /root/scripts/
 RUN /root/scripts/build-geos.sh
