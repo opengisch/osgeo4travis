@@ -7,9 +7,9 @@ export C_INCLUDE_PATH=/usr/include/python3.2mu/
 export CPLUS_INCLUDE_PATH=/usr/include/python3.2mu/
 export PYTHONPATH=
 
-wget http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.1/QScintilla-gpl-2.9.1.tar.gz
-tar xzf QScintilla-gpl-2.9.1.tar.gz
-pushd QScintilla-gpl-2.9.1
+wget http://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.9.3/QScintilla_gpl-2.9.3.tar.gz
+tar xzf QScintilla_gpl-2.9.3.tar.gz
+pushd QScintilla_gpl-2.9.3
 patch -p1 < ${DIR}/patches/qscintilla.patch
 pushd Qt4Qt5
 mv features/qscintilla2.prf features/qscintilla2-qt5.prf

@@ -23,7 +23,6 @@ diff -r -u QScintilla-gpl-2.9.orig/Qt4Qt5/features/qscintilla2.prf QScintilla-gp
 --- QScintilla-gpl-2.9.orig/Qt4Qt5/features/qscintilla2.prf	2015-04-20 10:38:24.000000000 -0400
 +++ QScintilla-gpl-2.9/Qt4Qt5/features/qscintilla2.prf	2015-07-18 16:06:16.514250553 -0400
 @@ -12,14 +12,14 @@
- 
  CONFIG(debug, debug|release) {
      mac: {
 -        LIBS += -lqscintilla2_debug
@@ -40,27 +39,35 @@ diff -r -u QScintilla-gpl-2.9.orig/Qt4Qt5/features/qscintilla2.prf QScintilla-gp
 -    LIBS += -lqscintilla2
 +    LIBS += -lqscintilla2-qt5
  }
+ 
+ 
+ ###############################################################################
 diff -r -u QScintilla-gpl-2.9.orig/Qt4Qt5/qscintilla.pro QScintilla-gpl-2.9/Qt4Qt5/qscintilla.pro
 --- QScintilla-gpl-2.9.orig/Qt4Qt5/qscintilla.pro	2015-04-20 10:38:24.000000000 -0400
 +++ QScintilla-gpl-2.9/Qt4Qt5/qscintilla.pro	2015-07-18 16:24:25.091639214 -0400
 @@ -23,7 +23,7 @@
- !win32:VERSION = 12.0.1
+ !win32:VERSION = 12.0.2
  
  TEMPLATE = lib
 -TARGET = qscintilla2
 +TARGET = qscintilla2-qt5
- CONFIG += qt warn_off release thread exceptions
+ CONFIG += qt warn_off release thread exceptions hide_symbols
  INCLUDEPATH += . ../include ../lexlib ../src
  
-@@ -67,7 +67,7 @@
- } else {
+@@ -68,9 +68,9 @@
      features.path = $$[QT_INSTALL_DATA]/mkspecs/features
  }
--features.files = $$PWD/features/qscintilla2.prf
-+features.files = $$PWD/features/qscintilla2-qt5.prf
+ CONFIG(staticlib) {
+-    features.files = $$PWD/features_staticlib/qscintilla2.prf
++    features.files = $$PWD/features_staticlib/qscintilla2-qt5.prf
+ } else {
+-    features.files = $$PWD/features/qscintilla2.prf
++    features.files = $$PWD/features/qscintilla2-qt5.prf
+ }
  INSTALLS += features
  
- HEADERS = \
+ 
+ ###############################################################################
 diff -r -u QScintilla-gpl-2.9.orig/designer-Qt4Qt5/designer.pro QScintilla-gpl-2.9/designer-Qt4Qt5/designer.pro
 --- QScintilla-gpl-2.9.orig/designer-Qt4Qt5/designer.pro	2015-03-26 14:10:15.000000000 -0400
 +++ QScintilla-gpl-2.9/designer-Qt4Qt5/designer.pro	2015-07-18 16:10:43.280900974 -0400
