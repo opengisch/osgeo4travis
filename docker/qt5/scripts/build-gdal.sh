@@ -3,10 +3,10 @@
 
 VERSION_gdal=2.1.2
 
-wget http://download.osgeo.org/gdal/$VERSION_gdal/gdal-${VERSION_gdal}.tar.gz
+wget https://github.com/OSGeo/gdal/archive/tags/${VERSION_gdal}.tar.gz -O gdal-${VERSION_gdal}.tar.gz
 tar xvf gdal-${VERSION_gdal}.tar.gz > /dev/null
 
-pushd gdal-${VERSION_gdal}/gdal
+pushd gdal-tags-${VERSION_gdal}/gdal
 ./configure --prefix=${PREFIX} \
   --with-python=python3 \
   --with-geos=${PREFIX}/bin/geos-config \
