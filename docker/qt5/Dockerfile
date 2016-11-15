@@ -18,8 +18,8 @@ RUN apt-key add /tmp/toolchain.key
 RUN apt-get update
 RUN apt-get install -y python-software-properties
 RUN add-apt-repository ppa:george-edison55/precise-backports
-RUN apt-get update
-RUN apt-get install -y clang-3.6 wget bison flex libsqlite3-dev libcairo-dev libfftw3-dev libglu1-mesa-dev libtiff4-dev libpng-dev pkg-config make bzip2 cmake cmake-data g++ patch libssl-dev libxkbcommon-dev ruby gperf perl libxcb-icccm4-dev libxcb-xfixes0-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-sync0-dev libxcb-randr0-dev unixodbc-dev libicu-dev python-numpy python-wxgtk2.8
+RUN apt-get  update
+RUN apt-get install -y clang-3.6 wget bison flex libsqlite3-dev libcairo-dev libfftw3-dev libglu1-mesa-dev libtiff4-dev libpng-dev pkg-config make bzip2 cmake cmake-data g++ patch libssl-dev libxkbcommon-dev ruby gperf perl libxcb-icccm4-dev libxcb-xfixes0-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-sync0-dev libxcb-randr0-dev unixodbc-dev libicu-dev python-numpy python-wxgtk2.8 libxcb-xinerama0-dev libxcb-render-util0-dev
 
 RUN ln -s /usr/bin/clang-3.6 /usr/bin/clang
 RUN ln -s /usr/bin/clang++-3.6 /usr/bin/clang++
