@@ -404,6 +404,7 @@ class CPL_DLL GDALDataset : public GDALMajorObject
     // should not be used by out-of-tree code if possible.
     int                 EnterReadWrite(GDALRWFlag eRWFlag);
     void                LeaveReadWrite();
+    void                InitRWLock();
 
     void                TemporarilyDropReadWriteLock();
     void                ReacquireReadWriteLock();
@@ -577,7 +578,7 @@ class CPL_DLL GDALRasterBlock
 
     GDALDataType        eType;
 
-    bool                bDirty;
+    int                 bDirty;
     volatile int        nLockCount;
 
     int                 nXOff;
@@ -593,7 +594,7 @@ class CPL_DLL GDALRasterBlock
     GDALRasterBlock     *poNext;
     GDALRasterBlock     *poPrevious;
 
-    bool                 bMustDetach;
+    int                  bMustDetach;
 
     void        Detach_unlocked( void );
     void        Touch_unlocked( void );
@@ -782,6 +783,7 @@ class CPL_DLL GDALRasterBand : public GDALMajorObject
 
     int          EnterReadWrite(GDALRWFlag eRWFlag);
     void         LeaveReadWrite();
+    void         InitRWLock();
 
   protected:
     virtual CPLErr IReadBlock( int, int, void * ) = 0;
@@ -1142,8 +1144,7 @@ class CPL_DLL GDALDriverManager : public GDALMajorObject
     std::map<CPLString, GDALDriver*> oMapNameToDrivers;
 
     GDALDriver  *GetDriver_unlocked( int iDriver )
-            { return (iDriver >= 0 && iDriver < nDrivers) ?
-                  papoDrivers[iDriver] : NULL; }
+            { return (iDriver >= 0 && iDriver < nDrivers) ? papoDrivers[iDriver] : NULL; }
 
     GDALDriver  *GetDriverByName_unlocked( const char * pszName )
             { return oMapNameToDrivers[CPLString(pszName).toupper()]; }
@@ -1152,7 +1153,7 @@ class CPL_DLL GDALDriverManager : public GDALMajorObject
                 GDALDriverManager();
                 ~GDALDriverManager();
 
-    int         GetDriverCount( void ) const;
+    int         GetDriverCount( void );
     GDALDriver  *GetDriver( int );
     GDALDriver  *GetDriverByName( const char * );
 
@@ -1345,7 +1346,12 @@ int CPL_DLL GDALCheckBandCount( int nBands, int bIsZeroAllowed );
 // Test if 2 floating point values match. Useful when comparing values
 // stored as a string at some point. See #3573, #4183, #4506
 #define ARE_REAL_EQUAL(dfVal1, dfVal2) \
- (dfVal1 == dfVal2 || fabs(dfVal1 - dfVal2) < 1e-10 || (dfVal2 != 0 && fabs(1 - dfVal1 / dfVal2) < 1e-10 ))
+ /* Is it FLT_MIN ? Cf #6578 */ \
+ (((float)dfVal2 == (float)1.17549435e-38) ? ((float)dfVal1 == (float)dfVal2) : \
+ /* Or DBL_MIN ? */ \
+  (dfVal2 == 2.2250738585072014e-308) ? (dfVal1 == dfVal2) : \
+ /* General case */ \
+  (dfVal1 == dfVal2 || fabs(dfVal1 - dfVal2) < 1e-10 || (dfVal2 != 0 && fabs(1 - dfVal1 / dfVal2) < 1e-10 )))
 
 /* Internal use only */
 

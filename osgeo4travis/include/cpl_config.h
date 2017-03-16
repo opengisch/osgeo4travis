@@ -156,6 +156,9 @@
 /* Define to 1 if you have the statvfs' function. */
 #define HAVE_STATVFS 1
 
+/* Define to 1 if you have the `statvfs64' function. */
+#define HAVE_STATVFS64 1
+
 /* Define to 1 if you have the `lstat' function. */
 #define HAVE_LSTAT 1
 
